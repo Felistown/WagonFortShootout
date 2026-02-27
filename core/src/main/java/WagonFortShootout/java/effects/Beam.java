@@ -13,7 +13,7 @@ public class Beam {
 
     private final Vector2 TO;
     private final Vector2 FROM;
-    private int lifetime = 1;
+    private int lifetime;
     private final float width;
     private final Color colour;
 

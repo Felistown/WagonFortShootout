@@ -49,7 +49,6 @@ public class Player extends Entity {
 
     private void movement() {
         //movement
-
         boolean w = Gdx.input.isKeyPressed(Input.Keys.W);
         boolean a = Gdx.input.isKeyPressed(Input.Keys.A);
         boolean s = Gdx.input.isKeyPressed(Input.Keys.S);
@@ -82,8 +81,8 @@ public class Player extends Entity {
         boolean aim = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
         if(aim) {
             //Beam.beam(POS.pos(), Mth.toVec(FACE.getFacing(), 150).add(POS.pos()),0.25f, 1, Color.GRAY);
-            Effect effect = new Effect(new Texture("a.png"), 150, 0.25f, Mth.toVec(FACE.getFacing(), 75).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()));
-            Effect.addEffect(effect, 1);
+            Effect effect = new Effect(new Texture("a.png"), 150, 0.25f);
+            Effect.addEffect(effect, 1, Mth.toVec(FACE.getFacing(), 75).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()));
         }
     }
 }

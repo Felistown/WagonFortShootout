@@ -14,17 +14,18 @@ public class Effect {
     private final Sprite SPRITE;
     private int lifetime;
 
-    public static void addEffect(Effect effect, int lifeTime) {
+    public static void addEffect(Effect effect, int lifeTime, Vector2 pos, float angle) {
         effect.lifetime = lifeTime;
         ALL_EFFECTS.add(effect);
+        effect.SPRITE.setCenter(pos.x, pos.y);
+        effect.SPRITE.setOriginCenter();
+        effect.SPRITE.setRotation(angle);
     }
 
-    public Effect(Texture texture, float length, float height, Vector2 pos, float angle) {
+    public Effect(Texture texture, float length, float height) {
         SPRITE = new Sprite(texture);
         SPRITE.setSize(length, height);
-        SPRITE.setCenter(pos.x, pos.y);
-        SPRITE.setOriginCenter();
-        SPRITE.rotate(angle);
+        SPRITE.setCenter(0,0);
     }
 
     public static void renderAll(SpriteBatch spriteBatch) {
