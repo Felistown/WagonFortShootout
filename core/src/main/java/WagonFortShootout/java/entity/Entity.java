@@ -2,6 +2,7 @@ package WagonFortShootout.java.entity;
 
 import WagonFortShootout.java.utils.Face;
 import WagonFortShootout.java.utils.Pos;
+import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -16,15 +17,17 @@ public abstract class Entity {
     protected final Face FACE;
     private Sprite sprite;
     private Circle hitbox;
+    protected Gun.Instance gun;
     private boolean remove;
 
-    public Entity(Vector2 pos, Sprite sprite, int size) {
+    public Entity(Vector2 pos, Sprite sprite, int size, Gun.Instance gun) {
         POS = new Pos(pos);
         FACE = new Face(-1, 2 * Math.PI);
         this.sprite = sprite;
         sprite.setSize(size,size);
         hitbox = new Circle(pos, (float)size / 2);
         ALL_ENTITIES.add(this);
+        this.gun = gun;
     }
 
     public void draw(SpriteBatch spriteBatch) {
@@ -62,7 +65,7 @@ public abstract class Entity {
         return hitbox;
     }
 
-    public void onHit() {
+    public void onHit(int damage) {
         remove = true;
     }
 
@@ -72,5 +75,17 @@ public abstract class Entity {
 
     public static ArrayList<Entity> getAllEntities() {
         return ALL_ENTITIES;
+    }
+
+    public Pos getPOS() {
+        return POS;
+    }
+
+    public Face getFACE() {
+        return FACE;
+    }
+
+    public Gun.Instance getGun() {
+        return gun;
     }
 }

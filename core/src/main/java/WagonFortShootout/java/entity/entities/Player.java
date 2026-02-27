@@ -3,16 +3,12 @@ package WagonFortShootout.java.entity.entities;
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.Bullet;
-import WagonFortShootout.java.effects.Beam;
-import WagonFortShootout.java.utils.Face;
 import WagonFortShootout.java.utils.Mth;
+import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Octree;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Entity {
@@ -23,7 +19,7 @@ public class Player extends Entity {
     private int cooldown = 0;
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("missing_texture.png")), 1);
+        super(pos, new Sprite(new Texture("missing_texture.png")), 1, Gun.getGun("rifle"));
         FACE.setSpeed(0.0174533f / 2);
     }
 
@@ -36,15 +32,13 @@ public class Player extends Entity {
 
     private void gun() {
         boolean shoot = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
+        boolean r = Gdx.input.isKeyPressed(Input.Keys.R);
         if(shoot && cooldown <= 0) {
-            Bullet bullet = new Bullet(1, this);
-            bullet.shoot(POS.pos(), FACE.getFacing());
-            cooldown = 50;
-            float recoil = 0.5f;
-            POS.addVel((float)(FACE.getFacing() + Math.PI), recoil);
-            FACE.recoil(1.2f, 0.5f);
+            gun.shoot(this);
         }
-        cooldown = Math.max(cooldown - 1, 0);
+        if(r) {
+            gun.reload();
+        }
     }
 
     private void movement() {
@@ -80,7 +74,6 @@ public class Player extends Entity {
         FACE.setGoal(dif.angleRad());
         boolean aim = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
         if(aim) {
-            //Beam.beam(POS.pos(), Mth.toVec(FACE.getFacing(), 150).add(POS.pos()),0.25f, 1, Color.GRAY);
             Effect effect = new Effect(new Texture("a.png"), 150, 0.25f);
             Effect.addEffect(effect, 1, Mth.toVec(FACE.getFacing(), 75).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()));
         }
