@@ -12,6 +12,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Octree;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Entity {
@@ -48,6 +49,7 @@ public class Player extends Entity {
 
     private void movement() {
         //movement
+
         boolean w = Gdx.input.isKeyPressed(Input.Keys.W);
         boolean a = Gdx.input.isKeyPressed(Input.Keys.A);
         boolean s = Gdx.input.isKeyPressed(Input.Keys.S);
@@ -79,7 +81,8 @@ public class Player extends Entity {
         FACE.setGoal(dif.angleRad());
         boolean aim = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
         if(aim) {
-            Effect effect = new Effect(new Texture("a.png"), 0.25f, 150, POS.pos(), (float) Math.toDegrees(FACE.getFacing() + Math.PI / 2));
+            //Beam.beam(POS.pos(), Mth.toVec(FACE.getFacing(), 150).add(POS.pos()),0.25f, 1, Color.GRAY);
+            Effect effect = new Effect(new Texture("a.png"), 150, 0.25f, Mth.toVec(FACE.getFacing(), 75).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()));
             Effect.addEffect(effect, 1);
         }
     }

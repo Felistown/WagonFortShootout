@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.collision.Ray;
 
 public class Bullet {
 
-    private static final Texture TEXTURE = new Texture("bullet.png");
     private static final int DIST = 100;
 
     private int damage;

@@ -49,7 +49,7 @@ public class GameLevel implements Screen {
     }
 
     public void draw() {
-        ScreenUtils.clear(Color.WHITE);
+        ScreenUtils.clear(new Color(0.28f, 0.43f,0.21f, 1));
         viewport.apply();
         SPRITE_BATCH.setProjectionMatrix(viewport.getCamera().combined);
         SPRITE_BATCH.begin();

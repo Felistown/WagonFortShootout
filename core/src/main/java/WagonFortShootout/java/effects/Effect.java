@@ -22,8 +22,9 @@ public class Effect {
     public Effect(Texture texture, float length, float height, Vector2 pos, float angle) {
         SPRITE = new Sprite(texture);
         SPRITE.setSize(length, height);
-        SPRITE.rotate(angle);
         SPRITE.setCenter(pos.x, pos.y);
+        SPRITE.setOriginCenter();
+        SPRITE.rotate(angle);
     }
 
     public static void renderAll(SpriteBatch spriteBatch) {
