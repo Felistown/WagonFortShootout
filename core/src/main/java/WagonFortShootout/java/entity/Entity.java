@@ -20,7 +20,7 @@ public abstract class Entity {
 
     public Entity(Vector2 pos, Sprite sprite, int size) {
         POS = new Pos(pos);
-        FACE =  new Face(Math.PI, 2 * Math.PI);
+        FACE = new Face(1, 2 * Math.PI);
         this.sprite = sprite;
         sprite.setSize(size,size);
         hitbox = new Circle(pos, (float)size / 2);

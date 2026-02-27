@@ -1,5 +1,7 @@
 package WagonFortShootout.java.utils;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class Mth {
 
     //returns the value if it is within the range of max and -max, max otherwise
@@ -16,5 +18,9 @@ public class Mth {
         ret[0] = Math.cos(direction) * magintude;
         ret[1] = Math.sin(direction) * magintude;
         return ret;
+    }
+
+    public static Vector2 toVec(double  angle, float magnitude) {
+        return new Vector2((float)-Math.cos(angle)  * magnitude,  (float)-Math.sin(angle) * magnitude);
     }
 }

@@ -1,15 +1,15 @@
 package WagonFortShootout.java;
 
+import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Enemy;
 import WagonFortShootout.java.entity.entities.Player;
-import WagonFortShootout.java.rays.TrailEffect;
+import WagonFortShootout.java.effects.Beam;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -54,8 +54,9 @@ public class GameLevel implements Screen {
         SPRITE_BATCH.setProjectionMatrix(viewport.getCamera().combined);
         SPRITE_BATCH.begin();
         Entity.drawAll(SPRITE_BATCH);
-        TrailEffect.renderAll(SPRITE_BATCH);
+        Effect.renderAll(SPRITE_BATCH);
         SPRITE_BATCH.end();
+        Beam.renderAll(viewport.getCamera().combined);
         mouse.set(Gdx.input.getX(), Gdx.input.getY());
         viewport.unproject(mouse);
     }

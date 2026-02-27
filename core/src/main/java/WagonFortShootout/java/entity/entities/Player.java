@@ -1,11 +1,15 @@
 package WagonFortShootout.java.entity.entities;
 
 import WagonFortShootout.java.GameLevel;
+import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.rays.Bullet;
-import WagonFortShootout.java.rays.TrailEffect;
+import WagonFortShootout.java.Bullet;
+import WagonFortShootout.java.effects.Beam;
+import WagonFortShootout.java.utils.Face;
+import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -75,8 +79,8 @@ public class Player extends Entity {
         FACE.setGoal(dif.angleRad());
         boolean aim = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
         if(aim) {
-            TrailEffect aimpoint = new TrailEffect(POS.pos(), FACE.getFacing(), new Texture("aim_ray.png"));
-            aimpoint.display(1, 1);
+            Effect effect = new Effect(new Texture("a.png"), 0.25f, 150, POS.pos(), (float) Math.toDegrees(FACE.getFacing() + Math.PI / 2));
+            Effect.addEffect(effect, 1);
         }
     }
 }
