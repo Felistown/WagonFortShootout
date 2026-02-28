@@ -23,4 +23,12 @@ public class Mth {
     public static Vector2 toVec(double  angle, float magnitude) {
         return new Vector2((float)-Math.cos(angle)  * magnitude,  (float)-Math.sin(angle) * magnitude);
     }
+
+    public static Vector2 randomVec(float min, float max) {
+        return new Vector2((float) Math.random() * max + min, (float)Math.random() * max + min);
+    }
+
+    public static float rand(float min, float max) {
+        return (float) Math.random() * max + min;
+    }
 }

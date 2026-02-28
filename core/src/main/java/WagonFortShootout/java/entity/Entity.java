@@ -9,25 +9,30 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public abstract class Entity {
 
-    private static final ArrayList<Entity> ALL_ENTITIES = new ArrayList<Entity>();
+    private static final HashSet<Entity> ALL_ENTITIES = new HashSet<Entity>();
     protected final Pos POS;
     protected final Face FACE;
     private Sprite sprite;
     private Circle hitbox;
     protected Gun.Instance gun;
+    protected int health;
     private boolean remove;
+    private int stopping;
 
-    public Entity(Vector2 pos, Sprite sprite, int size, Gun.Instance gun) {
+    public Entity(Vector2 pos, Sprite sprite, int size, int stopping, String gun) {
         POS = new Pos(pos);
-        FACE = new Face(-1, 2 * Math.PI);
+        this.gun = Gun.getGun(gun, this);
+        FACE = new Face(-1, this.gun.getSpeed());
         this.sprite = sprite;
         sprite.setSize(size,size);
         hitbox = new Circle(pos, (float)size / 2);
         ALL_ENTITIES.add(this);
-        this.gun = gun;
+        health = 100;
+        this.stopping = stopping;
     }
 
     public void draw(SpriteBatch spriteBatch) {
@@ -37,6 +42,9 @@ public abstract class Entity {
     }
 
     public void tick() {
+        if(health <= 0) {
+            remove = true;
+        }
         POS.logic();
         FACE.tick();
         hitbox.setPosition(POS.pos());
@@ -52,11 +60,12 @@ public abstract class Entity {
         for(Entity e: ALL_ENTITIES) {
             e.tick();
         }
-        for(int i = 0; i < ALL_ENTITIES.size(); i++) {
-            Entity e = ALL_ENTITIES.get(i);
+        Entity[] temp = ALL_ENTITIES.toArray(Entity[]::new);
+        for(int i = 0; i < temp.length; i++) {
+            Entity e = temp[i];
             if(e.toRemove()) {
+                e.gun.remove();
                 ALL_ENTITIES.remove(e);
-                i--;
             }
         }
     }
@@ -66,15 +75,15 @@ public abstract class Entity {
     }
 
     public void onHit(int damage) {
-        remove = true;
+        health -= damage;
     }
 
     public boolean toRemove() {
         return remove;
     }
 
-    public static ArrayList<Entity> getAllEntities() {
-        return ALL_ENTITIES;
+    public static HashSet<Entity> getAllEntities() {
+        return (HashSet<Entity>)ALL_ENTITIES.clone();
     }
 
     public Pos getPOS() {
@@ -87,5 +96,13 @@ public abstract class Entity {
 
     public Gun.Instance getGun() {
         return gun;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getStopping() {
+        return stopping;
     }
 }

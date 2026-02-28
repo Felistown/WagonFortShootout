@@ -19,8 +19,7 @@ public class Player extends Entity {
     private int cooldown = 0;
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("missing_texture.png")), 1, Gun.getGun("rifle"));
-        FACE.setSpeed(0.0174533f / 2);
+        super(pos, new Sprite(new Texture("missing_texture.png")), 1,5, "lever_rifle");
     }
 
     @Override
@@ -34,7 +33,7 @@ public class Player extends Entity {
         boolean shoot = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
         boolean r = Gdx.input.isKeyPressed(Input.Keys.R);
         if(shoot && cooldown <= 0) {
-            gun.shoot(this);
+            gun.shoot();
         }
         if(r) {
             gun.reload();

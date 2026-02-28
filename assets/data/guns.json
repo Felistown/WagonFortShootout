@@ -1,0 +1,198 @@
+{
+  "lever_rifle": {
+    "damage": "75",
+    "projectiles": "1",
+    "spread": "0",
+    "piercing": "10",
+    "maxBullets": "8",
+    "fireRate": "50",
+    "reloadRate": "50",
+    "knockBack": "1",
+    "recoilMult": "1.2",
+    "minRecoil": "0.5",
+    "speed": "0.0174533",
+    "sound": {
+      "fire": "rifle_fire.mp3",
+      "empty": "rifle_empty.mp3",
+      "reload": "rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "muzzle_flash.png",
+      "size": "3"
+    },
+    "gun": {
+      "texture": "lever_rifle.png",
+      "size": "2",
+      "xOffset": "-0.5",
+      "yOffset": "0.2"
+    }
+  },
+  "revolver": {
+    "damage": "34",
+    "projectiles": "1",
+    "spread": "0",
+    "piercing": "3",
+    "maxBullets": "6",
+    "fireRate": "10",
+    "reloadRate": "30",
+    "knockBack": "0.5",
+    "recoilMult": "2",
+    "minRecoil": "1",
+    "speed": "0.06981317008",
+    "sound": {
+      "fire": "rifle_fire.mp3",
+      "empty": "rifle_empty.mp3",
+      "reload": "rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "muzzle_flash.png",
+      "size": "2"
+    },
+    "gun": {
+      "texture": "lever_rifle.png",
+      "size": "2",
+      "xOffset": "0",
+      "yOffset": "0"
+    }
+  },
+  "semi_rifle": {
+    "damage": "50",
+    "projectiles": "1",
+    "spread": "0",
+    "piercing": "10",
+    "maxBullets": "5",
+    "fireRate": "25",
+    "reloadRate": "50",
+    "knockBack": "0.5",
+    "recoilMult": "0.5",
+    "minRecoil": "0.1",
+    "speed": "0.00581776666",
+    "sound": {
+      "fire": "rifle_fire.mp3",
+      "empty": "rifle_empty.mp3",
+      "reload": "rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "muzzle_flash.png",
+      "size": "3"
+    },
+    "gun": {
+      "texture": "lever_rifle.png",
+      "size": "2",
+      "xOffset": "0",
+      "yOffset": "0"
+    }
+  },
+  "tank": {
+    "damage": "1000",
+    "projectiles": "1",
+    "spread": "0",
+    "piercing": "1000",
+    "maxBullets": "1",
+    "fireRate": "10",
+    "reloadRate": "200",
+    "knockBack": "3",
+    "recoilMult": "5",
+    "minRecoil": "1",
+    "speed": "0.00581776666",
+    "sound": {
+      "fire": "rifle_fire.mp3",
+      "empty": "rifle_empty.mp3",
+      "reload": "rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "muzzle_flash.png",
+      "size": "5"
+    },
+    "gun": {
+      "texture": "lever_rifle.png",
+      "size": "2",
+      "xOffset": "0",
+      "yOffset": "0"
+    }
+  },
+  "shot": {
+    "damage": "20",
+    "projectiles": "16",
+    "spread": "30",
+    "piercing": "1",
+    "maxBullets": "6",
+    "fireRate": "50",
+    "reloadRate": "50",
+    "knockBack": "0.5",
+    "recoilMult": "1.2",
+    "minRecoil": "0.5",
+    "speed": "0.0174533",
+    "sound": {
+      "fire": "rifle_fire.mp3",
+      "empty": "rifle_empty.mp3",
+      "reload": "rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "muzzle_flash.png",
+      "size": "3"
+    },
+    "gun": {
+      "texture": "lever_rifle.png",
+      "size": "2",
+      "xOffset": "0",
+      "yOffset": "0"
+    }
+  },
+  "mg": {
+    "damage": "24",
+    "projectiles": "1",
+    "spread": "0",
+    "piercing": "10",
+    "maxBullets": "100",
+    "fireRate": "10",
+    "reloadRate": "2",
+    "knockBack": "0.3",
+    "recoilMult": "0.5",
+    "minRecoil": "0.1",
+    "speed": "0.00581776666",
+    "sound": {
+      "fire": "rifle_fire.mp3",
+      "empty": "rifle_empty.mp3",
+      "reload": "rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "muzzle_flash.png",
+      "size": "3"
+    },
+    "gun": {
+      "texture": "lever_rifle.png",
+      "size": "2",
+      "xOffset": "0",
+      "yOffset": "0"
+    }
+  },
+  "mini": {
+    "damage": "50",
+    "projectiles": "1",
+    "spread": "0",
+    "piercing": "7",
+    "maxBullets": "100",
+    "fireRate": "3",
+    "reloadRate": "2",
+    "knockBack": "0",
+    "recoilMult": "0.5",
+    "minRecoil": "0",
+    "speed": "0.00290888333",
+    "sound": {
+      "fire": "rifle_fire.mp3",
+      "empty": "rifle_empty.mp3",
+      "reload": "rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "muzzle_flash.png",
+      "size": 3
+    },
+    "gun": {
+      "texture": "lever_rifle.png",
+      "size": "2",
+      "xOffset": "0",
+      "yOffset": "0"
+    }
+  }
+}

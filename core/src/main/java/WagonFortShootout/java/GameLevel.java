@@ -70,9 +70,9 @@ public class GameLevel implements Screen {
         shapeRenderer.end();
         SPRITE_BATCH.setProjectionMatrix(viewport.getCamera().combined);
         SPRITE_BATCH.begin();
-
         Entity.drawAll(SPRITE_BATCH);
         Effect.renderAll(SPRITE_BATCH);
+        Gun.Instance.renderAll(SPRITE_BATCH);
         gui.render(SPRITE_BATCH);
 
 
