@@ -2,6 +2,7 @@ package WagonFortShootout.java.utils;
 
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.world.Hitbox;
+import WagonFortShootout.java.world.ScreenShaker;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
@@ -31,6 +32,13 @@ public class Mth {
 
     public static Vector2 randomVec(float min, float max) {
         return new Vector2((float) Math.random() * max + min, (float)Math.random() * max + min);
+    }
+
+    public static Vector2 addSpread(Vector2 vec, float range) {
+        float length = vec.len();
+        vec.nor();
+        Vector2 rand = new Vector2(-vec.y, vec.x).scl((float)Math.random() * range - range /2);
+        return vec.add(rand).setLength(length);
     }
 
     public static float rand(float min, float max) {
@@ -69,6 +77,9 @@ public class Mth {
         int n = vertices.length;
         float x3 = vertices[n - 2];
         float y3 = vertices[n - 1];
+        boolean intersects = false;
+        hitPos.set(p2);
+        float dist = p1.dst(p2);
 
         for(int i = 0; i < n; i += 2) {
             float x4 = vertices[i];
@@ -81,15 +92,49 @@ public class Mth {
                 if (ua >= 0.0F && ua <= 1.0F) {
                     float ub = ((x2 - x1) * yd - (y2 - y1) * xd) / d;
                     if (ub >= 0.0F && ub <= 1.0F) {
-                        hitPos.set((x2-x1)*ua + x1, (y2-y1)*ua + y1);
-                        return true;
+                        intersects = true;
+                        Vector2 currentPos = new Vector2((x2-x1)*ua + x1, (y2-y1)*ua + y1);
+                        float currentDist = p1.dst(currentPos);
+                        if(p1.dst(currentPos) < dist) {
+                            dist = currentDist;
+                            hitPos.set(currentPos);
+                        }
                     }
                 }
             }
             x3 = x4;
             y3 = y4;
         }
-        return false;
+        return intersects;
+    }
+
+    public static float lengthIntersect(Vector2 p1, Vector2 p2, Polygon polygon) {
+        float[] vertices = polygon.getTransformedVertices();
+        float x1 = p1.x, y1 = p1.y, x2 = p2.x, y2 = p2.y;
+        int n = vertices.length;
+        float x3 = vertices[n - 2], y3 = vertices[n - 1];
+        Vector2[] pos = new Vector2[2];
+        byte num = 0;
+
+        for (int i = 0; i < n; i += 2) {
+            float x4 = vertices[i], y4 = vertices[i + 1];
+            float d = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+            if (d != 0) {
+                float yd = y1 - y3;
+                float xd = x1 - x3;
+                float ua = ((x4 - x3) * yd - (y4 - y3) * xd) / d;
+                if (ua >= 0 && ua <= 1) {
+                    pos[num] = new Vector2( (x2-x1)*ua + x1, (y2-y1)*ua + y1);
+                    num ++;
+                    if(num >= 2) {
+                        return pos[0].dst(pos[1]);
+                    }
+                }
+            }
+            x3 = x4;
+            y3 = y4;
+        }
+        return 0;
     }
 
     public static Polygon circle(float radius, int sides) {

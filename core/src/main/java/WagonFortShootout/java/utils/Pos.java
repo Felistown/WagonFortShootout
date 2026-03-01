@@ -5,6 +5,7 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.world.Hitbox;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
@@ -31,8 +32,13 @@ public class Pos {
             if(hitbox != other && hitbox.hitBoxIntersection(other, hitPos)) {
                 if(other.anchored) {
                     if(Intersector.isPointInPolygon(new Array<Vector2>(hitbox.getVertices()), hitPos)) {
-                        setPos(POS.cpy().add(POS.cpy().sub(hitPos).scl(0.5f)));
-                        //TODO scale pushback with proximity to centre
+                        //setPos(POS.cpy().add(POS.cpy().sub(hitPos).scl(1)));
+                        //TODO fix this collision
+                        Vector2 l = new Vector2();
+                        Mth.intersectSegmentPolygon(hitbox.getPosition(),other.getPosition(), other.POLYGON, l);
+                        Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.5f,0.5f), 1000, l, 0);
+                        Vector2 dist = (l.sub(hitPos)).scl(2);
+                        setPos(POS.cpy().add(dist));
                         VEL.set(0,0);
                     }
                 } else {

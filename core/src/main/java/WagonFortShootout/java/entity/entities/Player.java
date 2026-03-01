@@ -13,13 +13,14 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Entity {
 
+    private Vector2 last = new Vector2();
     private final float SPEED = 0.1f;
     private final float SPRINT_MULT = 1.1f;
 
     private int cooldown = 0;
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("image/circle.png")), 3,5, "lever_rifle");
+        super(pos, new Sprite(new Texture("image/circle.png")), 3,5, "revolver");
     }
 
     @Override
@@ -47,6 +48,7 @@ public class Player extends Entity {
         boolean s = Gdx.input.isKeyPressed(Input.Keys.S);
         boolean d = Gdx.input.isKeyPressed(Input.Keys.D);
         boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+        boolean aim = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
         Vector2 added = new Vector2(0,0);
         if(!(w && s)) {
             if(w) {
@@ -71,10 +73,12 @@ public class Player extends Entity {
         Vector2 mouse = new Vector2(GameLevel.mouse.x, GameLevel.mouse.y);
         Vector2 dif = POS.pos().sub(mouse);
         FACE.setGoal(dif.angleRad());
-        boolean aim = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
         if(aim) {
-            Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), 150, 0.25f);
-            Effect.addEffect(effect, 1, Mth.toVec(FACE.getFacing(), 75).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()));
+            gun.inaccuracy = 0;
+            Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), 400, 0.25f);
+            Effect.addEffect(effect, 1, Mth.toVec(FACE.getFacing(), 200).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()));
+        } else {
+            gun.inaccuracy = 0.3f;
         }
     }
 }

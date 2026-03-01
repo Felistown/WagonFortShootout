@@ -19,6 +19,10 @@ public class Face {
         return facing;
     }
 
+    public boolean isMoving() {
+        return facing != goal;
+    }
+
     public void recoil(float mult, float floor) {
         float rand = (float)Math.random() - 0.5f;
         facing += rand * mult + floor * Math.signum(rand);

@@ -8,6 +8,7 @@ import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.weapon.Gun;
 import WagonFortShootout.java.world.Hitbox;
 import WagonFortShootout.java.world.Object;
+import WagonFortShootout.java.world.ScreenShaker;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -30,6 +31,7 @@ public class GameLevel implements Screen {
     public static Viewport viewport = new FitViewport(WIDTH, HEIGHT);
     public static Vector2 mouse = new Vector2();
     private static final SpriteBatch SPRITE_BATCH = new SpriteBatch();
+    public static final ScreenShaker SCREEN_SHAKER = new ScreenShaker(viewport.getCamera(),HEIGHT,WIDTH);
     private Texture BACKROUND;
     public Gui gui;
 
@@ -61,6 +63,7 @@ public class GameLevel implements Screen {
     }
 
     public void tick() {
+        SCREEN_SHAKER.tick();
         Entity.tickAll();
         Gun.Instance.tickAll();
     }

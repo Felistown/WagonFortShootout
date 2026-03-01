@@ -1,8 +1,10 @@
 package WagonFortShootout.java.weapon;
 
+import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.world.Hitbox;
@@ -22,7 +24,7 @@ import java.util.HashSet;
 public class Gun {
 
     private static final HashMap<String, Gun> ALL_GUNS = new HashMap<String, Gun>();
-    private static final float DIST = 150;
+    private static final float DIST = 400;
     private static final float WIDTH = 0.25f;
     private static final int LIFETIME = 5;
     private static final Color COLOUR = new Color(255, 214, 0, 1);
@@ -41,6 +43,7 @@ public class Gun {
     private final Sprite SPRITE;
     private final Vector2 OFFSET;
     private final float knockBack;
+    private final float rumble;
     private final float recoilMult;
     private final float minRecoil;
     private final float speed;
@@ -61,6 +64,7 @@ public class Gun {
             int fireRate = current.getInt("fireRate");
             int reloadRate = current.getInt("reloadRate");
             float knockBack = current.getFloat("knockBack");
+            float rumble = current.getFloat("rumble");
             float recoilMult = current.getFloat("recoilMult");
             float minRecoil = current.getFloat("minRecoil");
             float speed = current.getFloat("speed");
@@ -73,7 +77,7 @@ public class Gun {
             Sprite texture = new Sprite(new Texture(sprite.getString("texture")));
             texture.setScale(sprite_size/texture.getWidth());
             Vector2 offset = new Vector2(sprite.getFloat("xOffset"), sprite.getFloat("yOffset"));
-            Gun gun = new Gun(damage, projectiles, spread, piercing, maxBullets, fireRate, reloadRate, knockBack, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
+            Gun gun = new Gun(damage, projectiles, spread, piercing, maxBullets, fireRate, reloadRate, knockBack, rumble, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
             ALL_GUNS.put(current.name(), gun);
             current = current.next;
         } while (current != null);
@@ -87,7 +91,7 @@ public class Gun {
         }
     }
 
-    private Gun(int damage, int projectiles, float spread, int piercing, int maxBullets, int fireRate, int reloadRate, float knockBack, float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Sprite sprite, Vector2 offset) {
+    private Gun(int damage, int projectiles, float spread, int piercing, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble,float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Sprite sprite, Vector2 offset) {
         this.damage = damage;
         this.projectiles = projectiles;
         SPREAD = spread;
@@ -96,6 +100,7 @@ public class Gun {
         this.fireRate = fireRate;
         this.reloadRate = reloadRate;
         this.knockBack = knockBack;
+        this.rumble = rumble;
         this.recoilMult = recoilMult;
         this.minRecoil = minRecoil;
         this.speed = speed;
@@ -115,6 +120,8 @@ public class Gun {
         private int fireTimer;
         private int reloadTimer;
         private final Entity ENTITY;
+
+        public float inaccuracy = 0;
 
         private Instance(Entity entity) {
             bullets = maxBullets;
@@ -168,11 +175,14 @@ public class Gun {
                     Effect.addEffect(EFFECT, 5, ENTITY.getPOS().pos(), (float) Math.toDegrees(ENTITY.getFACE().getFacing() + Math.PI));
                     bullets--;
                     for(int i = 0; i < projectiles; i ++) {
-                        fire(piercing, SPREAD);
+                        fire(piercing, SPREAD + inaccuracy);
                     }
                     fire.play();
                     ENTITY.getPOS().addVel((float) (ENTITY.getFACE().getFacing() + Math.PI), knockBack);
                     ENTITY.getFACE().recoil(recoilMult, minRecoil);
+                    if(ENTITY instanceof Player) {
+                        GameLevel.SCREEN_SHAKER.rumble(rumble,5);
+                    }
                 }
             }
         }
@@ -181,7 +191,7 @@ public class Gun {
             Vector2 pos = ENTITY.getPOS().pos();
             Hitbox self = ENTITY.getHitbox();
             float face = (float) ENTITY.getFACE().getFacing();
-            Vector2 direction = Mth.toVec(face, DIST).add(pos).add(Mth.randomVec(-maxSpread / 2, maxSpread));
+            Vector2 direction = (Mth.addSpread(Mth.toVec(face, DIST), maxSpread)).add(pos);
             HashSet<Hitbox> hit = new HashSet<Hitbox>();
             Hitbox[] all = Utils.closetHitBox(ENTITY);
             for (int i = 0; i < all.length; i ++) {
