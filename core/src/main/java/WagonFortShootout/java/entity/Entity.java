@@ -3,6 +3,7 @@ package WagonFortShootout.java.entity;
 import WagonFortShootout.java.utils.Face;
 import WagonFortShootout.java.utils.Pos;
 import WagonFortShootout.java.weapon.Gun;
+import WagonFortShootout.java.world.Hitbox;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
@@ -17,27 +18,24 @@ public abstract class Entity {
     protected final Pos POS;
     protected final Face FACE;
     private Sprite sprite;
-    private Circle hitbox;
+    private Hitbox hitbox;
     protected Gun.Instance gun;
     protected int health;
     private boolean remove;
-    private int stopping;
 
     public Entity(Vector2 pos, Sprite sprite, int size, int stopping, String gun) {
-        POS = new Pos(pos);
+        POS = new Pos(pos, this);
         this.gun = Gun.getGun(gun, this);
         FACE = new Face(-1, this.gun.getSpeed());
         this.sprite = sprite;
         sprite.setSize(size,size);
-        hitbox = new Circle(pos, (float)size / 2);
+        hitbox = Hitbox.circle(pos, stopping, (float) size/ 2, 8);
         ALL_ENTITIES.add(this);
         health = 100;
-        this.stopping = stopping;
     }
 
     public void draw(SpriteBatch spriteBatch) {
         Vector2 pos = POS.pos();
-        sprite.setCenter(pos.x, pos.y);
         sprite.draw(spriteBatch);
     }
 
@@ -65,12 +63,13 @@ public abstract class Entity {
             Entity e = temp[i];
             if(e.toRemove()) {
                 e.gun.remove();
+                e.hitbox.remove();
                 ALL_ENTITIES.remove(e);
             }
         }
     }
 
-    public Circle getHitbox() {
+    public Hitbox getHitbox() {
         return hitbox;
     }
 
@@ -102,7 +101,7 @@ public abstract class Entity {
         return health;
     }
 
-    public int getStopping() {
-        return stopping;
+    public Sprite getSprite() {
+        return sprite;
     }
 }

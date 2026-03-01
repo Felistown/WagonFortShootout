@@ -19,7 +19,7 @@ public class Player extends Entity {
     private int cooldown = 0;
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("missing_texture.png")), 1,5, "lever_rifle");
+        super(pos, new Sprite(new Texture("image/missing_texture.png")), 1,5, "tank");
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Player extends Entity {
         FACE.setGoal(dif.angleRad());
         boolean aim = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
         if(aim) {
-            Effect effect = new Effect(new Texture("a.png"), 150, 0.25f);
+            Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), 150, 0.25f);
             Effect.addEffect(effect, 1, Mth.toVec(FACE.getFacing(), 75).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()));
         }
     }

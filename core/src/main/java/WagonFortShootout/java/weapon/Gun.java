@@ -5,6 +5,7 @@ import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
+import WagonFortShootout.java.world.Hitbox;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
@@ -188,25 +189,23 @@ public class Gun {
         private void fire(int piercing, float maxSpread) {
             Vector2 pos = ENTITY.getPOS().pos();
             float face = (float) ENTITY.getFACE().getFacing();
-            Vector2 temp = Mth.toVec(face, DIST).add(Mth.randomVec(-maxSpread / 2, maxSpread));
-            Ray detection = new Ray(new Vector3(pos, 0), new Vector3(temp, 0));
-            Vector3 hitPos = new Vector3(temp.add(pos), 0);
+            Vector2 direction = Mth.toVec(face, DIST).add(pos).add(Mth.randomVec(-maxSpread / 2, maxSpread));
             HashSet<Entity> hitEntities = new HashSet<Entity>();
             Entity[] all = Utils.byClosest(ENTITY);
             for (int i = 0; i < all.length; i ++) {
                 Entity e = all[i];
-                Circle hitbox = e.getHitbox();
-                Vector3 eHit = new Vector3();
-                if (e != ENTITY && Intersector.intersectRaySphere(detection, new Vector3(hitbox.x, hitbox.y, 0), hitbox.radius, eHit)) {
+                Hitbox hitbox = e.getHitbox();
+                Vector2 eHit = new Vector2();
+                if (e != ENTITY && hitbox.rayIntersection(pos, direction, eHit)) {
                     hitEntities.add(e);
-                    piercing -= e.getStopping();
+                    piercing -= hitbox.RESISTANCE;
                     if(piercing <= 0) {
-                        hitPos = eHit;
+                        direction = eHit;
                         break;
                     }
                 }
             }
-            Beam.beam(pos, new Vector2(hitPos.x, hitPos.y), WIDTH, LIFETIME, COLOUR);
+            Beam.beam(pos, direction, WIDTH, LIFETIME, COLOUR);
             hitEntities.forEach(e -> e.onHit(damage));
         }
 

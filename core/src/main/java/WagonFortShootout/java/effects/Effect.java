@@ -16,10 +16,10 @@ public class Effect {
 
     public static void addEffect(Effect effect, int lifeTime, Vector2 pos, float angle) {
         effect.lifetime = lifeTime;
-        ALL_EFFECTS.add(effect);
         effect.SPRITE.setCenter(pos.x, pos.y);
         effect.SPRITE.setOriginCenter();
         effect.SPRITE.setRotation(angle);
+        ALL_EFFECTS.add(effect);
     }
 
     public Effect(Texture texture, float length, float height) {

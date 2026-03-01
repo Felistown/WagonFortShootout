@@ -6,6 +6,8 @@ import WagonFortShootout.java.entity.entities.Enemy;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.weapon.Gun;
+import WagonFortShootout.java.world.Hitbox;
+import WagonFortShootout.java.world.Object;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -18,6 +20,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import static WagonFortShootout.java.utils.Mth.circle;
 
 /** First screen of the application. Displayed after the application is created. */
 public class GameLevel implements Screen {
@@ -33,13 +37,15 @@ public class GameLevel implements Screen {
     public void show() {
         // Prepare your screen here.
         Gun.init();
+        Object.init();
         Player p = new Player(new Vector2(25,25));
         new Enemy(new Vector2(30,30));
         new Enemy(new Vector2(40,20));
         new Enemy(new Vector2(30,20));
         new Enemy(new Vector2(10,30));
+        Object.objectInstance("cart", new Vector2(50,50), 45f);
+        Object.objectInstance("cart", new Vector2(25,50), 0f);
         gui = new Gui(p);
-
     }
 
     @Override
@@ -71,6 +77,7 @@ public class GameLevel implements Screen {
         SPRITE_BATCH.setProjectionMatrix(viewport.getCamera().combined);
         SPRITE_BATCH.begin();
         Entity.drawAll(SPRITE_BATCH);
+        Object.Instance.renderAll(SPRITE_BATCH);
         Effect.renderAll(SPRITE_BATCH);
         Gun.Instance.renderAll(SPRITE_BATCH);
         gui.render(SPRITE_BATCH);

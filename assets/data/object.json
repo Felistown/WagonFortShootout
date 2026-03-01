@@ -1,0 +1,11 @@
+{
+  "cart": {
+    "texture": "image/object/cart.png",
+    "resistance": "20",
+    "polygon": {
+      "type": "rectangle",
+      "height": "3",
+      "length": "2"
+    }
+  }
+}

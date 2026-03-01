@@ -9,6 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Enemy extends Entity {
     public Enemy(Vector2 pos) {
-        super(pos, new Sprite(new Texture("circle.png")), 1, 5,"semi_rifle");
+        super(pos, new Sprite(new Texture("image/circle.png")), 1, 5,"semi_rifle");
     }
 }
