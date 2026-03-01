@@ -25,8 +25,8 @@ import static WagonFortShootout.java.utils.Mth.circle;
 
 /** First screen of the application. Displayed after the application is created. */
 public class GameLevel implements Screen {
-    public static final int WIDTH = 100;
-    public static final int HEIGHT =100;
+    public static final int WIDTH = 200;
+    public static final int HEIGHT =200;
     public static Viewport viewport = new FitViewport(WIDTH, HEIGHT);
     public static Vector2 mouse = new Vector2();
     private static final SpriteBatch SPRITE_BATCH = new SpriteBatch();

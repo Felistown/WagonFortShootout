@@ -8,23 +8,14 @@ import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.world.Hitbox;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.Ray;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonString;
 import com.badlogic.gdx.utils.JsonValue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -188,16 +179,16 @@ public class Gun {
 
         private void fire(int piercing, float maxSpread) {
             Vector2 pos = ENTITY.getPOS().pos();
+            Hitbox self = ENTITY.getHitbox();
             float face = (float) ENTITY.getFACE().getFacing();
             Vector2 direction = Mth.toVec(face, DIST).add(pos).add(Mth.randomVec(-maxSpread / 2, maxSpread));
-            HashSet<Entity> hitEntities = new HashSet<Entity>();
-            Entity[] all = Utils.byClosest(ENTITY);
+            HashSet<Hitbox> hit = new HashSet<Hitbox>();
+            Hitbox[] all = Utils.closetHitBox(ENTITY);
             for (int i = 0; i < all.length; i ++) {
-                Entity e = all[i];
-                Hitbox hitbox = e.getHitbox();
+                Hitbox hitbox = all[i];
                 Vector2 eHit = new Vector2();
-                if (e != ENTITY && hitbox.rayIntersection(pos, direction, eHit)) {
-                    hitEntities.add(e);
+                if (hitbox != self && hitbox.rayIntersection(pos, direction, eHit)) {
+                    hit.add(hitbox);
                     piercing -= hitbox.RESISTANCE;
                     if(piercing <= 0) {
                         direction = eHit;
@@ -206,7 +197,7 @@ public class Gun {
                 }
             }
             Beam.beam(pos, direction, WIDTH, LIFETIME, COLOUR);
-            hitEntities.forEach(e -> e.onHit(damage));
+            hit.forEach(e -> e.onHit(damage));
         }
 
         public void reload() {

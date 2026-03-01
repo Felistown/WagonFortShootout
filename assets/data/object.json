@@ -4,8 +4,8 @@
     "resistance": "20",
     "polygon": {
       "type": "rectangle",
-      "height": "3",
-      "length": "2"
+      "height": "9",
+      "length": "6"
     }
   }
 }

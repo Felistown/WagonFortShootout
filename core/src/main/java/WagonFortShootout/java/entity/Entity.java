@@ -29,7 +29,7 @@ public abstract class Entity {
         FACE = new Face(-1, this.gun.getSpeed());
         this.sprite = sprite;
         sprite.setSize(size,size);
-        hitbox = Hitbox.circle(pos, stopping, (float) size/ 2, 8);
+        hitbox = Hitbox.circle(pos,this::onHit,stopping, (float) size/ 2, 8);
         ALL_ENTITIES.add(this);
         health = 100;
     }
@@ -73,7 +73,7 @@ public abstract class Entity {
         return hitbox;
     }
 
-    public void onHit(int damage) {
+    private void onHit(int damage) {
         health -= damage;
     }
 

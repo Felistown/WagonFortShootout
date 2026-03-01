@@ -64,7 +64,7 @@ public class Object {
 
         private Instance(Vector2 pos, float rotation) {
             this.pos = pos;
-            hitbox = new Hitbox(new Polygon(polygon.getVertices().clone()), pos, resistance);
+            hitbox = new Hitbox(new Polygon(polygon.getVertices().clone()), null,pos, resistance);
             hitbox.setRotation(rotation);
             hitbox.anchored = true;
             sprite = new Sprite(texture);

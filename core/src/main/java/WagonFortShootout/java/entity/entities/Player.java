@@ -19,7 +19,7 @@ public class Player extends Entity {
     private int cooldown = 0;
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("image/missing_texture.png")), 1,5, "tank");
+        super(pos, new Sprite(new Texture("image/circle.png")), 3,5, "lever_rifle");
     }
 
     @Override

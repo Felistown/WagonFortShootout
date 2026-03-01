@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.function.Consumer;
+
 public class Pos {
 
     private final Vector2 POS;
@@ -29,11 +31,12 @@ public class Pos {
             if(hitbox != other && hitbox.hitBoxIntersection(other, hitPos)) {
                 if(other.anchored) {
                     if(Intersector.isPointInPolygon(new Array<Vector2>(hitbox.getVertices()), hitPos)) {
-                        setPos(POS.cpy().add(POS.cpy().sub(hitPos)));
+                        setPos(POS.cpy().add(POS.cpy().sub(hitPos).scl(0.5f)));
+                        //TODO scale pushback with proximity to centre
                         VEL.set(0,0);
                     }
                 } else {
-                    setPos(POS.cpy().add(POS.cpy().sub(hitPos).scl(0.1f)));
+                    setPos(POS.cpy().add(POS.cpy().sub(hitPos).scl(0.01f)));
                 }
             }
         }
