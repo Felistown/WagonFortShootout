@@ -41,4 +41,16 @@ public class Utils {
         }
         return arrayList;
     }
+
+    public static boolean los(Entity e, Entity o) {
+        Hitbox[] all = Utils.closetHitBox(e);
+        for(Hitbox h: all) {
+            if(h != e.getHitbox()) {
+                if(h.rayIntersection(e.getPOS().pos(), e.getPOS().pos().add(Mth.toVec(e.getFACE().getFacing(), 400)), null)) {
+                    return h == o.getHitbox();
+                }
+            }
+        }
+        return false;
+    }
 }

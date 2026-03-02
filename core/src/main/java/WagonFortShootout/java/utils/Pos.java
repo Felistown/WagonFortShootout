@@ -17,6 +17,7 @@ public class Pos {
     private final Vector2 VEL;
     private final Entity entity;
     private final float DECEL = 0.1f;
+    public Vector2 pos;
 
     public Pos(Vector2 pos, Entity entity) {
         POS = pos;
@@ -34,11 +35,14 @@ public class Pos {
                     if(Intersector.isPointInPolygon(new Array<Vector2>(hitbox.getVertices()), hitPos)) {
                         //setPos(POS.cpy().add(POS.cpy().sub(hitPos).scl(1)));
                         //TODO fix this collision
-                        Vector2 l = new Vector2();
-                        Mth.intersectSegmentPolygon(hitbox.getPosition(),other.getPosition(), other.POLYGON, l);
-                        Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.5f,0.5f), 1000, l, 0);
-                        Vector2 dist = (l.sub(hitPos)).scl(2);
-                        setPos(POS.cpy().add(dist));
+                        Polygon p = new Polygon();
+                        Intersector.intersectPolygons(hitbox.POLYGON, other.POLYGON, p);
+                        float plen = Mth.lengthIntersect(hitbox.getPosition(), other.getPosition(), p);
+                        float rad = (float)Math.PI + (float)Math.atan((hitbox.POLYGON.getY() - hitPos.y) / (hitbox.POLYGON.getX() - hitPos.x));
+                        //System.out.println(Math.atan((hitbox.POLYGON.getY() - hitPos.y) / (hitbox.POLYGON.getX() - hitPos.x)) + " " + rad   );
+                        //System.out.println(hitPos.angleRad(hitbox.getPosition()));
+                        Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.5f,0.5f), 1000, POS.cpy().add(Mth.toVec(rad, plen)), 0);
+                        setPos(POS.cpy().add(Mth.toVec(rad, plen)));
                         VEL.set(0,0);
                     }
                 } else {
@@ -61,6 +65,10 @@ public class Pos {
 
     public Vector2 pos() {
         return POS.cpy();
+    }
+
+    public Vector2 vel() {
+        return VEL.cpy();
     }
 
     private void setPos(Vector2 pos) {

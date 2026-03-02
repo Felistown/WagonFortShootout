@@ -68,6 +68,46 @@ public class Mth {
         return false;
     }
 
+    public static boolean intersectSegmentPolygonFar(Vector2 p1, Vector2 p2, Polygon polygon, Vector2 hitPos) {
+        float[] vertices = polygon.getTransformedVertices();
+        float x1 = p1.x;
+        float y1 = p1.y;
+        float x2 = p2.x;
+        float y2 = p2.y;
+        int n = vertices.length;
+        float x3 = vertices[n - 2];
+        float y3 = vertices[n - 1];
+        boolean intersects = false;
+        hitPos.set(p1);
+        float dist = 0;
+
+        for(int i = 0; i < n; i += 2) {
+            float x4 = vertices[i];
+            float y4 = vertices[i + 1];
+            float d = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+            if (d != 0.0F) {
+                float yd = y1 - y3;
+                float xd = x1 - x3;
+                float ua = ((x4 - x3) * yd - (y4 - y3) * xd) / d;
+                if (ua >= 0.0F && ua <= 1.0F) {
+                    float ub = ((x2 - x1) * yd - (y2 - y1) * xd) / d;
+                    if (ub >= 0.0F && ub <= 1.0F) {
+                        intersects = true;
+                        Vector2 currentPos = new Vector2((x2-x1)*ua + x1, (y2-y1)*ua + y1);
+                        float currentDist = p1.dst(currentPos);
+                        if(p1.dst(currentPos) > dist) {
+                            dist = currentDist;
+                            hitPos.set(currentPos);
+                        }
+                    }
+                }
+            }
+            x3 = x4;
+            y3 = y4;
+        }
+        return intersects;
+    }
+
     public static boolean intersectSegmentPolygon(Vector2 p1, Vector2 p2, Polygon polygon, Vector2 hitPos) {
         float[] vertices = polygon.getTransformedVertices();
         float x1 = p1.x;
@@ -78,6 +118,9 @@ public class Mth {
         float x3 = vertices[n - 2];
         float y3 = vertices[n - 1];
         boolean intersects = false;
+        if(hitPos == null) {
+            hitPos = new Vector2();
+        }
         hitPos.set(p2);
         float dist = p1.dst(p2);
 

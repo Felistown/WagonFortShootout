@@ -3,6 +3,7 @@ package WagonFortShootout.java.entity.entities;
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.Gdx;
@@ -20,7 +21,7 @@ public class Player extends Entity {
     private int cooldown = 0;
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("image/circle.png")), 3,5, "revolver");
+        super(pos, new Sprite(new Texture("image/circle.png")), 10000,3,5, "lever_rifle");
     }
 
     @Override
@@ -80,5 +81,11 @@ public class Player extends Entity {
         } else {
             gun.inaccuracy = 0.3f;
         }
+    }
+
+    @Override
+    public void onHit(HitData data) {
+        super.onHit(data);
+        GameLevel.SCREEN_SHAKER.rumble(data.rumble / 2, 5);
     }
 }

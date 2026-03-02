@@ -5,6 +5,7 @@ import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Player;
+import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.world.Hitbox;
@@ -29,24 +30,24 @@ public class Gun {
     private static final int LIFETIME = 5;
     private static final Color COLOUR = new Color(255, 214, 0, 1);
 
-    private final int damage;
-    private final int projectiles;
-    private final float SPREAD;
-    private final int piercing;
-    private final int maxBullets;
-    private final int fireRate;
-    private final int reloadRate;
-    private final Sound fire;
-    private final Sound empty;
-    private final Sound reload;
-    private final Effect EFFECT;
-    private final Sprite SPRITE;
-    private final Vector2 OFFSET;
-    private final float knockBack;
-    private final float rumble;
-    private final float recoilMult;
-    private final float minRecoil;
-    private final float speed;
+    public final int damage;
+    public final int projectiles;
+    public final float SPREAD;
+    public final int piercing;
+    public final int maxBullets;
+    public final int fireRate;
+    public final int reloadRate;
+    public final Sound fire;
+    public final Sound empty;
+    public final Sound reload;
+    public final Effect EFFECT;
+    public final Sprite SPRITE;
+    public final Vector2 OFFSET;
+    public final float knockBack;
+    public final float rumble;
+    public final float recoilMult;
+    public final float minRecoil;
+    public final float speed;
 
     public static void init() {
         JsonReader reader = new JsonReader();
@@ -116,10 +117,11 @@ public class Gun {
 
         private static HashSet<Instance> ALL_INSTANCES = new HashSet<Instance>();
 
+        public final Gun GUN;
+        public final Entity ENTITY;
         private int bullets;
         private int fireTimer;
         private int reloadTimer;
-        private final Entity ENTITY;
 
         public float inaccuracy = 0;
 
@@ -129,6 +131,7 @@ public class Gun {
             reloadTimer = 0;
             ALL_INSTANCES.add(this);
             ENTITY = entity;
+            GUN = Gun.this;
         }
 
         public void remove() {
@@ -207,7 +210,7 @@ public class Gun {
                 }
             }
             Beam.beam(pos, direction, WIDTH, LIFETIME, COLOUR);
-            hit.forEach(e -> e.onHit(damage));
+            hit.forEach(e -> e.onHit(new HitData(this)));
         }
 
         public void reload() {

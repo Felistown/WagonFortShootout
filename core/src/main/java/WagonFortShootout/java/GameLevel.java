@@ -2,11 +2,12 @@ package WagonFortShootout.java;
 
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.entities.Enemy;
+import WagonFortShootout.java.entity.entities.aiEntities.gunEnemy;
+import WagonFortShootout.java.entity.entities.aiEntity;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.effects.Beam;
+import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.weapon.Gun;
-import WagonFortShootout.java.world.Hitbox;
 import WagonFortShootout.java.world.Object;
 import WagonFortShootout.java.world.ScreenShaker;
 import com.badlogic.gdx.Gdx;
@@ -15,14 +16,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import static WagonFortShootout.java.utils.Mth.circle;
 
 /** First screen of the application. Displayed after the application is created. */
 public class GameLevel implements Screen {
@@ -35,19 +32,24 @@ public class GameLevel implements Screen {
     private Texture BACKROUND;
     public Gui gui;
 
+    public static Player player;
+
     @Override
     public void show() {
         // Prepare your screen here.
         Gun.init();
         Object.init();
-        Player p = new Player(new Vector2(25,25));
-        new Enemy(new Vector2(30,30));
-        new Enemy(new Vector2(40,20));
-        new Enemy(new Vector2(30,20));
-        new Enemy(new Vector2(10,30));
+        player = new Player(new Vector2(180,180));
+        new gunEnemy(new Vector2(100,100));
+        new gunEnemy(new Vector2(30,30));
+        new gunEnemy(new Vector2(40,20));
+        new gunEnemy(new Vector2(30,20));
+        new gunEnemy(new Vector2(10,30));
         Object.objectInstance("cart", new Vector2(50,50), 45f);
+        Object.objectInstance("cart", new Vector2(175,175), 45f);
         Object.objectInstance("cart", new Vector2(25,50), 0f);
-        gui = new Gui(p);
+        Object.objectInstance("cart", new Vector2(70,50), 80f);
+        gui = new Gui(player);
     }
 
     @Override
@@ -64,6 +66,7 @@ public class GameLevel implements Screen {
 
     public void tick() {
         SCREEN_SHAKER.tick();
+        Ai.tickAll();
         Entity.tickAll();
         Gun.Instance.tickAll();
     }

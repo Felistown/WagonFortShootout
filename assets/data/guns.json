@@ -174,7 +174,7 @@
     }
   },
   "mini": {
-    "damage": "50",
+    "damage": "10",
     "projectiles": "1",
     "spread": "0",
     "piercing": "7",
@@ -183,7 +183,7 @@
     "reloadRate": "2",
     "knockBack": "0",
     "rumble": "2.5",
-    "recoilMult": "0.5",
+    "recoilMult": "0.1",
     "minRecoil": "0",
     "speed": "0.00290888333",
     "sound": {
@@ -197,7 +197,7 @@
     },
     "gun": {
       "texture": "image/guns/lever_rifle.png",
-      "size": "2",
+      "size": "5",
       "xOffset": "0",
       "yOffset": "0"
     }

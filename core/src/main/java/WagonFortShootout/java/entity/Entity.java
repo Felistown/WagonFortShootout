@@ -1,5 +1,6 @@
 package WagonFortShootout.java.entity;
 
+import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Face;
 import WagonFortShootout.java.utils.Pos;
 import WagonFortShootout.java.weapon.Gun;
@@ -23,7 +24,7 @@ public abstract class Entity {
     protected int health;
     private boolean remove;
 
-    public Entity(Vector2 pos, Sprite sprite, int size, int stopping, String gun) {
+    public Entity(Vector2 pos, Sprite sprite, int health,int size, int stopping, String gun) {
         POS = new Pos(pos, this);
         this.gun = Gun.getGun(gun, this);
         FACE = new Face(-1, this.gun.getSpeed());
@@ -31,7 +32,7 @@ public abstract class Entity {
         sprite.setSize(size,size);
         hitbox = Hitbox.circle(pos,this::onHit,stopping, (float) size/ 2, 8);
         ALL_ENTITIES.add(this);
-        health = 100;
+        this.health = health;
     }
 
     public void draw(SpriteBatch spriteBatch) {
@@ -41,7 +42,7 @@ public abstract class Entity {
 
     public void tick() {
         if(health <= 0) {
-            remove = true;
+            onRemove();
         }
         POS.logic();
         FACE.tick();
@@ -69,12 +70,18 @@ public abstract class Entity {
         }
     }
 
+    public void onRemove() {
+        remove = true;
+    }
+
     public Hitbox getHitbox() {
         return hitbox;
     }
 
-    private void onHit(int damage) {
-        health -= damage;
+    public void onHit(HitData data) {
+        health -= data.damage;
+        POS.addVel(data.pos.sub(POS.pos()).angleRad(), data.knockback / 2);
+        FACE.recoil(data.recoil_mult / 2, data.min_recoil / 2);
     }
 
     public boolean toRemove() {
