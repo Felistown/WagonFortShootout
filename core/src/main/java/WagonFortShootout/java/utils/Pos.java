@@ -9,15 +9,14 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.function.Consumer;
-
 public class Pos {
 
     private final Vector2 POS;
     private final Vector2 VEL;
+    private boolean moving;
+    public float acceleration;
+    public float max_speed;
     private final Entity entity;
-    private final float DECEL = 0.1f;
-    public Vector2 pos;
 
     public Pos(Vector2 pos, Entity entity) {
         POS = pos;
@@ -27,6 +26,19 @@ public class Pos {
 
     public void logic() {
         setPos(POS.add(VEL));
+        collision();
+        if(!moving || VEL.len() > max_speed) {
+            if(VEL.len() < acceleration) {
+                VEL.setLength(0);
+            } else {
+                VEL.setLength(VEL.len() - acceleration);
+            }
+        } else {
+            moving = false;
+        }
+    }
+
+    public void collision() {
         Hitbox hitbox = entity.getHitbox();
         for(Hitbox other: Hitbox.getAllHitboxes()) {
             Vector2 hitPos = new Vector2();
@@ -41,7 +53,7 @@ public class Pos {
                         float rad = (float)Math.PI + (float)Math.atan((hitbox.POLYGON.getY() - hitPos.y) / (hitbox.POLYGON.getX() - hitPos.x));
                         //System.out.println(Math.atan((hitbox.POLYGON.getY() - hitPos.y) / (hitbox.POLYGON.getX() - hitPos.x)) + " " + rad   );
                         //System.out.println(hitPos.angleRad(hitbox.getPosition()));
-                        Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.5f,0.5f), 1000, POS.cpy().add(Mth.toVec(rad, plen)), 0);
+                        //Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.5f,0.5f), 1000, POS.cpy().add(Mth.toVec(rad, plen)), 0);
                         setPos(POS.cpy().add(Mth.toVec(rad, plen)));
                         VEL.set(0,0);
                     }
@@ -50,10 +62,14 @@ public class Pos {
                 }
             }
         }
-        VEL.x -= Mth.sigmin(VEL.x * Math.signum(VEL.x), DECEL * Math.signum(VEL.x));
-        VEL.y -= Mth.sigmin(VEL.y * Math.signum(VEL.y),DECEL * Math.signum(VEL.y));
     }
 
+    public void move(Vector2 vector) {
+        if(vector.len() > 0) {
+            moving = true;
+            VEL.add(vector.setLength(acceleration));
+        }
+    }
 
     public void addVel(Vector2 other) {
         VEL.add(other);

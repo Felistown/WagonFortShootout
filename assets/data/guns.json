@@ -7,7 +7,7 @@
     "maxBullets": "8",
     "fireRate": "50",
     "reloadRate": "50",
-    "knockBack": "1",
+    "knockBack": "0.3",
     "rumble": "2.5",
     "recoilMult": "1.2",
     "minRecoil": "0.5",
@@ -19,13 +19,13 @@
     },
     "effect": {
       "texture": "image/effects/muzzle_flash.png",
-      "size": "9"
+      "size": "3"
     },
     "gun": {
       "texture": "image/guns/lever_rifle.png",
-      "size": "6",
-      "xOffset": "-1.5",
-      "yOffset": "0.6"
+      "size": "2",
+      "xOffset": "-0.5",
+      "yOffset": "0.2"
     }
   },
   "revolver": {
@@ -94,7 +94,7 @@
     "maxBullets": "1",
     "fireRate": "10",
     "reloadRate": "200",
-    "knockBack": "3",
+    "knockBack": "1.5",
     "rumble": "20",
     "recoilMult": "5",
     "minRecoil": "1",

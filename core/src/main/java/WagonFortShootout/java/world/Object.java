@@ -54,6 +54,7 @@ public class Object {
         }
     }
 
+
     public class Instance {
 
         private static HashSet<Instance> ALL_INSTANCES = new HashSet<Instance>();
@@ -78,7 +79,7 @@ public class Object {
             int index = 0;
             for(int i = 0; i + 1 < v.length; i += 2) {
                 vertices[index] = new Vector2(v[i], v[i + 1]);
-                Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.2f,0.2f), 1000, vertices[index], 0);
+                //Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.2f,0.2f), 1000, vertices[index], 0);
                 index++;
             }
         }
@@ -95,5 +96,15 @@ public class Object {
             hitbox.remove();
             ALL_INSTANCES.remove(this);
         }
+
+        public static Object.Instance[] getAll() {
+            return ALL_INSTANCES.toArray(new Instance[0]);
+        }
+
+        public Polygon hitbox() {
+            return hitbox.POLYGON;
+        }
     }
+
+
 }

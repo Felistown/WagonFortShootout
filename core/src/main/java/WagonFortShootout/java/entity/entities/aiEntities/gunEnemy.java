@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 public class gunEnemy extends aiEntity {
 
     public gunEnemy(Vector2 pos) {
-        super(pos, "image/circle.png", 100,3, 5,"lever_rifle", "gun_enemy");
+        super(pos, "image/circle.png", 100,1, 5,"lever_rifle", "gun_enemy");
     }
 
 }

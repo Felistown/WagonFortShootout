@@ -7,6 +7,7 @@ import WagonFortShootout.java.entity.entities.aiEntity;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.framework.ai.Ai;
+import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;
 import WagonFortShootout.java.weapon.Gun;
 import WagonFortShootout.java.world.Object;
 import WagonFortShootout.java.world.ScreenShaker;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -23,8 +25,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 /** First screen of the application. Displayed after the application is created. */
 public class GameLevel implements Screen {
-    public static final int WIDTH = 200;
-    public static final int HEIGHT =200;
+    public static final int WIDTH = 100;
+    public static final int HEIGHT =100;
     public static Viewport viewport = new FitViewport(WIDTH, HEIGHT);
     public static Vector2 mouse = new Vector2();
     private static final SpriteBatch SPRITE_BATCH = new SpriteBatch();
@@ -37,18 +39,21 @@ public class GameLevel implements Screen {
     @Override
     public void show() {
         // Prepare your screen here.
+
+        Effect.init();
         Gun.init();
         Object.init();
-        player = new Player(new Vector2(180,180));
-        new gunEnemy(new Vector2(100,100));
-        new gunEnemy(new Vector2(30,30));
-        new gunEnemy(new Vector2(40,20));
-        new gunEnemy(new Vector2(30,20));
-        new gunEnemy(new Vector2(10,30));
+        player = new Player(new Vector2(90,90));
+        new gunEnemy(new Vector2(10,10));
+     //   new gunEnemy(new Vector2(30,30));
+     //   new gunEnemy(new Vector2(40,20));
+       // new gunEnemy(new Vector2(30,20));
+       // new gunEnemy(new Vector2(10,30));
         Object.objectInstance("cart", new Vector2(50,50), 45f);
-        Object.objectInstance("cart", new Vector2(175,175), 45f);
+        Object.objectInstance("cart", new Vector2(85,85), 45f);
         Object.objectInstance("cart", new Vector2(25,50), 0f);
         Object.objectInstance("cart", new Vector2(70,50), 80f);
+        Pathfinder.a();
         gui = new Gui(player);
     }
 
@@ -82,13 +87,15 @@ public class GameLevel implements Screen {
         shapeRenderer.end();
         SPRITE_BATCH.setProjectionMatrix(viewport.getCamera().combined);
         SPRITE_BATCH.begin();
+        Effect.renderLayer(0,0, SPRITE_BATCH);
         Entity.drawAll(SPRITE_BATCH);
+        Effect.renderLayer(1,1, SPRITE_BATCH);
         Object.Instance.renderAll(SPRITE_BATCH);
-        Effect.renderAll(SPRITE_BATCH);
+        Effect.renderLayer(2,2, SPRITE_BATCH);
         Gun.Instance.renderAll(SPRITE_BATCH);
+        Effect.renderLayer(3,3, SPRITE_BATCH);
         gui.render(SPRITE_BATCH);
-
-
+        Effect.renderLayer(4,4, SPRITE_BATCH);
         SPRITE_BATCH.end();
         Beam.renderAll(viewport.getCamera().combined);
         mouse.set(Gdx.input.getX(), Gdx.input.getY());

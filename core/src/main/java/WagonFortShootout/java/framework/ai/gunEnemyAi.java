@@ -6,7 +6,7 @@ import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 
 public class gunEnemyAi extends Ai{
-
+    
     boolean a = true;
 
     public gunEnemyAi(Entity entity) {

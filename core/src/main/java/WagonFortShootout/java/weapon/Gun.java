@@ -175,7 +175,7 @@ public class Gun {
                 if(bullets <= 0) {
                     empty.play();
                 } else {
-                    Effect.addEffect(EFFECT, 5, ENTITY.getPOS().pos(), (float) Math.toDegrees(ENTITY.getFACE().getFacing() + Math.PI));
+                    Effect.addEffect(EFFECT, 5, ENTITY.getPOS().pos(), (float) Math.toDegrees(ENTITY.getFACE().getFacing() + Math.PI), 2);
                     bullets--;
                     for(int i = 0; i < projectiles; i ++) {
                         fire(piercing, SPREAD + inaccuracy);

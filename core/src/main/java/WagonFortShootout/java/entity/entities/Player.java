@@ -15,13 +15,14 @@ import com.badlogic.gdx.math.Vector2;
 public class Player extends Entity {
 
     private Vector2 last = new Vector2();
-    private final float SPEED = 0.1f;
-    private final float SPRINT_MULT = 1.1f;
+
 
     private int cooldown = 0;
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("image/circle.png")), 10000,3,5, "lever_rifle");
+        super(pos, new Sprite(new Texture("image/circle.png")), 500,1,5, "lever_rifle");
+        POS.max_speed = 0.5f;
+        POS.acceleration = 0.01f;
     }
 
     @Override
@@ -53,31 +54,32 @@ public class Player extends Entity {
         Vector2 added = new Vector2(0,0);
         if(!(w && s)) {
             if(w) {
-                added.y = SPEED;
+                added.y = 1;
             } else if(s){
-                added.y = -SPEED;
+                added.y = -1;
             }
         }
         if(!(a && d)) {
             if(a) {
-                added.x = -SPEED;
+                added.x = -1;
             } else if(d){
-                added.x = SPEED;
+                added.x = 1;
             }
         }
+        POS.acceleration = 0.00166666666f;
         if(shift) {
-            added.x *= SPRINT_MULT;
-            added.y *= SPRINT_MULT;
+            POS.max_speed = 0.05f;
         } else {
+            POS.max_speed = 0.01666666666f;
         }
-        POS.addVel(added);
+        POS.move(added);
         Vector2 mouse = new Vector2(GameLevel.mouse.x, GameLevel.mouse.y);
         Vector2 dif = POS.pos().sub(mouse);
         FACE.setGoal(dif.angleRad());
         if(aim) {
             gun.inaccuracy = 0;
             Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), 400, 0.25f);
-            Effect.addEffect(effect, 1, Mth.toVec(FACE.getFacing(), 200).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()));
+            Effect.addEffect(effect, 1, Mth.toVec(FACE.getFacing(), 200).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()),3);
         } else {
             gun.inaccuracy = 0.3f;
         }
