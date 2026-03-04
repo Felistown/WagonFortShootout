@@ -151,6 +151,36 @@ public class Mth {
         return intersects;
     }
 
+    public static Vector2 lengthIntersect2(Vector2 p1, Vector2 p2, Polygon polygon) {
+        float[] vertices = polygon.getTransformedVertices();
+        float x1 = p1.x, y1 = p1.y, x2 = p2.x, y2 = p2.y;
+        int n = vertices.length;
+        float x3 = vertices[n - 2], y3 = vertices[n - 1];
+        Vector2[] pos = new Vector2[2];
+        byte num = 0;
+
+        for (int i = 0; i < n; i += 2) {
+            float x4 = vertices[i], y4 = vertices[i + 1];
+            float d = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+            if (d != 0) {
+                float yd = y1 - y3;
+                float xd = x1 - x3;
+                float ua = ((x4 - x3) * yd - (y4 - y3) * xd) / d;
+                if (ua >= 0 && ua <= 1) {
+                    pos[num] = new Vector2( (x2-x1)*ua + x1, (y2-y1)*ua + y1);
+                    num ++;
+                    if(num >= 2) {
+                        return pos[0].sub(pos[1]);
+                    }
+                }
+            }
+            x3 = x4;
+            y3 = y4;
+        }
+        Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),2f,2f), 1, new Vector2(50,50), 0, 4);
+        return new Vector2(0,0);
+    }
+
     public static float lengthIntersect(Vector2 p1, Vector2 p2, Polygon polygon) {
         float[] vertices = polygon.getTransformedVertices();
         float x1 = p1.x, y1 = p1.y, x2 = p2.x, y2 = p2.y;
@@ -205,5 +235,9 @@ public class Mth {
         float hgt = height / 2;
         float[] vertices = new float[]{-len, -hgt, 0, hgt, len, -hgt};
         return new Polygon(vertices);
+    }
+
+    public static Vector2 toVec(Intersector.MinimumTranslationVector mtv) {
+        return mtv.normal.setLength(mtv.depth);
     }
 }

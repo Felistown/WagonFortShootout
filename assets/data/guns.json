@@ -7,7 +7,7 @@
     "maxBullets": "8",
     "fireRate": "50",
     "reloadRate": "50",
-    "knockBack": "0.3",
+    "knockBack": "0.1",
     "rumble": "2.5",
     "recoilMult": "1.2",
     "minRecoil": "0.5",
