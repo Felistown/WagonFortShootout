@@ -1,6 +1,9 @@
 package WagonFortShootout.java.framework.ai;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.framework.ai.types.gunEnemyAi;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -54,7 +57,12 @@ public abstract class Ai {
     public static void updateList() {
         ALL_AI.addAll(toAdd);
         toAdd.clear();
+        int prev = ALL_AI.size();
         ALL_AI.removeAll(toRemove);
+        int rem = prev - ALL_AI.size();
+        if(rem > 0) {
+            Gdx.app.log("Ai", "Removed " + rem + " Ai.");
+        }
         toRemove.clear();
     }
 

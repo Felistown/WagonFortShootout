@@ -1,7 +1,9 @@
 package WagonFortShootout.java.utils;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.world.Hitbox;
+import WagonFortShootout.java.entity.generic.GunEntity;
+import WagonFortShootout.java.entity.generic.Mount;
+import WagonFortShootout.java.framework.entity.Hitbox;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -13,11 +15,11 @@ public class Utils {
 
 
     public static double distFrom(Entity e, Entity o) {
-        return e.getPOS().pos().dst(o.getPOS().pos());
+        return e.getPos().dst(o.getPos());
     }
 
     public static double distFrom(Entity e, Hitbox o) {
-        return e.getPOS().pos().dst(new Vector2(o.POLYGON.getX(), o.POLYGON.getY()));
+        return e.getPos().dst(new Vector2(o.POLYGON.getX(), o.POLYGON.getY()));
     }
 
     public static Entity[] closetEntity(Entity entity) {
@@ -45,12 +47,18 @@ public class Utils {
     public static boolean los(Entity e, Entity o) {
         Hitbox[] all = Utils.closetHitBox(e);
         for(Hitbox h: all) {
-            if(h != e.getHitbox()) {
-                if(h.rayIntersection(e.getPOS().pos(), e.getPOS().pos().add(Mth.toVec(e.getFACE().getFacing(), 400)), null)) {
-                    return h == o.getHitbox();
+            if(h != e.HITBOX && !(o.mount != null && h == o.mount.HITBOX)) {
+                if(h.rayIntersection(e.getPos(), e.getPos().add(Mth.toVec(e.getFacing(), 400)), null)) {
+                    return h == o.HITBOX;
                 }
             }
         }
         return false;
     }
+
+    public static float dist(Entity e, Entity o) {
+        return e.getPos().dst(o.getPos());
+    }
+
+
 }

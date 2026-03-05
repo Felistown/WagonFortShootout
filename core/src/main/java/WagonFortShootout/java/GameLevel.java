@@ -2,23 +2,24 @@ package WagonFortShootout.java;
 
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.entities.aiEntities.gunEnemy;
-import WagonFortShootout.java.entity.entities.aiEntity;
+import WagonFortShootout.java.entity.entities.Horse;
+import WagonFortShootout.java.entity.entities.gunEnemy;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.effects.Beam;
+import WagonFortShootout.java.framework.gui.Gui;
 import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;
 import WagonFortShootout.java.weapon.Gun;
 import WagonFortShootout.java.world.Object;
-import WagonFortShootout.java.world.ScreenShaker;
+import WagonFortShootout.java.framework.gui.ScreenShaker;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -39,18 +40,20 @@ public class GameLevel implements Screen {
     @Override
     public void show() {
         // Prepare your screen here.
-
         Effect.init();
         Gun.init();
         Object.init();
+        Horse horse  = new Horse(new Vector2(95,95));
         player = new Player(new Vector2(90,90));
         new gunEnemy(new Vector2(10,10));
-     //   new gunEnemy(new Vector2(30,30));
-     //   new gunEnemy(new Vector2(40,20));
-       // new gunEnemy(new Vector2(30,20));
-       // new gunEnemy(new Vector2(10,30));
+        new gunEnemy(new Vector2(30,30));
+        new gunEnemy(new Vector2(40,20));
+        new gunEnemy(new Vector2(30,20));
+        new gunEnemy(new Vector2(10,30));
         Object.objectInstance("cart", new Vector2(50,50), 45f);
         Object.objectInstance("cart", new Vector2(85,85), 45f);
+        Object.objectInstance("cart", new Vector2(83,87), 45f);
+        Object.objectInstance("cart", new Vector2(87,83), 45f);
         Object.objectInstance("cart", new Vector2(25,50), 0f);
         Object.objectInstance("cart", new Vector2(70,50), 80f);
         Pathfinder.a();

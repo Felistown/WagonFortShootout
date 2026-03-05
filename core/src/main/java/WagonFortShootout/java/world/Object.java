@@ -1,8 +1,7 @@
 package WagonFortShootout.java.world;
 
-import WagonFortShootout.java.effects.Effect;
+import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

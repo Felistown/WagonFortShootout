@@ -1,52 +1,55 @@
 package WagonFortShootout.java.entity;
 
+import WagonFortShootout.java.entity.generic.AiEntity;
+import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.HitData;
-import WagonFortShootout.java.utils.Face;
-import WagonFortShootout.java.utils.Pos;
-import WagonFortShootout.java.weapon.Gun;
-import WagonFortShootout.java.world.Hitbox;
+import WagonFortShootout.java.framework.entity.Face;
+import WagonFortShootout.java.framework.entity.Pos;
+import WagonFortShootout.java.framework.entity.Hitbox;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public abstract class Entity {
 
     private static final HashSet<Entity> ALL_ENTITIES = new HashSet<Entity>();
-    protected final Pos POS;
-    protected final Face FACE;
+    public final Pos POS;
+    public final Face FACE;
     private Sprite sprite;
-    private Hitbox hitbox;
-    protected Gun.Instance gun;
+    public Mount mount;
+    public Hitbox HITBOX;
+    public final int MAX_HEALTH;
     protected int health;
     private boolean remove;
 
-    public Entity(Vector2 pos, Sprite sprite, int health,int size, int stopping, String gun) {
+    public Entity(Vector2 pos, Sprite sprite, int health, int size, int stopping) {
         POS = new Pos(pos, this);
-        this.gun = Gun.getGun(gun, this);
-        FACE = new Face(-1, this.gun.getSpeed());
+        FACE = new Face(-1);
         this.sprite = sprite;
         sprite.setSize(size,size);
-        hitbox = Hitbox.circle(pos,this::onHit,stopping, (float) size/ 2, 8);
+        HITBOX = Hitbox.circle(pos,this::onHit,stopping, (float) size/ 2, 8);
         ALL_ENTITIES.add(this);
-        this.health = health;
+        MAX_HEALTH = health;
+        this.health = MAX_HEALTH;
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        Vector2 pos = POS.pos();
         sprite.draw(spriteBatch);
     }
 
     public void tick() {
         if(health <= 0) {
-            onRemove();
+            remove = true;
         }
         POS.logic();
         FACE.tick();
-        hitbox.setPosition(POS.pos());
+        sprite.setRotation((float)Math.toDegrees(getFacing()));
+        HITBOX.setPosition(POS.pos());
     }
 
     public static void drawAll(SpriteBatch spriteBatch) {
@@ -63,19 +66,18 @@ public abstract class Entity {
         for(int i = 0; i < temp.length; i++) {
             Entity e = temp[i];
             if(e.toRemove()) {
-                e.gun.remove();
-                e.hitbox.remove();
+                e.onRemove();
                 ALL_ENTITIES.remove(e);
             }
         }
     }
 
     public void onRemove() {
-        remove = true;
-    }
-
-    public Hitbox getHitbox() {
-        return hitbox;
+        Gdx.app.log("Entity", "Entity removed");
+        HITBOX.remove();
+        if(this instanceof AiEntity e) {
+            e.stopAi();
+        }
     }
 
     public void onHit(HitData data) {
@@ -92,16 +94,16 @@ public abstract class Entity {
         return (HashSet<Entity>)ALL_ENTITIES.clone();
     }
 
-    public Pos getPOS() {
-        return POS;
+    public Vector2 getPos() {
+        return POS.pos();
     }
 
-    public Face getFACE() {
-        return FACE;
+    public float getFacing() {
+        return (float)FACE.getFacing();
     }
 
-    public Gun.Instance getGun() {
-        return gun;
+    public Vector2 getVel() {
+        return POS.vel();
     }
 
     public int getHealth() {
@@ -110,5 +112,21 @@ public abstract class Entity {
 
     public Sprite getSprite() {
         return sprite;
+    }
+
+    public void setGoal(double goal) {
+        if(mount == null) {
+            FACE.setGoal(goal);
+        } else {
+            mount.setGoal(goal);
+        }
+    }
+
+    public void move(Vector2 vec) {
+        if(mount == null) {
+            POS.move(vec);
+        } else {
+            mount.move(vec);
+        }
     }
 }

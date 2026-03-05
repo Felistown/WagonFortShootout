@@ -1,10 +1,6 @@
 package WagonFortShootout.java.framework.ai.pathfinding;
 
-import WagonFortShootout.java.effects.Effect;
-import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.world.Hitbox;
 import WagonFortShootout.java.world.Object;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public class Pathfinder {

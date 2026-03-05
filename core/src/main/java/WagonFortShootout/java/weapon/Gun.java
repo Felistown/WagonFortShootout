@@ -8,7 +8,7 @@ import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
-import WagonFortShootout.java.world.Hitbox;
+import WagonFortShootout.java.framework.entity.Hitbox;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -159,8 +159,8 @@ public class Gun {
         }
 
         public void render(SpriteBatch spriteBatch) {
-            Vector2 pos = ENTITY.getPOS().pos();
-            float facing = (float)ENTITY.getFACE().getFacing();
+            Vector2 pos = ENTITY.getPos();
+            float facing = (float)ENTITY.getFacing();
             SPRITE.setCenter(pos.x, pos.y);
             SPRITE.setOriginCenter();
             SPRITE.setRotation((float)Math.toDegrees(facing - Math.PI));
@@ -175,14 +175,14 @@ public class Gun {
                 if(bullets <= 0) {
                     empty.play();
                 } else {
-                    Effect.addEffect(EFFECT, 5, ENTITY.getPOS().pos(), (float) Math.toDegrees(ENTITY.getFACE().getFacing() + Math.PI), 2);
+                    Effect.addEffect(EFFECT, 5, ENTITY.getPos(), (float) Math.toDegrees(ENTITY.getFacing() + Math.PI), 2);
                     bullets--;
                     for(int i = 0; i < projectiles; i ++) {
                         fire(piercing, SPREAD + inaccuracy);
                     }
                     fire.play();
-                    ENTITY.getPOS().addVel((float) (ENTITY.getFACE().getFacing() + Math.PI), knockBack);
-                    ENTITY.getFACE().recoil(recoilMult, minRecoil);
+                    ENTITY.POS.addVel((float) (ENTITY.getFacing() + Math.PI), knockBack);
+                    ENTITY.FACE.recoil(recoilMult, minRecoil);
                     if(ENTITY instanceof Player) {
                         GameLevel.SCREEN_SHAKER.rumble(rumble,5);
                     }
@@ -191,9 +191,9 @@ public class Gun {
         }
 
         private void fire(int piercing, float maxSpread) {
-            Vector2 pos = ENTITY.getPOS().pos();
-            Hitbox self = ENTITY.getHitbox();
-            float face = (float) ENTITY.getFACE().getFacing();
+            Vector2 pos = ENTITY.getPos();
+            Hitbox self = ENTITY.HITBOX;
+            float face = (float) ENTITY.getFacing();
             Vector2 direction = (Mth.addSpread(Mth.toVec(face, DIST), maxSpread)).add(pos);
             HashSet<Hitbox> hit = new HashSet<Hitbox>();
             Hitbox[] all = Utils.closetHitBox(ENTITY);

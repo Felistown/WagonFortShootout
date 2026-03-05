@@ -1,8 +1,6 @@
 package WagonFortShootout.java.utils;
 
 import WagonFortShootout.java.effects.Effect;
-import WagonFortShootout.java.world.Hitbox;
-import WagonFortShootout.java.world.ScreenShaker;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
@@ -239,5 +237,19 @@ public class Mth {
 
     public static Vector2 toVec(Intersector.MinimumTranslationVector mtv) {
         return mtv.normal.setLength(mtv.depth);
+    }
+
+    public static Vector2 clamp(Vector2 vec, Vector2 min, Vector2 max) {
+        if(vec.y > max.y) {
+            vec.y = max.y;
+        } else if(vec.y < min.y) {
+            vec.y = min.y;
+        }
+        if(vec.x > max.x) {
+            vec.x = max.x;
+        } else if(vec.x < min.x) {
+            vec.x = min.x;
+        }
+        return vec;
     }
 }

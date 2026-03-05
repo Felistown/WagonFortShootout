@@ -19,6 +19,6 @@ public class HitData {
         this.min_recoil = gun.GUN.minRecoil;
         this.recoil_mult = gun.GUN.recoilMult;
         rumble = gun.GUN.rumble;
-        pos = gun.ENTITY.getPOS().pos();
+        pos = gun.ENTITY.getPos();
     }
 }
