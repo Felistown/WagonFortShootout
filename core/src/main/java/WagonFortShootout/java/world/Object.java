@@ -56,7 +56,6 @@ public class Object {
 
     public void onHit(HitData data) {
         data.piercing.sub(resistance);
-        System.out.println(data.piercing);
     }
 
 

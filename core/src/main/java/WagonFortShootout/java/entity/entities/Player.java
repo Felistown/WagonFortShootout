@@ -21,7 +21,7 @@ public class Player extends GunEntity {
 
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("image/circle.png")), Mth.circle( (float) 1/ 2, 8),10000,1,5, "lever_rifle");
+        super(pos, new Sprite(new Texture("image/circle.png")), Mth.circle( (float) 1/ 2, 8),1000,1,5, "lever_rifle");
     }
 
     @Override
@@ -103,5 +103,11 @@ public class Player extends GunEntity {
     public void onHit(HitData data) {
         super.onHit(data);
         GameLevel.SCREEN_SHAKER.rumble(data.rumble / 2, 5);
+    }
+
+    @Override
+    public void onRemove() {
+        GameLevel.player = new Player(new Vector2(95,95));
+        super.onRemove();
     }
 }
