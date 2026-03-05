@@ -17,6 +17,7 @@ public class Hitbox {
     public final int RESISTANCE;
 
     public Hitbox(Polygon hitBox, Consumer<HitData> onHit, Vector2 pos, int resistance) {
+        //TODO let resistance be changeable so that mounts only take damage when hit unmounted
         POLYGON = hitBox;
         hitBox.setPosition(pos.x, pos.y);
         anchored = false;

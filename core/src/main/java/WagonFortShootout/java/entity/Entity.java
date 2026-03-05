@@ -28,6 +28,7 @@ public abstract class Entity {
     private boolean remove;
 
     public Entity(Vector2 pos, Sprite sprite, int health, int size, int stopping) {
+        //TODO redo this constructor so that entities can have custom hitboxes with different hit behaviour
         POS = new Pos(pos, this);
         FACE = new Face(-1);
         this.sprite = sprite;
