@@ -4,14 +4,15 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Mount extends Entity {
 
     private Entity mounter;
 
-    public Mount(Vector2 pos, Sprite sprite, int health, int size, int stopping) {
-        super(pos, sprite, health, size, stopping);
+    public Mount(Vector2 pos, Sprite sprite, Polygon polygon, int health, int size, int stopping) {
+        super(pos, sprite,polygon, health, size, stopping);
         FACE.setSpeed(Math.PI);
     }
 
@@ -31,13 +32,6 @@ public abstract class Mount extends Entity {
             dismount();
         }
         super.onRemove();
-    }
-
-    @Override
-    public void onHit(HitData data) {
-        if(mounter == null) {
-            super.onHit(data);
-        }
     }
 
     @Override

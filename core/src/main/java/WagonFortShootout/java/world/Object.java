@@ -1,5 +1,6 @@
 package WagonFortShootout.java.world;
 
+import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.Gdx;
@@ -53,6 +54,11 @@ public class Object {
         }
     }
 
+    public void onHit(HitData data) {
+        data.piercing.sub(resistance);
+        System.out.println(data.piercing);
+    }
+
 
     public class Instance {
 
@@ -64,9 +70,10 @@ public class Object {
 
         private Instance(Vector2 pos, float rotation) {
             this.pos = pos;
-            hitbox = new Hitbox(new Polygon(polygon.getVertices().clone()), null,pos, resistance);
+            hitbox = new Hitbox(new Polygon(polygon.getVertices().clone()), Object.this::onHit);
             hitbox.setRotation(rotation);
             hitbox.anchored = true;
+            hitbox.setPosition(pos);
             sprite = new Sprite(texture);
             sprite.setSize(length, height);
             sprite.setCenter(pos.x, pos.y);

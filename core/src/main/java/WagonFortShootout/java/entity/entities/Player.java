@@ -6,6 +6,7 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.generic.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.Gdx;
@@ -20,7 +21,7 @@ public class Player extends GunEntity {
 
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("image/circle.png")), 10000,1,5, "lever_rifle");
+        super(pos, new Sprite(new Texture("image/circle.png")), Mth.circle( (float) 1/ 2, 8),10000,1,5, "lever_rifle");
     }
 
     @Override

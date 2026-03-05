@@ -1,10 +1,12 @@
 package WagonFortShootout.java.framework;
 
+import WagonFortShootout.java.utils.Mutable;
 import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.math.Vector2;
 
 public class HitData {
 
+    public final Mutable piercing;
     public final int damage;
     public final float knockback;
     public final float min_recoil;
@@ -12,7 +14,7 @@ public class HitData {
     public final float rumble;
     public final Vector2 pos;
 
-    public HitData(Gun.Instance gun) {
+    public <T extends Number> HitData(Gun.Instance gun, Mutable piercing) {
         this.damage = gun.GUN.damage;
         this.knockback = gun.GUN.knockBack;
         //TODO add projectile weight and do knockback and recoil based on that
@@ -20,5 +22,6 @@ public class HitData {
         this.recoil_mult = gun.GUN.recoilMult;
         rumble = gun.GUN.rumble;
         pos = gun.ENTITY.getPos();
+        this.piercing = piercing;
     }
 }

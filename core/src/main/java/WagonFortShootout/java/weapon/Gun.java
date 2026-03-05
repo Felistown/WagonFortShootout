@@ -7,6 +7,7 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
+import WagonFortShootout.java.utils.Mutable;
 import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import com.badlogic.gdx.Gdx;
@@ -193,24 +194,22 @@ public class Gun {
         private void fire(int piercing, float maxSpread) {
             Vector2 pos = ENTITY.getPos();
             Hitbox self = ENTITY.HITBOX;
+            Mutable pierce = new Mutable(piercing);
             float face = (float) ENTITY.getFacing();
             Vector2 direction = (Mth.addSpread(Mth.toVec(face, DIST), maxSpread)).add(pos);
-            HashSet<Hitbox> hit = new HashSet<Hitbox>();
             Hitbox[] all = Utils.closetHitBox(ENTITY);
             for (int i = 0; i < all.length; i ++) {
                 Hitbox hitbox = all[i];
                 Vector2 eHit = new Vector2();
                 if (hitbox != self && hitbox.rayIntersection(pos, direction, eHit)) {
-                    hit.add(hitbox);
-                    piercing -= hitbox.RESISTANCE;
-                    if(piercing <= 0) {
+                    hitbox.onHit(new HitData(this, pierce));
+                    if(pierce.doubleValue() <= 0) {
                         direction = eHit;
                         break;
                     }
                 }
             }
             Beam.beam(pos, direction, WIDTH, LIFETIME, COLOUR);
-            hit.forEach(e -> e.onHit(new HitData(this)));
         }
 
         public void reload() {

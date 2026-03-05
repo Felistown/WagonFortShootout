@@ -44,7 +44,7 @@ public class GameLevel implements Screen {
         Effect.init();
         Gun.init();
         Object.init();
-        Horse horse  = new Horse(new Vector2(95,95));
+        Horse horse = new Horse(new Vector2(95,95));
         player = new Player(new Vector2(90,90));
         new gunEnemy(new Vector2(10,10));
         new gunEnemy(new Vector2(30,30));

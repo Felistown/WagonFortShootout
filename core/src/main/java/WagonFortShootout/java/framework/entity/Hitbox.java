@@ -1,7 +1,9 @@
 package WagonFortShootout.java.framework.entity;
 
+import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.*;
 
 import java.util.HashSet;
@@ -14,28 +16,12 @@ public class Hitbox {
     public final Polygon POLYGON;
     public boolean anchored;
     private final Consumer<HitData> onHit;
-    public final int RESISTANCE;
 
-    public Hitbox(Polygon hitBox, Consumer<HitData> onHit, Vector2 pos, int resistance) {
-        //TODO let resistance be changeable so that mounts only take damage when hit unmounted
+    public Hitbox(Polygon hitBox, Consumer<HitData> onHit) {
         POLYGON = hitBox;
-        hitBox.setPosition(pos.x, pos.y);
         anchored = false;
-        this.RESISTANCE = resistance;
         ALL_HITBOXES.add(this);
         this.onHit = onHit;
-    }
-
-    public static Hitbox circle(Vector2 pos, Consumer<HitData> onHit,int resistance, float radius, int sides) {
-        return new Hitbox(Mth.circle(radius, sides), onHit, pos, resistance);
-    }
-
-    public static Hitbox rectange(Vector2 pos, Consumer<HitData> onHit,int resistance,float length, float height) {
-        return new Hitbox(Mth.rectange(length, height), onHit, pos, resistance);
-    }
-
-    public static Hitbox triangle(Vector2 pos, Consumer<HitData> onHit,int resistance,float length, float height) {
-        return new Hitbox(Mth.triangle(length, height), onHit, pos, resistance);
     }
 
     public Vector2[] getVertices() {
@@ -44,7 +30,7 @@ public class Hitbox {
         int index = 0;
         for(int i = 0; i + 1 < v.length; i += 2) {
             vertices[index] = new Vector2(v[i], v[i + 1]);
-            //Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.2f,0.2f), 1000, vertices[index], 0);
+            //Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.2f,0.2f), 1000, vertices[index], 0,4);
             index++;
         }
         return vertices;
@@ -68,7 +54,7 @@ public class Hitbox {
     }
 
     public Vector2 getPosition() {
-        return new Vector2(POLYGON.getX(), POLYGON.getY());
+        return POLYGON.getCentroid(new Vector2());
     }
 
     public void setRotation(float angleDeg) {

@@ -26,17 +26,19 @@ public abstract class Entity {
     public final int MAX_HEALTH;
     protected int health;
     private boolean remove;
+    protected int stopping;
 
-    public Entity(Vector2 pos, Sprite sprite, int health, int size, int stopping) {
-        //TODO redo this constructor so that entities can have custom hitboxes with different hit behaviour
+    public Entity(Vector2 pos, Sprite sprite, Polygon polygon,int health, int size, int stopping) {
         //TODO Make it so that you can instantiate an entity from json
+        //TODO change create sprite object to control sprite render states and other things
         POS = new Pos(pos, this);
         FACE = new Face(-1);
         this.sprite = sprite;
         sprite.setSize(size,size);
-        HITBOX = Hitbox.circle(pos,this::onHit,stopping, (float) size/ 2, 8);
+        HITBOX = new Hitbox(polygon, this::onHit);
         ALL_ENTITIES.add(this);
         MAX_HEALTH = health;
+        this.stopping = stopping;
         this.health = MAX_HEALTH;
     }
 
@@ -51,7 +53,8 @@ public abstract class Entity {
         POS.logic();
         FACE.tick();
         sprite.setRotation((float)Math.toDegrees(getFacing()));
-        HITBOX.setPosition(POS.pos());
+        HITBOX.setPosition(getPos());
+        HITBOX.setRotation((float)Math.toDegrees(getFacing()));
     }
 
     public static void drawAll(SpriteBatch spriteBatch) {
@@ -84,6 +87,7 @@ public abstract class Entity {
 
     public void onHit(HitData data) {
         health -= data.damage;
+        data.piercing.sub(stopping);
         POS.addVel(data.pos.sub(POS.pos()).angleRad(), data.knockback / 2);
         FACE.recoil(data.recoil_mult / 2, data.min_recoil / 2);
     }
