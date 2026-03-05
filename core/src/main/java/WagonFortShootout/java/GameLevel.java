@@ -6,6 +6,7 @@ import WagonFortShootout.java.entity.entities.Horse;
 import WagonFortShootout.java.entity.entities.gunEnemy;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.effects.Beam;
+import WagonFortShootout.java.framework.Input;
 import WagonFortShootout.java.framework.gui.Gui;
 import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;

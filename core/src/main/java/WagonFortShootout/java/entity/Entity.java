@@ -29,6 +29,7 @@ public abstract class Entity {
 
     public Entity(Vector2 pos, Sprite sprite, int health, int size, int stopping) {
         //TODO redo this constructor so that entities can have custom hitboxes with different hit behaviour
+        //TODO Make it so that you can instantiate an entity from json
         POS = new Pos(pos, this);
         FACE = new Face(-1);
         this.sprite = sprite;
