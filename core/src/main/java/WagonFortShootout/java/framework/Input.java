@@ -1,13 +1,21 @@
 package WagonFortShootout.java.framework;
 
+import WagonFortShootout.java.GameLevel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class Input {
 
     public static int last_key_down;
+    public static Pixmap moving = new Pixmap(Gdx.files.internal("image/cursor_moving.png"));
+    public static Pixmap set = new Pixmap(Gdx.files.internal("image/cursor.png"));
+    public static Vector2 offset = new Vector2(15,15);
+
     public static final InputAdapter input = new InputAdapter() {
         @Override
         public boolean keyDown(int keycode) {
@@ -25,6 +33,16 @@ public class Input {
         } else {
             data = file.getChild("default");
         }
+    }
+
+    public static void tick() {
+        Cursor cursor;
+        if(GameLevel.player.FACE.isMoving()) {
+            cursor = Gdx.graphics.newCursor(moving, (int)offset.x, (int)offset.y);
+        } else {
+            cursor = Gdx.graphics.newCursor(set, (int)offset.x, (int)offset.y);
+        }
+        Gdx.graphics.setCursor(cursor);
     }
 
     public static boolean forward() {

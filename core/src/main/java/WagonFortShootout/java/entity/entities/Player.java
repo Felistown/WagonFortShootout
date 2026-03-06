@@ -92,8 +92,18 @@ public class Player extends GunEntity {
         setGoal(dif.angleRad());
         if(aim) {
             gun.inaccuracy = 0;
-            Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), 400, 0.25f);
-            Effect.addEffect(effect, 1, Mth.toVec(FACE.getFacing(), 200).add(POS.pos()), (float) Math.toDegrees(FACE.getFacing()),3);
+            Vector2 beamPos = Mth.toVec(FACE.getFacing(), 200).add(getPos());
+            Hitbox[] all = Utils.closetHitBox(this);
+            for (int i = 0; i < all.length; i ++) {
+                Hitbox hitbox = all[i];
+                Vector2 eHit = new Vector2();
+                if (hitbox != HITBOX && hitbox.rayIntersection(getPos(), beamPos, eHit)) {
+                    beamPos = eHit;
+                }
+            }
+            float len = beamPos.dst(getPos());
+            Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), len, 0.25f);
+            Effect.addEffect(effect, 1,Mth.toVec(FACE.getFacing(), len / 2).add(getPos()), (float) Math.toDegrees(FACE.getFacing()),3);
         } else {
             gun.inaccuracy = 0.3f;
         }

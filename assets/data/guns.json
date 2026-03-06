@@ -152,10 +152,10 @@
     "maxBullets": "100",
     "fireRate": "10",
     "reloadRate": "2",
-    "knockBack": "0.3",
+    "knockBack": "0.03",
     "rumble": "2.5",
-    "recoilMult": "0.5",
-    "minRecoil": "0.1",
+    "recoilMult": "0.1",
+    "minRecoil": "0.03",
     "speed": "0.00581776666",
     "sound": {
       "fire": "sounds/guns/lever_rifle/lever_rifle_fire.mp3",
@@ -164,7 +164,7 @@
     },
     "effect": {
       "texture": "image/effects/muzzle_flash.png",
-      "size": "9"
+      "size": "3"
     },
     "gun": {
       "texture": "image/guns/lever_rifle.png",

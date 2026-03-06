@@ -1,5 +1,6 @@
 package WagonFortShootout.java.framework.gui;
 
+import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Player;
@@ -19,7 +20,8 @@ public class Gui {
     }
 
     public void render(SpriteBatch spriteBatch) {
-
+    //TODO work needs to be done here
+        player = GameLevel.player;
         renderHealth(spriteBatch);
 
 

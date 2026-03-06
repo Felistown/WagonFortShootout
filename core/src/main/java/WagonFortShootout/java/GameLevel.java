@@ -74,6 +74,7 @@ public class GameLevel implements Screen {
     }
 
     public void tick() {
+        Input.tick();
         SCREEN_SHAKER.tick();
         Ai.tickAll();
         Entity.tickAll();
