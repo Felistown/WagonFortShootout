@@ -12,9 +12,10 @@ import com.badlogic.gdx.utils.JsonValue;
 public class Input {
 
     public static int last_key_down;
-    public static Pixmap moving = new Pixmap(Gdx.files.internal("image/cursor_moving.png"));
-    public static Pixmap set = new Pixmap(Gdx.files.internal("image/cursor.png"));
+    public static Cursor moving = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("image/cursor_moving.png")),15,15);
+    public static Cursor set = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("image/cursor.png")),15,15);
     public static Vector2 offset = new Vector2(15,15);
+
 
     public static final InputAdapter input = new InputAdapter() {
         @Override
@@ -36,13 +37,11 @@ public class Input {
     }
 
     public static void tick() {
-        Cursor cursor;
         if(GameLevel.player.FACE.isMoving()) {
-            cursor = Gdx.graphics.newCursor(moving, (int)offset.x, (int)offset.y);
+            Gdx.graphics.setCursor(moving);
         } else {
-            cursor = Gdx.graphics.newCursor(set, (int)offset.x, (int)offset.y);
+            Gdx.graphics.setCursor(set);
         }
-        Gdx.graphics.setCursor(cursor);
     }
 
     public static boolean forward() {
