@@ -1,6 +1,7 @@
 package WagonFortShootout.java.framework.entity;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.math.Intersector;

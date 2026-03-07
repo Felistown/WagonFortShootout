@@ -27,7 +27,7 @@ public class Gui {
 
         BitmapFont text = new BitmapFont();
         text.setColor(Color.WHITE);
-        Gun.Instance gun = player.getGun();
+        Gun.Instance gun = player.gun;
         String str = gun.bullets() + "/" + gun.maxBullets();
         text.draw(spriteBatch,str, 5,85);
 
@@ -49,7 +49,8 @@ public class Gui {
         float length = 3;
         float height = 0.5f;
         for(Entity e: Entity.getAllEntities()) {
-            if(!(e instanceof Mount) && e.getHealth() <= e.MAX_HEALTH) {
+            if(e instanceof Mount m && m.getMounter() != null) {
+            } else{
                 //TODO mount health is not show at all
                 Vector2 pos = e.getPos().add(-1.5f, 1.2f);
                 Beam.beam(pos, new Vector2(pos.x + length, pos.y), height, 1, Color.RED);

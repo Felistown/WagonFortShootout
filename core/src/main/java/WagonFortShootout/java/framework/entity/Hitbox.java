@@ -1,8 +1,10 @@
 package WagonFortShootout.java.framework.entity;
 
+import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.*;
 
@@ -18,6 +20,7 @@ public class Hitbox {
     private final Consumer<HitData> onHit;
 
     public Hitbox(Polygon hitBox, Consumer<HitData> onHit) {
+        //TODO add conjoined hitbox to make more complex shapes
         POLYGON = hitBox;
         anchored = false;
         ALL_HITBOXES.add(this);
@@ -36,8 +39,22 @@ public class Hitbox {
         return vertices;
     }
 
+    public void display() {
+        Vector2[] verticies = getVertices();
+        Vector2 last = verticies[verticies.length - 1];
+        for(int i = 0; i < verticies.length; i++) {
+            Vector2 current = verticies[i];
+            Beam.beam(last, current, 0.25f, 1, Color.BLACK);
+            last = current;
+        }
+    }
+
     public boolean rayIntersection(Vector2 from, Vector2 to, Vector2 pos) {
         return Mth.intersectSegmentPolygon(from, to, POLYGON, pos);
+    }
+
+    public boolean rayIntersectionFar(Vector2 from, Vector2 to, Vector2 pos) {
+        return Mth.intersectSegmentPolygonFar(from, to, POLYGON, pos);
     }
 
     public boolean hitBoxIntersection(Hitbox other, Vector2 pos) {

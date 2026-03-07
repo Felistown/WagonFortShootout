@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class GunEntity extends Entity {
+public abstract class GunEntity extends AiEntity {
 
-    protected Gun.Instance gun;
+    public Gun.Instance gun;
 
-    public GunEntity(Vector2 pos, Sprite sprite, Polygon hitbox, int health, int size, int stopping, String gun) {
-        super(pos, sprite,hitbox, health, size, stopping);
+    public GunEntity(Vector2 pos, Sprite sprite, Polygon hitbox, int health, int size, int stopping, String ai,String gun) {
+        super(pos, sprite,hitbox, health, size, stopping, ai);
         this.gun = Gun.getGun(gun, this);
         FACE.setSpeed(this.gun.getSpeed());
     }
@@ -21,9 +21,5 @@ public abstract class GunEntity extends Entity {
     public void onRemove() {
         super.onRemove();
         gun.remove();
-    }
-
-    public Gun.Instance getGun() {
-        return gun;
     }
 }

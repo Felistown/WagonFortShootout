@@ -1,6 +1,7 @@
 package WagonFortShootout.java.framework.ai;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.framework.ai.types.ControllableAi;
 import WagonFortShootout.java.framework.ai.types.gunEnemyAi;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Logger;
@@ -27,18 +28,13 @@ public abstract class Ai {
         toRemove.add(this);
     }
 
-    //runs every tick
-    public void tick() {
-
-    }
+    //ticked by entity
+    public abstract void tick();
 
     //runs once every num ai ticks
-    public void update() {
-
-    }
+    public abstract void update();
 
     public static void tickAll() {
-        ALL_AI.forEach(Ai::tick);
         if(!ALL_AI.isEmpty()) {
             Ai toTick = ALL_AI.get(index);
             if (!toRemove.contains(toTick)) {
@@ -71,7 +67,8 @@ public abstract class Ai {
     }
 
     public enum Type {
-        GUN_ENEMY("gun_enemy", gunEnemyAi::new);
+        GUN_ENEMY("gun_enemy", gunEnemyAi::new),
+        CONTROLLABLE("controllable", ControllableAi::new);
 
         public final String NAME;
         public final Function<Entity, Ai> FACTORY;

@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class Mount extends Entity {
 
-    private Entity mounter;
+    protected Entity mounter;
 
     public Mount(Vector2 pos, Sprite sprite, Polygon polygon, int health, int size, int stopping) {
         super(pos, sprite,polygon, health, size, stopping);
@@ -28,7 +28,7 @@ public abstract class Mount extends Entity {
 
     @Override
     public void onRemove() {
-        if(mount != null) {
+        if(mounter != null) {
             dismount();
         }
         super.onRemove();

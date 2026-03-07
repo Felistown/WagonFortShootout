@@ -1,13 +1,11 @@
 package WagonFortShootout.java.entity;
 
-import WagonFortShootout.java.entity.generic.AiEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.entity.Face;
 import WagonFortShootout.java.framework.entity.Pos;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
@@ -79,17 +77,17 @@ public abstract class Entity {
 
     public void onRemove() {
         Gdx.app.log("Entity", "Entity removed");
-        HITBOX.remove();
-        if(this instanceof AiEntity e) {
-            e.stopAi();
+        if(mount != null) {
+            mount.dismount();
         }
+        HITBOX.remove();
     }
 
     public void onHit(HitData data) {
         health -= data.damage;
         data.piercing.sub(stopping);
-        POS.addVel(data.pos.sub(POS.pos()).angleRad(), data.knockback / 2);
-        FACE.recoil(data.recoil_mult / 2, data.min_recoil / 2);
+        POS.addVel(data.pos.sub(POS.pos()).angleRad(), data.weight * 0.05f);
+        FACE.recoil(data.weight, data.weight / 2);
     }
 
     public boolean toRemove() {

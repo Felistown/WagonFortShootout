@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Mth {
 
+    private static Vector2 tempVec;
+
     //returns the value if it is within the range of max and -max, max otherwise
     public static double sigmin(double max, double value) {
         if(value < 0) {
@@ -91,11 +93,11 @@ public class Mth {
                     float ub = ((x2 - x1) * yd - (y2 - y1) * xd) / d;
                     if (ub >= 0.0F && ub <= 1.0F) {
                         intersects = true;
-                        Vector2 currentPos = new Vector2((x2-x1)*ua + x1, (y2-y1)*ua + y1);
-                        float currentDist = p1.dst(currentPos);
-                        if(p1.dst(currentPos) > dist) {
+                        tempVec = new Vector2((x2-x1)*ua + x1, (y2-y1)*ua + y1);
+                        float currentDist = p1.dst2(tempVec);
+                        if(currentDist > dist) {
                             dist = currentDist;
-                            hitPos.set(currentPos);
+                            hitPos.set(tempVec);
                         }
                     }
                 }
@@ -120,7 +122,7 @@ public class Mth {
             hitPos = new Vector2();
         }
         hitPos.set(p2);
-        float dist = p1.dst(p2);
+        float dist = p1.dst2(p2);
 
         for(int i = 0; i < n; i += 2) {
             float x4 = vertices[i];
@@ -134,11 +136,11 @@ public class Mth {
                     float ub = ((x2 - x1) * yd - (y2 - y1) * xd) / d;
                     if (ub >= 0.0F && ub <= 1.0F) {
                         intersects = true;
-                        Vector2 currentPos = new Vector2((x2-x1)*ua + x1, (y2-y1)*ua + y1);
-                        float currentDist = p1.dst(currentPos);
-                        if(p1.dst(currentPos) < dist) {
+                        tempVec = new Vector2((x2-x1)*ua + x1, (y2-y1)*ua + y1);
+                        float currentDist = p1.dst2(tempVec);
+                        if(currentDist < dist) {
                             dist = currentDist;
-                            hitPos.set(currentPos);
+                            hitPos.set(tempVec);
                         }
                     }
                 }
@@ -252,4 +254,17 @@ public class Mth {
         }
         return vec;
     }
+
+    public static Vector2 mid(Vector2 f, Vector2 t) {
+        return  new Vector2((t.x + f.x) / 2, (t.y + f.x) / 2);
+    }
+
+    public static float angleRad(Vector2 f, Vector2 t) {
+        double rad = Math.atan2(-(t.y - f.y), -(t.x - f.x));
+        if(rad < 0) {
+            return (float) (rad + Math.PI * 2);
+        }
+        return (float)(rad);
+    }
+
 }

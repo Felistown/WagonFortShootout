@@ -20,15 +20,13 @@ public class gunEnemyAi extends Ai {
 
     @Override
     public void tick() {
-        super.tick();
         float goal = entity.getPos().sub((GameLevel.player.getPos().add(GameLevel.player.getVel()))).angleRad();
         entity.FACE.setGoal(goal);
     }
 
     @Override
     public void update() {
-        super.update();
-        Gun.Instance gun = ((GunEntity)entity).getGun();
+        Gun.Instance gun = ((GunEntity)entity).gun;
         if(a) {
             if(Utils.los(entity, GameLevel.player)) {
                 gun.shoot();

@@ -18,6 +18,7 @@ public class Beam {
     private final Color colour;
 
     public static void beam(Vector2 from, Vector2 to, float width, int lifetime, Color colour) {
+        //TODO remove this class and make a static beam method in effect
         Beam beam = new Beam(from, to,width, lifetime, colour);
         ALL_BEAMS.add(beam);
     }

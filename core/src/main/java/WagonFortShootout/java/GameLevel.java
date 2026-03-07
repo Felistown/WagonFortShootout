@@ -3,6 +3,7 @@ package WagonFortShootout.java;
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Horse;
+import WagonFortShootout.java.entity.entities.Tank;
 import WagonFortShootout.java.entity.entities.gunEnemy;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.effects.Beam;
@@ -44,8 +45,10 @@ public class GameLevel implements Screen {
         Effect.init();
         Gun.init();
         Object.init();
-        Horse horse = new Horse(new Vector2(95,95));
+       // Horse horse = new Horse(new Vector2(95,95));
+
         player = new Player(new Vector2(90,90));
+        new Tank(new Vector2(95,95));
         new gunEnemy(new Vector2(10,10));
         new gunEnemy(new Vector2(30,30));
         new gunEnemy(new Vector2(40,20));

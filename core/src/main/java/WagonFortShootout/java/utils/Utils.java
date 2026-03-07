@@ -6,9 +6,7 @@ import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 public class Utils {
 
@@ -60,5 +58,14 @@ public class Utils {
         return e.getPos().dst(o.getPos());
     }
 
+    public static <K, V> K findKey(HashMap<K, V> set, V value) {
+        Set<K> keys = set.keySet();
+        for(K key: keys) {
+            if(set.get(key) == value) {
+                return key;
+            }
+        }
+        return null;
+    }
 
 }
