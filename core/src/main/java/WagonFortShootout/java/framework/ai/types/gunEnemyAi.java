@@ -75,7 +75,8 @@ public class gunEnemyAi extends Ai {
     }
 
     public void find2() {
-        //TODO make this better. Entity will rush across sightlines, past suitable cover that are slightly farther away. Entity would hide in front of cover if player goes behind own cover. Entity will try take cover behind player
+        //TODO make this better. searcher will checks every position even after best position found, terminate checking after checking the preceeding layer for the potential actual best position.
+        // Entity will rush across sightlines, past suitable cover that are slightly farther away. Entity would hide in front of cover if player goes behind own cover. Entity will try take cover behind player
         GridSearcher searcher = new GridSearcher(entity.getPos(), 100);
         Vector2 min = new Vector2(1,1);
         Vector2 max = new Vector2(99,99);
