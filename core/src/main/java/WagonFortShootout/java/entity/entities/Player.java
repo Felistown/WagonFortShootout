@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Player extends GunEntity {
 
     public Player(Vector2 pos) {
-        super(pos, new Sprite(new Texture("image/player.png")), Mth.circle( (float) 1/ 2, 8),1000,1,5, "controllable","lever_rifle");
+        super(pos, new Sprite(new Texture("image/player.png")), Mth.circle( (float) 1/ 2, 8),100000,1,5, "controllable","revolver");
     }
 
     @Override

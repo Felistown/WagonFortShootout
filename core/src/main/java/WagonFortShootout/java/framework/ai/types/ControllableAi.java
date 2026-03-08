@@ -7,6 +7,7 @@ import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.entity.generic.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.ai.Ai;
+import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
@@ -20,9 +21,10 @@ public class ControllableAi extends Ai {
     private static final float sprint =  0.05f;
     private static final float walk = 0.01666666666f;
     private int cooldown = 0;
+    GridSearcher g = new GridSearcher(new Vector2(50,50), 10);
 
     public ControllableAi(Entity entity) {
-        super(entity);
+        super(entity, null);
     }
 
     @Override

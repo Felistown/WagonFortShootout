@@ -267,4 +267,8 @@ public class Mth {
         return (float)(rad);
     }
 
+    public static boolean within(Vector2 vec, Vector2 min, Vector2 max) {
+        return !(vec.y > max.y) && !(vec.y < min.y) && !(vec.x > max.x) && !(vec.x < min.x);
+    }
+
 }

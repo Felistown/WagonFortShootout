@@ -18,9 +18,11 @@ public abstract class Ai {
     private static int index = 0;
 
     protected final Entity entity;
+    protected final StateMachine STATE;
 
-    public Ai(Entity entity) {
+    public Ai(Entity entity, StateMachine stateMachine) {
         this.entity = entity;
+        STATE = stateMachine;
         toAdd.add(this);
     }
 

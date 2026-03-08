@@ -91,4 +91,10 @@ public class Hitbox {
             onHit.accept(data);
         }
     }
+
+    public boolean pointIntersects(Hitbox hitbox, Vector2 pos) {
+        Polygon copy = new Polygon(hitbox.POLYGON.getVertices());
+        copy.setPosition(pos.x, pos.y);
+        return Intersector.intersectPolygons(copy, POLYGON, null);
+    }
 }

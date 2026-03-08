@@ -8,6 +8,7 @@ import WagonFortShootout.java.entity.entities.gunEnemy;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.framework.Input;
+import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
 import WagonFortShootout.java.framework.gui.Gui;
 import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;
@@ -47,19 +48,22 @@ public class GameLevel implements Screen {
         Object.init();
        // Horse horse = new Horse(new Vector2(95,95));
 
+
+
         player = new Player(new Vector2(90,90));
-        new Tank(new Vector2(95,95));
-        new gunEnemy(new Vector2(10,10));
-        new gunEnemy(new Vector2(30,30));
-        new gunEnemy(new Vector2(40,20));
-        new gunEnemy(new Vector2(30,20));
-        new gunEnemy(new Vector2(10,30));
+        new Tank(new Vector2(87,87));
+        new gunEnemy(new Vector2(15f,15f));
+        //new gunEnemy(new Vector2(30,30));
+        //new gunEnemy(new Vector2(40,20));
+        //new gunEnemy(new Vector2(30,20));
+        //new gunEnemy(new Vector2(10,30));
         Object.objectInstance("cart", new Vector2(50,50), 45f);
         Object.objectInstance("cart", new Vector2(85,85), 45f);
         Object.objectInstance("cart", new Vector2(83,87), 45f);
         Object.objectInstance("cart", new Vector2(87,83), 45f);
         Object.objectInstance("cart", new Vector2(25,50), 0f);
         Object.objectInstance("cart", new Vector2(70,50), 80f);
+        //Object.objectInstance("cart", new Vector2(5,5), 45f);
         Pathfinder.a();
         gui = new Gui(player);
     }

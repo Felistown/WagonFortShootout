@@ -32,6 +32,12 @@ public class Utils {
         return set;
     }
 
+    public static Hitbox[] closetHitBox(Vector2 pos) {
+        Hitbox[] set = Hitbox.getAllHitboxes();
+        Arrays.sort(set, Comparator.comparingDouble(a -> pos.dst(new Vector2(a.POLYGON.getX(), a.POLYGON.getY()))));
+        return set;
+    }
+
     public static <T> ArrayList<T> toArraylist(T[] array) {
         ArrayList<T> arrayList = new ArrayList<T>();
         if(array.length > 0) {
@@ -49,6 +55,15 @@ public class Utils {
                 if(h.rayIntersection(e.getPos(), e.getPos().add(Mth.toVec(e.getFacing(), 400)), null)) {
                     return h == o.HITBOX;
                 }
+            }
+        }
+        return false;
+    }
+
+    public static boolean los(Vector2 e, Entity q, Entity o, Hitbox[] all) {
+        for(Hitbox h: all) {
+            if(q.HITBOX != h && h.rayIntersection(e, o.getPos(), null)) {
+                return h == o.HITBOX;
             }
         }
         return false;

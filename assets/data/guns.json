@@ -44,7 +44,7 @@
     "maxBullets": "6",
     "fireRate": "10",
     "reloadRate": "30",
-    "knockBack": "0.5",
+    "knockBack": "0.0333333",
     "rumble": "2.5",
     "recoilMult": "2",
     "minRecoil": "1",
@@ -160,6 +160,39 @@
     "recoilMult": "0",
     "minRecoil": "0",
     "speed": "0.00581776666",
+    "sound": {
+      "fire": "sounds/guns/lever_rifle/lever_rifle_fire.mp3",
+      "empty": "sounds/guns/lever_rifle/lever_rifle_empty.mp3",
+      "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "image/effects/muzzle_flash.png",
+      "size": "3"
+    },
+    "gun": {
+      "texture": "image/guns/lever_rifle.png",
+      "size": "2",
+      "xOffset": "0",
+      "yOffset": "0"
+    }
+  },
+  "musket": {
+    "bullet": {
+      "type": "bullet",
+      "damage": "100",
+      "weight":"1",
+      "spread": "0",
+      "piercing": "10"
+    },
+    "projectiles": "1",
+    "maxBullets": "1",
+    "fireRate": "1",
+    "reloadRate": "30000",
+    "knockBack": "0.1",
+    "rumble": "2.5",
+    "recoilMult": "2",
+    "minRecoil": "1",
+    "speed": "0.06981317008",
     "sound": {
       "fire": "sounds/guns/lever_rifle/lever_rifle_fire.mp3",
       "empty": "sounds/guns/lever_rifle/lever_rifle_empty.mp3",
