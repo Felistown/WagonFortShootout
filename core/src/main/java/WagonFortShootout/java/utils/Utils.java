@@ -9,8 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.*;
 
 public class Utils {
-
-
+    //TODO clean up this class
 
     public static double distFrom(Entity e, Entity o) {
         return e.getPos().dst(o.getPos());

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
 public class Mth {
+    //TODO clean up this class
 
     private static Vector2 tempVec;
 
