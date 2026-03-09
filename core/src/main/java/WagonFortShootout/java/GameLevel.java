@@ -12,6 +12,7 @@ import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
 import WagonFortShootout.java.framework.gui.Gui;
 import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;
+import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.weapon.Gun;
 import WagonFortShootout.java.world.Object;
 import WagonFortShootout.java.framework.gui.ScreenShaker;
@@ -51,21 +52,20 @@ public class GameLevel implements Screen {
 
 
         player = new Player(new Vector2(90,90));
-        new Tank(new Vector2(87,87));
-        new gunEnemy(new Vector2(15f,15f));
-        //new gunEnemy(new Vector2(30,30));
-        //new gunEnemy(new Vector2(40,20));
-        //new gunEnemy(new Vector2(30,20));
-        //new gunEnemy(new Vector2(10,30));
-        Object.objectInstance("cart", new Vector2(50,50), 45f);
-        Object.objectInstance("cart", new Vector2(85,85), 45f);
-        Object.objectInstance("cart", new Vector2(83,87), 45f);
-        Object.objectInstance("cart", new Vector2(87,83), 45f);
-        Object.objectInstance("cart", new Vector2(25,50), 0f);
-        Object.objectInstance("cart", new Vector2(70,50), 80f);
-        //Object.objectInstance("cart", new Vector2(5,5), 45f);
-        Pathfinder.a();
+       // new Tank(new Vector2(87,87));
+        new gunEnemy(new Vector2(1,1));
+        //new gunEnemy(new Vector2(1,1));
+        //new gunEnemy(new Vector2(1,1));
+        //new gunEnemy(new Vector2(1,1));
+        //new gunEnemy(new Vector2(1,1));
+        for(int i = 0; i < 50; i++) {
+            Vector2 pos = Mth.randomVec(new Vector2(2,2), 98);
+            float angle = (float)(Math.random() * 180);
+            System.out.println(pos);
+            Object.objectInstance("cart", pos, angle);
+        }
         gui = new Gui(player);
+        Pathfinder.Path a = new Pathfinder(new Vector2(10,10), new Vector2(80,80), player.HITBOX).findPath();
     }
 
     @Override

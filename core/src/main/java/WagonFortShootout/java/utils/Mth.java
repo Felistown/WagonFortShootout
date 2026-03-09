@@ -34,6 +34,13 @@ public class Mth {
         return new Vector2((float) Math.random() * max + min, (float)Math.random() * max + min);
     }
 
+    public static Vector2 randomVec(Vector2 min, float len) {
+        float x = (float) Math.random() * len;
+        float y = (float)Math.random() * len;
+        return min.add(x,y);
+    }
+
+
     public static Vector2 addSpread(Vector2 vec, float range) {
         float length = vec.len();
         vec.nor();

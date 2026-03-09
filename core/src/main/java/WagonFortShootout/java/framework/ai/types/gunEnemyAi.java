@@ -8,6 +8,7 @@ import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.State;
 import WagonFortShootout.java.framework.ai.StateMachine;
 import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
+import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
@@ -17,7 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class gunEnemyAi extends Ai {
 
-    public Vector2 targetPos = new Vector2();
+    public Vector2 targetPos = new Vector2(50,50);
 
     public gunEnemyAi(Entity entity) {
         super(entity, new StateMachine(new State[]{State.SEEK, State.RELOAD}));
@@ -30,12 +31,16 @@ public class gunEnemyAi extends Ai {
     public void tick() {
         float goal = entity.getPos().sub((GameLevel.player.getPos().add(GameLevel.player.getVel()))).angleRad();
         entity.FACE.setGoal(goal);
-        entity.move(targetPos.cpy().sub(entity.getPos()));
+        Pathfinder.Path a = new Pathfinder(entity.getPos(), targetPos, entity.HITBOX).findPath();
+        if(a != null && a.get(1) != null) {
+            entity.move(a.get(1).cpy().sub(entity.getPos()));
+        }
     }
 
     @Override
     public void update() {
         Gun.Instance gun = ((GunEntity)entity).gun;
+        //TODO find is intensive, calculate only when nessisary
         if(STATE.is(State.SEEK)) {
             find();
             if(Utils.los(entity, GameLevel.player)) {
@@ -62,7 +67,7 @@ public class gunEnemyAi extends Ai {
         float tscore = Float.MAX_VALUE;
         while(searcher.hasNext()) {
             Vector2 cpos = searcher.nextSquare();
-            if(Mth.within(cpos, min, max) && Utils.los(cpos, entity, GameLevel.player, all)) {
+            if(Mth.within(cpos, min, max) && Utils.los(cpos, entity, GameLevel.player, all) && entity.HITBOX.traverable(cpos)) {
                 float cscore = 1000 * cpos.dst2(entity.getPos()) + cpos.dst2(GameLevel.player.getPos());
                 if(cscore < tscore) {
                     tpos = cpos;

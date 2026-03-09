@@ -4,6 +4,7 @@ import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
+import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.*;
@@ -96,5 +97,16 @@ public class Hitbox {
         Polygon copy = new Polygon(hitbox.POLYGON.getVertices());
         copy.setPosition(pos.x, pos.y);
         return Intersector.intersectPolygons(copy, POLYGON, null);
+    }
+
+    public boolean traverable(Vector2 pos) {
+        Polygon copy = new Polygon(POLYGON.getVertices());
+        copy.setPosition(pos.x , pos.y);
+        for(Hitbox h: Hitbox.getAllHitboxes()) {
+            if(h != this && Intersector.intersectPolygons(copy, h.POLYGON,null)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
