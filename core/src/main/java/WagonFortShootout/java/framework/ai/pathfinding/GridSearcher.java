@@ -45,6 +45,18 @@ public class GridSearcher {
         return other;
     }
 
+    public int getLayer() {
+        return layer;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public byte getSide() {
+        return side;
+    }
+
     public void forEachSquare(Consumer<Vector2> consumer) {
         while(hasNext()) {
             consumer.accept(nextSquare());

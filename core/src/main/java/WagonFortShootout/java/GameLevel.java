@@ -52,20 +52,19 @@ public class GameLevel implements Screen {
 
 
         player = new Player(new Vector2(90,90));
+        Object.objectInstance("cart", new Vector2(88,88), 45);
        // new Tank(new Vector2(87,87));
         new gunEnemy(new Vector2(1,1));
-        //new gunEnemy(new Vector2(1,1));
-        //new gunEnemy(new Vector2(1,1));
-        //new gunEnemy(new Vector2(1,1));
-        //new gunEnemy(new Vector2(1,1));
+        new gunEnemy(new Vector2(1,1));
+        new gunEnemy(new Vector2(1,1));
+        new gunEnemy(new Vector2(1,1));
+        new gunEnemy(new Vector2(1,1));
         for(int i = 0; i < 50; i++) {
             Vector2 pos = Mth.randomVec(new Vector2(2,2), 98);
             float angle = (float)(Math.random() * 180);
-            System.out.println(pos);
             Object.objectInstance("cart", pos, angle);
         }
         gui = new Gui(player);
-        Pathfinder.Path a = new Pathfinder(new Vector2(10,10), new Vector2(80,80), player.HITBOX).findPath();
     }
 
     @Override

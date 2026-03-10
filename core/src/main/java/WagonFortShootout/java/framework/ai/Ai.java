@@ -1,9 +1,11 @@
 package WagonFortShootout.java.framework.ai;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;
 import WagonFortShootout.java.framework.ai.types.ControllableAi;
 import WagonFortShootout.java.framework.ai.types.gunEnemyAi;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ public abstract class Ai {
 
     protected final Entity entity;
     protected final StateMachine STATE;
+    private Pathfinder.Path path;
+    private int cooldown = 0;
 
     public Ai(Entity entity, StateMachine stateMachine) {
         this.entity = entity;
@@ -31,7 +35,12 @@ public abstract class Ai {
     }
 
     //ticked by entity
-    public abstract void tick();
+    public void tick() {
+        cooldown = Math.max(0, cooldown - 1);
+        if(path != null) {
+            path.follow(entity);
+        }
+    }
 
     //runs once every num ai ticks
     public abstract void update();
@@ -62,6 +71,17 @@ public abstract class Ai {
             Gdx.app.log("Ai", "Removed " + rem + " Ai.");
         }
         toRemove.clear();
+    }
+
+    public boolean moveable() {
+        return cooldown <= 0;
+    }
+
+    public void goTo(Vector2 target) {
+        if(cooldown <= 0) {
+            cooldown = 300;
+            path = new Pathfinder(entity.getPos(), target, entity.HITBOX).findPath();
+        }
     }
 
     public static Ai fromType(String name, Entity entity) {

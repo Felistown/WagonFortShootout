@@ -100,6 +100,9 @@ public class Hitbox {
     }
 
     public boolean traverable(Vector2 pos) {
+        if(!Mth.within(pos, new Vector2(1,1), new Vector2(99,99))) {
+            return false;
+        }
         Polygon copy = new Polygon(POLYGON.getVertices());
         copy.setPosition(pos.x , pos.y);
         for(Hitbox h: Hitbox.getAllHitboxes()) {

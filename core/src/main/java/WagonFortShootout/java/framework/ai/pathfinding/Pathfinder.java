@@ -2,7 +2,9 @@ package WagonFortShootout.java.framework.ai.pathfinding;
 
 import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.effects.Effect;
+import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.entity.Pos;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.graphics.Color;
@@ -48,7 +50,7 @@ public class Pathfinder {
             closed.add(current);
             for(Node n: current.neighbours()) {
                 if(!closed.contains(n) && hitbox.traverable(n.POS)) {
-                    float cost = current.cost + current.POS.dst(n.POS);
+                    float cost = current.cost + current.POS.dst2(n.POS);
                     if(open.contains(n)) {
                         if(cost < n.cost) {
                             n.cost = cost;
@@ -59,7 +61,7 @@ public class Pathfinder {
                         n.parent = current;
                         open.add(n);
                     }
-                    n.heuristic = 1.5f * n.POS.dst(target);
+                    n.heuristic = 1.5f * n.POS.dst2(target);
                     n.function = n.cost + n.heuristic;
                 }
             }
@@ -82,8 +84,15 @@ public class Pathfinder {
             }
             Collections.reverse(path);
             for(int i = 0; i < path.size() - 1; i++) {
-                Beam.beam(get(i), get(i + 1), 0.25f, 2, Color.BLUE);
+                Beam.beam(get(i), get(i + 1), 0.25f, 300, Color.BLUE);
             }
+        }
+
+        public Vector2 current() {
+            if(index >= path.size()) {
+                return path.getLast();
+            }
+            return get(index);
         }
 
         public Vector2 next() {
@@ -98,6 +107,14 @@ public class Pathfinder {
             } else {
                 return path.get(index);
             }
+        }
+
+        public void follow(Entity entity) {
+            if(Mth.chebDist(entity.getPos(),current()) <= 1) {
+                index++;
+            }
+            Vector2 current = current();
+            entity.move(current.cpy().sub(entity.getPos()));
         }
     }
 

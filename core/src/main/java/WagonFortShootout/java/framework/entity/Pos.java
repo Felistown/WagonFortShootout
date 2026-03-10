@@ -41,13 +41,13 @@ public class Pos {
 
     public void collision() {
         Hitbox hitbox = entity.HITBOX;
+        //TODO do proxy check rather than all hitboxes
         for(Hitbox other: Hitbox.getAllHitboxes()) {
             //TODO fix this nested loop structure
             Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
             if(hitbox != other && (entity.mount == null || entity.mount.HITBOX != other) && Intersector.overlapConvexPolygons(hitbox.POLYGON, other.POLYGON, mtv)) {
                 if(other.anchored) {
                     setPos(POS.cpy().add(Mth.toVec(mtv)));
-                    VEL.set(0,0);
                 } else {
                     if(entity instanceof Mount m) {
                         if(m.getMounter() != null && m.getMounter().HITBOX == other) {
@@ -65,7 +65,7 @@ public class Pos {
     public void move(Vector2 vector) {
         if(vector.len() > 0) {
             moving = true;
-            VEL.add(vector.setLength(acceleration));
+            VEL.add(vector.setLength(Math.min(acceleration, vector.len())));
         }
     }
 

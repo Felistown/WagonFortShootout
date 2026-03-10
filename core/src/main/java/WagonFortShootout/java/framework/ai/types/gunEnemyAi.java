@@ -8,7 +8,6 @@ import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.State;
 import WagonFortShootout.java.framework.ai.StateMachine;
 import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
-import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
@@ -29,20 +28,18 @@ public class gunEnemyAi extends Ai {
 
     @Override
     public void tick() {
+        super.tick();
         float goal = entity.getPos().sub((GameLevel.player.getPos().add(GameLevel.player.getVel()))).angleRad();
         entity.FACE.setGoal(goal);
-        Pathfinder.Path a = new Pathfinder(entity.getPos(), targetPos, entity.HITBOX).findPath();
-        if(a != null && a.get(1) != null) {
-            entity.move(a.get(1).cpy().sub(entity.getPos()));
-        }
     }
 
     @Override
     public void update() {
         Gun.Instance gun = ((GunEntity)entity).gun;
-        //TODO find is intensive, calculate only when nessisary
         if(STATE.is(State.SEEK)) {
-            find();
+            if(moveable() && !Utils.los(targetPos, entity, GameLevel.player, Utils.closetHitBox(targetPos))) {
+                hunt();
+            }
             if(Utils.los(entity, GameLevel.player)) {
                 gun.shoot();
             }
@@ -50,7 +47,9 @@ public class gunEnemyAi extends Ai {
                 STATE.setState(State.RELOAD);
             }
         } else {
-            find2();
+            if(moveable() && Utils.los(targetPos, entity, GameLevel.player, Utils.closetHitBox(targetPos))) {
+                hide();
+            }
             gun.reload();
             if(gun.bullets() >= gun.maxBullets()) {
                 STATE.setState(State.SEEK);
@@ -58,13 +57,14 @@ public class gunEnemyAi extends Ai {
         }
     }
 
-    public void find() {
+    public void hunt() {
         GridSearcher searcher = new GridSearcher(entity.getPos(), 100);
         Vector2 min = new Vector2(1,1);
         Vector2 max = new Vector2(99,99);
         Vector2 tpos = new Vector2(0,0);
         Hitbox[] all = Utils.closetHitBox(entity);
         float tscore = Float.MAX_VALUE;
+        boolean found = false;
         while(searcher.hasNext()) {
             Vector2 cpos = searcher.nextSquare();
             if(Mth.within(cpos, min, max) && Utils.los(cpos, entity, GameLevel.player, all) && entity.HITBOX.traverable(cpos)) {
@@ -73,15 +73,19 @@ public class gunEnemyAi extends Ai {
                     tpos = cpos;
                     tscore = cscore;
                 }
+                if(!found) {
+                    searcher = searcher.resize(searcher.getLayer() + 1);
+                    found = true;
+                }
             }
         }
+        goTo(tpos);
         targetPos = tpos;
         Effect.addEffect(new Effect(new Texture("image/missing_texture.png"), 1f, 1f), 6, tpos, 0, 4);
     }
 
-    public void find2() {
-        //TODO make this better. searcher will checks every position even after best position found, terminate checking after checking the preceeding layer for the potential actual best position.
-        // Entity will rush across sightlines, past suitable cover that are slightly farther away. Entity would hide in front of cover if player goes behind own cover. Entity will try take cover behind player
+    public void hide() {
+        //TODO Entity will rush across sightlines, past suitable cover that are slightly farther away. Entity would hide in front of cover if player goes behind own cover. Entity will try take cover behind player
         GridSearcher searcher = new GridSearcher(entity.getPos(), 100);
         Vector2 min = new Vector2(1,1);
         Vector2 max = new Vector2(99,99);
@@ -95,6 +99,7 @@ public class gunEnemyAi extends Ai {
             }
         }
         float tscore = Float.MAX_VALUE;
+        boolean found = false;
         while(searcher.hasNext()) {
             Vector2 cpos = searcher.nextSquare();
             if(Mth.within(cpos, min, max) &&!Utils.los(cpos, entity, GameLevel.player, all)  && !stat.pointIntersects(entity.HITBOX, cpos)) {
@@ -103,8 +108,13 @@ public class gunEnemyAi extends Ai {
                     tpos = cpos;
                     tscore = cscore;
                 }
+                if(!found) {
+                    searcher = searcher.resize(searcher.getLayer() + 1);
+                    found = true;
+                }
             }
         }
+        goTo(tpos);
         targetPos = tpos;
         Effect.addEffect(new Effect(new Texture("image/missing_texture.png"), 1f, 1f), 6, tpos, 0, 4);
     }

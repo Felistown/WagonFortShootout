@@ -279,4 +279,8 @@ public class Mth {
         return !(vec.y > max.y) && !(vec.y < min.y) && !(vec.x > max.x) && !(vec.x < min.x);
     }
 
+    public static float chebDist(Vector2 x, Vector2 y) {
+        return Math.max(Math.abs(x.x - y.x), Math.abs(x.y - y.y));
+    }
+
 }
