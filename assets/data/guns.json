@@ -22,7 +22,7 @@
       "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
     },
     "effect": {
-      "texture": "image/effects/muzzle_flash.png",
+      "texture": "effects/muzzle_flash",
       "size": "3"
     },
     "gun": {
@@ -55,7 +55,7 @@
       "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
     },
     "effect": {
-      "texture": "image/effects/muzzle_flash.png",
+      "texture": "effects/muzzle_flash",
       "size": "2"
     },
     "gun": {
@@ -88,7 +88,7 @@
       "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
     },
     "effect": {
-      "texture": "image/effects/muzzle_flash.png",
+      "texture": "effects/muzzle_flash",
       "size": "3"
     },
     "gun": {
@@ -121,7 +121,7 @@
       "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
     },
     "effect": {
-      "texture": "image/effects/muzzle_flash.png",
+      "texture": "effects/muzzle_flash",
       "size": "3"
     },
     "gun": {
@@ -166,7 +166,7 @@
       "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
     },
     "effect": {
-      "texture": "image/effects/muzzle_flash.png",
+      "texture": "effects/muzzle_flash",
       "size": "3"
     },
     "gun": {
@@ -199,7 +199,7 @@
       "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
     },
     "effect": {
-      "texture": "image/effects/muzzle_flash.png",
+      "texture": "effects/muzzle_flash",
       "size": "3"
     },
     "gun": {

@@ -5,8 +5,8 @@ import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.entity.Face;
 import WagonFortShootout.java.framework.entity.Pos;
 import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.image.Sprite;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -40,25 +40,16 @@ public abstract class Entity {
         this.health = MAX_HEALTH;
     }
 
-    public void draw(SpriteBatch spriteBatch) {
-        sprite.draw(spriteBatch);
-    }
-
     public void tick() {
         if(health <= 0) {
             remove = true;
         }
         POS.logic();
         FACE.tick();
-        sprite.setRotation((float)Math.toDegrees(getFacing()));
+        sprite.rotation = (float)Math.toDegrees(getFacing());
+        sprite.setPos(getPos());
         HITBOX.setPosition(getPos());
         HITBOX.setRotation((float)Math.toDegrees(getFacing()));
-    }
-
-    public static void drawAll(SpriteBatch spriteBatch) {
-        for(Entity e: ALL_ENTITIES) {
-            e.draw(spriteBatch);
-        }
     }
 
     public static void tickAll() {
@@ -81,6 +72,7 @@ public abstract class Entity {
             mount.dismount();
         }
         HITBOX.remove();
+        sprite.remove();
     }
 
     public void onHit(HitData data) {

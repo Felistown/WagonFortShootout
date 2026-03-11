@@ -81,6 +81,9 @@ public abstract class Ai {
         if(cooldown <= 0) {
             cooldown = 300;
             path = new Pathfinder(entity.getPos(), target, entity.HITBOX).findPath();
+            if(path != null) {
+                path.next();
+            }
         }
     }
 
@@ -109,5 +112,13 @@ public abstract class Ai {
             }
             return null;
         }
+    }
+
+    public boolean hasEnded() {
+        //TODO not working, never updating when end of path reached
+        if(path == null) {
+            return true;
+        }
+        return path.hasEnded();
     }
 }

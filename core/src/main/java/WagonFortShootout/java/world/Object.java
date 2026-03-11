@@ -2,10 +2,10 @@ package WagonFortShootout.java.world;
 
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -19,13 +19,13 @@ public class Object {
 
     private static HashMap<String, Object> ALL_OBJECTS = new HashMap<String, Object>();
 
+    private final String texture;
     private final Polygon polygon;
-    private final Texture texture;
     private final int resistance;
     private final float length;
     private final float height;
 
-    public Object(Texture texture, Polygon polygon, int resistance, float length, float height) {
+    public Object(String texture, Polygon polygon, int resistance, float length, float height) {
         this.texture = texture;
         this.polygon = polygon;
         this.resistance = resistance;
@@ -41,7 +41,7 @@ public class Object {
             JsonValue polygon = current.get("polygon");
             float height = polygon.getFloat("height");
             float length = polygon.getFloat("length");
-            ALL_OBJECTS.put(current.name, new Object(new Texture(current.getString("texture")),Mth.rectange(length, height), current.getInt("resistance"), length, height));
+            ALL_OBJECTS.put(current.name, new Object(current.getString("texture"),Mth.rectange(length, height), current.getInt("resistance"), length, height));
             current = current.next;
         } while (current != null);
     }
@@ -73,11 +73,10 @@ public class Object {
             hitbox.setRotation(rotation);
             hitbox.anchored = true;
             hitbox.setPosition(pos);
-            sprite = new Sprite(texture);
+            sprite = new Sprite(texture, 0);
+            sprite.setPos(pos);
             sprite.setSize(length, height);
-            sprite.setCenter(pos.x, pos.y);
-            sprite.setOriginCenter();
-            sprite.setRotation(rotation);
+            sprite.rotation = rotation;
             ALL_INSTANCES.add(this);
             float[] v = hitbox.POLYGON.getTransformedVertices();
             Vector2[] vertices = new Vector2[v.length / 2];
@@ -89,16 +88,9 @@ public class Object {
             }
         }
 
-        public static void renderAll(SpriteBatch spriteBatch) {
-            ALL_INSTANCES.forEach(o -> o.render(spriteBatch));
-        }
-
-        private void render(SpriteBatch spriteBatch) {
-            sprite.draw(spriteBatch);
-        }
-
         private void remove() {
             hitbox.remove();
+            sprite.remove();
             ALL_INSTANCES.remove(this);
         }
 

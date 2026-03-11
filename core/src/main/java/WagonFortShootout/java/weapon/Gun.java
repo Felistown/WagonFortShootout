@@ -1,19 +1,10 @@
 package WagonFortShootout.java.weapon;
 
 import WagonFortShootout.java.GameLevel;
-import WagonFortShootout.java.effects.Beam;
-import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Player;
-import WagonFortShootout.java.framework.HitData;
-import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.utils.Mutable;
-import WagonFortShootout.java.utils.Utils;
-import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.image.Effect;
 import WagonFortShootout.java.weapon.damager.Bullet;
-import WagonFortShootout.java.weapon.damager.ExplodingBullet;
-import WagonFortShootout.java.weapon.damager.Explosion;
-import WagonFortShootout.java.weapon.damager.Kinetic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
@@ -69,7 +60,7 @@ public class Gun {
             String empty = sound.getString("empty");
             String reload = sound.getString("reload");
             float flash_size = flash.getFloat("size");
-            Effect effect = new Effect(new Texture(flash.get("texture").asString()), flash_size, flash_size);
+            Effect effect = new Effect(flash.getString("texture"), 1, 5, flash_size, flash_size);
             float sprite_size = sprite.getFloat("size");
             Sprite texture = new Sprite(new Texture(sprite.getString("texture")));
             texture.setScale(sprite_size/texture.getWidth());
@@ -88,7 +79,7 @@ public class Gun {
         }
     }
 
-    private Gun(Bullet bullet, int projectiles, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble,float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Sprite sprite, Vector2 offset) {
+    private Gun(Bullet bullet, int projectiles, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble, float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Sprite sprite, Vector2 offset) {
         this.bullet = bullet;
         this.projectiles = projectiles;
         this.maxBullets = maxBullets;
@@ -169,7 +160,9 @@ public class Gun {
                 if(bullets <= 0) {
                     empty.play();
                 } else {
-                    Effect.addEffect(EFFECT, 5, ENTITY.getPos(), (float) Math.toDegrees(ENTITY.getFacing() + Math.PI), 2);
+                    Effect.Instance flash = EFFECT.instance();
+                    flash.setPos(ENTITY.getPos());
+                    flash.rotation = (float)Math.toDegrees(ENTITY.getFacing() + Math.PI);
                     bullets--;
                     for(int i = 0; i < projectiles; i ++) {
                         bullet.shoot(ENTITY, ENTITY.getPos(), ENTITY.getFacing(),inaccuracy);

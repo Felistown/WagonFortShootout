@@ -8,7 +8,7 @@ buildscript {
 
   }
   dependencies {
-      //classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+      classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
   }
 }
 
@@ -67,3 +67,20 @@ subprojects {
 }
 
 eclipse.project.name = 'Wagon Fort Shootout' + '-parent'
+
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+
+task texturePacker {
+  doLast {
+    def settings = new com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings()
+    settings.maxWidth = 2048
+    settings.maxHeight = 2048
+    settings.combineSubdirectories = true
+    TexturePacker.process(
+      settings,
+      "assets/image",
+      "assets/texture_atlas",
+      "game_assets"
+    )
+  }
+}

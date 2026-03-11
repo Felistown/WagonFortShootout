@@ -1,68 +1,56 @@
 package WagonFortShootout.java.framework.ai.pathfinding;
 
 import WagonFortShootout.java.effects.Beam;
-import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.entity.Hitbox;
-import WagonFortShootout.java.framework.entity.Pos;
 import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 
-public class Pathfinder {
+public record Pathfinder(Vector2 start, Vector2 target, Hitbox hitbox)  {
 
-    private static final int MAX_SEARCH_SIZE = 100;
-
-    private final Vector2 start;
-    private final Vector2 target;
-    private final Hitbox hitbox;
-
-    public Pathfinder(Vector2 start, Vector2 target, Hitbox hitbox) {
-        this.start = start;
-        this.target = target;
-        this.hitbox = hitbox;
-    }
+    private static final int MAX_SEARCH_SIZE = 2000;
 
     public Path findPath() {
-        ArrayList<Node> open = new ArrayList<Node>();
-        HashSet<Node> closed = new HashSet<Node>();
-        if(!hitbox.traverable(target)) {
+        //TODO clean this up
+        if (!hitbox.traverable(target)) {
             return null;
         }
-        open.add(new Node(start));
-        for(int i = 0; i <= MAX_SEARCH_SIZE && !open.isEmpty(); i ++) {
-            Node current = open.getFirst();
-            for(Node n: open) {
-                if(n.function < current.function) {
-                    current = n;
-                }
-            }
-            if(current.POS.dst(target) < 1 || i >= MAX_SEARCH_SIZE) {
+        PriorityQueue<Node> open = new PriorityQueue<Node>();
+        HashSet<Node> closed = new HashSet<Node>();
+        Node startNode = new Node(start);
+        startNode.cost = 0;
+        startNode.heuristic = start.dst(target);
+        startNode.function = startNode.heuristic;
+        open.add(startNode);
+        for (int i = 0; i <= MAX_SEARCH_SIZE && !open.isEmpty(); i++) {
+            Node current = open.poll();
+            if (current.POS.dst(target) <= 0.5f || i >= MAX_SEARCH_SIZE) {
+                System.out.println(i);
                 return new Path(current);
             }
-            open.remove(current);
             closed.add(current);
-            for(Node n: current.neighbours()) {
-                if(!closed.contains(n) && hitbox.traverable(n.POS)) {
-                    float cost = current.cost + current.POS.dst2(n.POS);
-                    if(open.contains(n)) {
-                        if(cost < n.cost) {
+            for (Node n : current.neighbours()) {
+                if (!closed.contains(n) && hitbox.traverable(n.POS)) {
+                    float cost = current.cost + current.POS.dst(n.POS);
+                    if (open.contains(n)) {
+                        if (cost < n.cost) {
                             n.cost = cost;
                             n.parent = current;
+                            n.heuristic = 1.1f * n.POS.dst(target);
+                            n.function = n.cost + n.heuristic;
+                            open.remove(n);
+                            open.add(n);
                         }
                     } else {
+                        n.heuristic = 1.1f * n.POS.dst(target);
+                        n.function = n.cost + n.heuristic;
                         n.cost = cost;
                         n.parent = current;
                         open.add(n);
                     }
-                    n.heuristic = 1.5f * n.POS.dst2(target);
-                    n.function = n.cost + n.heuristic;
                 }
             }
         }
@@ -78,21 +66,28 @@ public class Pathfinder {
             path = new ArrayList<Vector2>();
             path.add(node.POS);
             Node temp = node;
-            while(temp.parent != null) {
+            while (temp.parent != null) {
                 path.add(temp.parent.POS);
                 temp = temp.parent;
             }
             Collections.reverse(path);
-            for(int i = 0; i < path.size() - 1; i++) {
+
+            for (int i = 0; i < path.size() - 1; i++) {
                 Beam.beam(get(i), get(i + 1), 0.25f, 300, Color.BLUE);
             }
+
+
         }
 
         public Vector2 current() {
-            if(index >= path.size()) {
-                return path.getLast();
+            if (index >= path.size()) {
+                return path.getLast().cpy();
             }
             return get(index);
+        }
+
+        public boolean hasEnded() {
+            return index >= path.size();
         }
 
         public Vector2 next() {
@@ -102,23 +97,22 @@ public class Pathfinder {
         }
 
         public Vector2 get(int index) {
-            if(index >= path.size()) {
+            if (index >= path.size()) {
                 return null;
             } else {
-                return path.get(index);
+                return path.get(index).cpy();
             }
         }
 
         public void follow(Entity entity) {
-            if(Mth.chebDist(entity.getPos(),current()) <= 1) {
+            if (Mth.chebDist(entity.getPos(), current()) <= 1) {
                 index++;
             }
-            Vector2 current = current();
-            entity.move(current.cpy().sub(entity.getPos()));
+            entity.move(current().sub(entity.getPos()));
         }
     }
 
-    private class Node{
+    private class Node implements Comparable<Node> {
 
         public Node parent;
         public final Vector2 POS;
@@ -134,11 +128,26 @@ public class Pathfinder {
             GridSearcher searcher = new GridSearcher(POS, 1);
             searcher.nextSquare();
             Node[] neighbours = new Node[8];
-            for(int i = 0; i < 8; i ++) {
+            for (int i = 0; i < 8; i++) {
                 neighbours[i] = new Node(searcher.nextSquare());
             }
             return neighbours;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            Vector2 oPos = ((Node)o).POS;
+            return POS.x == oPos.x && POS.y == oPos.y;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return Float.compare(function, o.function);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(POS.x, POS.y);
+        }
     }
 }

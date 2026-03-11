@@ -2,8 +2,9 @@ package WagonFortShootout.java.entity.generic;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.ai.Ai;
+import WagonFortShootout.java.framework.image.Sprite;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 

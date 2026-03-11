@@ -1,9 +1,7 @@
 package WagonFortShootout.java.framework.ai.types;
 
 import WagonFortShootout.java.GameLevel;
-import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.entity.generic.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.ai.Ai;
@@ -13,7 +11,6 @@ import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public class ControllableAi extends Ai {
@@ -103,8 +100,16 @@ public class ControllableAi extends Ai {
                 }
             }
             float len = beamPos.dst(pos);
-            Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), len, 0.25f);
-            Effect.addEffect(effect, 1,Mth.toVec(face, len / 2).add(pos), (float) Math.toDegrees(face),3);
+           // Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), len, 0.25f);
+            //Effect.addEffect(effect, 1,Mth.toVec(face, len / 2).add(pos), (float) Math.toDegrees(face),3);
+            /*
+            Effect2 e = new Effect2("effects/aim_beam", 1, 1);
+            e.rotation = (float) Math.toDegrees(face);
+            e.setSize(len, 0.25f);
+            e.setPos(Mth.toVec(face, len / 2).add(pos));
+
+             */
+            //TODO beam not working, also remove random gridseacher
         } else {
             ((GunEntity)entity).gun.inaccuracy = 0.3f;
         }

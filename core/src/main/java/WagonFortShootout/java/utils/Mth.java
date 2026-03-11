@@ -1,7 +1,5 @@
 package WagonFortShootout.java.utils;
 
-import WagonFortShootout.java.effects.Effect;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -185,7 +183,6 @@ public class Mth {
             x3 = x4;
             y3 = y4;
         }
-        Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),2f,2f), 1, new Vector2(50,50), 0, 4);
         return new Vector2(0,0);
     }
 

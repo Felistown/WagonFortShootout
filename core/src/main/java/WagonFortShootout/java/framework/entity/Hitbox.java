@@ -1,12 +1,9 @@
 package WagonFortShootout.java.framework.entity;
 
 import WagonFortShootout.java.effects.Beam;
-import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.*;
 
 import java.util.HashSet;

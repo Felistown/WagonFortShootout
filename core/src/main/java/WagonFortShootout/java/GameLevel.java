@@ -1,17 +1,14 @@
 package WagonFortShootout.java;
 
-import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Horse;
-import WagonFortShootout.java.entity.entities.Tank;
 import WagonFortShootout.java.entity.entities.gunEnemy;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.framework.Input;
-import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
 import WagonFortShootout.java.framework.gui.Gui;
 import WagonFortShootout.java.framework.ai.Ai;
-import WagonFortShootout.java.framework.ai.pathfinding.Pathfinder;
+import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.weapon.Gun;
 import WagonFortShootout.java.world.Object;
@@ -21,9 +18,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -44,22 +39,38 @@ public class GameLevel implements Screen {
     @Override
     public void show() {
         // Prepare your screen here.
-        Effect.init();
         Gun.init();
         Object.init();
-       // Horse horse = new Horse(new Vector2(95,95));
+       Horse horse = new Horse(new Vector2(95,95));
 
 
+        Sprite backround = new Sprite("grass", -1);
+        backround.setSize(WIDTH, HEIGHT);
+        backround.setPos((float) WIDTH /2, (float) HEIGHT /2);
 
         player = new Player(new Vector2(90,90));
+        Horse hors = new Horse(new Vector2(95,95));
         Object.objectInstance("cart", new Vector2(88,88), 45);
+        /*
+        Object.objectInstance("cart", new Vector2(86,90), 45);
+        Object.objectInstance("cart", new Vector2(84,92), 45);
+        Object.objectInstance("cart", new Vector2(90,86), 45);
+        Object.objectInstance("cart", new Vector2(92,84), 45);
+
+         */
+
+
+
        // new Tank(new Vector2(87,87));
         new gunEnemy(new Vector2(1,1));
+        /*
+        new gunEnemy(new Vector2(99,1));
+        new gunEnemy(new Vector2(1,99));
         new gunEnemy(new Vector2(1,1));
-        new gunEnemy(new Vector2(1,1));
-        new gunEnemy(new Vector2(1,1));
-        new gunEnemy(new Vector2(1,1));
-        for(int i = 0; i < 50; i++) {
+        new gunEnemy(new Vector2(1,99));
+
+         */
+        for(int i = 0; i < 60; i++) {
             Vector2 pos = Mth.randomVec(new Vector2(2,2), 98);
             float angle = (float)(Math.random() * 180);
             Object.objectInstance("cart", pos, angle);
@@ -90,23 +101,11 @@ public class GameLevel implements Screen {
     public void draw() {
         ScreenUtils.clear(Color.BLACK);
         viewport.apply();
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(viewport.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(0.28f, 0.43f,0.21f, 1));
-        shapeRenderer.rect(0,0, WIDTH, HEIGHT);
-        shapeRenderer.end();
         SPRITE_BATCH.setProjectionMatrix(viewport.getCamera().combined);
         SPRITE_BATCH.begin();
-        Effect.renderLayer(0,0, SPRITE_BATCH);
-        Entity.drawAll(SPRITE_BATCH);
-        Effect.renderLayer(1,1, SPRITE_BATCH);
-        Object.Instance.renderAll(SPRITE_BATCH);
-        Effect.renderLayer(2,2, SPRITE_BATCH);
+        Sprite.drawAll(SPRITE_BATCH);
         Gun.Instance.renderAll(SPRITE_BATCH);
-        Effect.renderLayer(3,3, SPRITE_BATCH);
         gui.render(SPRITE_BATCH);
-        Effect.renderLayer(4,4, SPRITE_BATCH);
         SPRITE_BATCH.end();
         Beam.renderAll(viewport.getCamera().combined);
         mouse.set(Gdx.input.getX(), Gdx.input.getY());
@@ -138,6 +137,8 @@ public class GameLevel implements Screen {
 
     @Override
     public void dispose() {
+        SPRITE_BATCH.dispose();
+        Sprite.dispose();
         // Destroy screen's assets here.
     }
 }

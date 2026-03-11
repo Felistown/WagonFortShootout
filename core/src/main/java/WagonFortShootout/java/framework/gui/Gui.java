@@ -26,6 +26,7 @@ public class Gui {
 
 
         BitmapFont text = new BitmapFont();
+        text.getData().setScale(0.5f);
         text.setColor(Color.WHITE);
         Gun.Instance gun = player.gun;
         String str = gun.bullets() + "/" + gun.maxBullets();

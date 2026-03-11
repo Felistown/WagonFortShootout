@@ -4,12 +4,12 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.generic.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 public class Tank extends Mount {
@@ -18,8 +18,8 @@ public class Tank extends Mount {
     private Gun.Instance mounter_gun;
 
     public Tank(Vector2 pos) {
-        //TODO tank will not stop projectiles when instantiated before mounter and will cover mounter is instantiated after
-        super(pos,new Sprite(new Texture("image/tank.png")), Mth.rectange(9,9), 10000, 9, 1000);
+        //TODO tank will not stop projectiles when instantiated before mounter
+        super(pos,new Sprite("tank", 0), Mth.rectange(9,9), 10000, 9, 1000);
     }
 
     @Override

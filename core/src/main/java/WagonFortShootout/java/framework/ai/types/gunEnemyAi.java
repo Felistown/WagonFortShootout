@@ -1,7 +1,6 @@
 package WagonFortShootout.java.framework.ai.types;
 
 import WagonFortShootout.java.GameLevel;
-import WagonFortShootout.java.effects.Effect;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.generic.GunEntity;
 import WagonFortShootout.java.framework.ai.Ai;
@@ -12,7 +11,6 @@ import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.weapon.Gun;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public class gunEnemyAi extends Ai {
@@ -37,7 +35,7 @@ public class gunEnemyAi extends Ai {
     public void update() {
         Gun.Instance gun = ((GunEntity)entity).gun;
         if(STATE.is(State.SEEK)) {
-            if(moveable() && !Utils.los(targetPos, entity, GameLevel.player, Utils.closetHitBox(targetPos))) {
+            if(hasEnded() || (moveable() && !Utils.los(targetPos, entity, GameLevel.player, Utils.closetHitBox(targetPos)))) {
                 hunt();
             }
             if(Utils.los(entity, GameLevel.player)) {
@@ -47,7 +45,7 @@ public class gunEnemyAi extends Ai {
                 STATE.setState(State.RELOAD);
             }
         } else {
-            if(moveable() && Utils.los(targetPos, entity, GameLevel.player, Utils.closetHitBox(targetPos))) {
+            if(hasEnded() || (moveable() && Utils.los(targetPos, entity, GameLevel.player, Utils.closetHitBox(targetPos)))) {
                 hide();
             }
             gun.reload();
@@ -81,7 +79,7 @@ public class gunEnemyAi extends Ai {
         }
         goTo(tpos);
         targetPos = tpos;
-        Effect.addEffect(new Effect(new Texture("image/missing_texture.png"), 1f, 1f), 6, tpos, 0, 4);
+        //Effect.addEffect(new Effect(new Texture("image/missing_texture.png"), 1f, 1f), 300, tpos, 0, 4);
     }
 
     public void hide() {
@@ -116,6 +114,6 @@ public class gunEnemyAi extends Ai {
         }
         goTo(tpos);
         targetPos = tpos;
-        Effect.addEffect(new Effect(new Texture("image/missing_texture.png"), 1f, 1f), 6, tpos, 0, 4);
+        //Effect.addEffect(new Effect(new Texture("image/missing_texture.png"), 1f, 1f), 300, tpos, 0, 4);
     }
 }

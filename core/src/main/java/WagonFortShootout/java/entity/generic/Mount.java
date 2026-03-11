@@ -1,9 +1,8 @@
 package WagonFortShootout.java.entity.generic;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 

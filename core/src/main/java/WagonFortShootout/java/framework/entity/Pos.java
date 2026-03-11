@@ -88,7 +88,5 @@ public class Pos {
     public void setPos(Vector2 pos) {
         POS.set(Mth.clamp(pos, new Vector2(1,1), new Vector2(99,99)));
         entity.HITBOX.setPosition(POS);
-        entity.getSprite().setCenter(POS.x, POS.y);
-        entity.getSprite().setOriginCenter();
     }
 }
