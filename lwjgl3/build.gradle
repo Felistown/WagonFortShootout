@@ -174,6 +174,8 @@ distributions {
 
 startScripts.dependsOn(':lwjgl3:jar')
 startScripts.classpath = project.tasks.jar.outputs.files
+run.dependsOn ":texturePacker"
+processResources.dependsOn ":texturePacker"
 
 if(enableGraalNative == 'true') {
   apply from: file("nativeimage.gradle")
