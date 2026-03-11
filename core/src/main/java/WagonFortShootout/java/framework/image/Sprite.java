@@ -3,55 +3,44 @@ package WagonFortShootout.java.framework.image;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
-import java.util.PriorityQueue;
 
 public class Sprite implements Comparable<Sprite>{
 
     public static final TextureAtlas TEXTURE_ATLAS = new TextureAtlas(Gdx.files.internal("texture_atlas/game_assets.atlas"));
-    private static Array<Sprite> ALL_SPRITES = new Array<Sprite>();
+    private static final Array<Sprite> ALL_SPRITES = new Array<Sprite>();
+    private static final Array<Sprite> TO_ADD = new Array<Sprite>();
+    private static final Array<Sprite> TO_REMOVE = new Array<Sprite>();
 
     protected int layer;
-    protected TextureRegion texture;
-    protected final Vector2 size;
-    protected final Vector2 pos;
-    public float rotation;
+    protected TextureAtlas.AtlasSprite sprite;
 
     public Sprite(String texture, int layer) {
         this(TEXTURE_ATLAS.findRegion(texture), layer);
     }
 
-    public Sprite(TextureRegion texture, int layer) {
-        this.texture = texture;
+    public Sprite(TextureAtlas.AtlasRegion texture, int layer) {
+        this.sprite = new TextureAtlas.AtlasSprite(texture);
         this.layer = layer;
-        size = new Vector2(1,1);
-        pos = new Vector2();
-        rotation = 0;
-        ALL_SPRITES.add(this);
-        ALL_SPRITES.sort();
+        TO_ADD.add(this);
     }
 
     public void setSize(float width, float height) {
-        size.set(width,height);
-    }
-
-    public Vector2 getSize() {
-        return size.cpy();
+        float x = sprite.getX() + sprite.getWidth() / 2;
+        float y = sprite.getY() + sprite.getHeight() / 2;
+        sprite.setSize(width,height);
+        sprite.setCenter(x,y);
+        sprite.setOriginCenter();
     }
 
     public void setPos(float x, float y) {
-        pos.set(x,y);
+        sprite.setCenter(x,y);
+        sprite.setOriginCenter();
     }
 
     public void setPos(Vector2 pos) {
-        this.pos.set(pos);
-    }
-
-    public Vector2 getPos() {
-        return pos;
+        setPos(pos.x, pos.y);
     }
 
     public int getLayer() {
@@ -64,30 +53,31 @@ public class Sprite implements Comparable<Sprite>{
     }
 
     protected boolean draw(SpriteBatch spriteBatch) {
-        float width = size.x;
-        float height = size.y;
-        spriteBatch.draw(texture, pos.x - width / 2, pos.y - height / 2, width / 2, height / 2, width, height,1,1, rotation);
+        sprite.draw(spriteBatch);
         return false;
     }
 
+    public void setRotationRad(float rotation) {
+        sprite.setRotation((float)Math.toDegrees(rotation));
+    }
+
     public static void drawAll(SpriteBatch spriteBatch) {
-        boolean resort = false;
-        for(int i = 0; i < ALL_SPRITES.size; i ++) {
-            Sprite current = ALL_SPRITES.get(i);
-            if(current.draw(spriteBatch)) {
-                resort = true;
-                ALL_SPRITES.removeIndex(i);
-                i--;
-            }
-        }
-        if(resort) {
+        if(TO_REMOVE.size > 0 || TO_ADD.size > 0) {
+            ALL_SPRITES.removeAll(TO_REMOVE, true);
+            TO_REMOVE.clear();
+            ALL_SPRITES.addAll(TO_ADD);
+            TO_ADD.clear();
             ALL_SPRITES.sort();
+        }
+        for(Sprite s: ALL_SPRITES) {
+            if(s.draw(spriteBatch)) {
+                TO_REMOVE.add(s);
+            }
         }
     }
 
     public void remove() {
-        ALL_SPRITES.removeValue(this, true);
-        ALL_SPRITES.sort();
+        TO_REMOVE.add(this);
     }
 
     public static void dispose() {

@@ -76,7 +76,7 @@ public class Object {
             sprite = new Sprite(texture, 0);
             sprite.setPos(pos);
             sprite.setSize(length, height);
-            sprite.rotation = rotation;
+            sprite.setRotationRad((float)Math.toRadians(rotation));
             ALL_INSTANCES.add(this);
             float[] v = hitbox.POLYGON.getTransformedVertices();
             Vector2[] vertices = new Vector2[v.length / 2];

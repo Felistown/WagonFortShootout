@@ -43,12 +43,12 @@ public class Tank extends Mount {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public boolean tick() {
         boolean space = Gdx.input.isKeyPressed(Input.Keys.SPACE);
         if(mg != null && space) {
             mg.shoot();
         }
+        return super.tick();
     }
 
     @Override

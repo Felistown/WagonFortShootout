@@ -1,6 +1,5 @@
 package WagonFortShootout.java.framework.entity;
 
-import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.graphics.Color;
@@ -42,7 +41,7 @@ public class Hitbox {
         Vector2 last = verticies[verticies.length - 1];
         for(int i = 0; i < verticies.length; i++) {
             Vector2 current = verticies[i];
-            Beam.beam(last, current, 0.25f, 1, Color.BLACK);
+            //TODO this isnt working
             last = current;
         }
     }

@@ -1,12 +1,6 @@
 package WagonFortShootout.java.weapon.damager;
 
-import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.framework.HitData;
-import WagonFortShootout.java.framework.entity.Hitbox;
-import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.utils.Mutable;
-import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;

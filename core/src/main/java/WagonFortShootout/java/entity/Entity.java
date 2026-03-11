@@ -23,7 +23,6 @@ public abstract class Entity {
     public Hitbox HITBOX;
     public final int MAX_HEALTH;
     protected int health;
-    private boolean remove;
     protected int stopping;
 
     public Entity(Vector2 pos, Sprite sprite, Polygon polygon,int health, int size, int stopping) {
@@ -40,26 +39,24 @@ public abstract class Entity {
         this.health = MAX_HEALTH;
     }
 
-    public void tick() {
+    public boolean tick() {
         if(health <= 0) {
-            remove = true;
+            return true;
         }
         POS.logic();
         FACE.tick();
-        sprite.rotation = (float)Math.toDegrees(getFacing());
+        sprite.setRotationRad(getFacing());
         sprite.setPos(getPos());
         HITBOX.setPosition(getPos());
         HITBOX.setRotation((float)Math.toDegrees(getFacing()));
+        return false;
     }
 
     public static void tickAll() {
-        for(Entity e: ALL_ENTITIES) {
-            e.tick();
-        }
         Entity[] temp = ALL_ENTITIES.toArray(Entity[]::new);
         for(int i = 0; i < temp.length; i++) {
             Entity e = temp[i];
-            if(e.toRemove()) {
+            if(e.tick()) {
                 e.onRemove();
                 ALL_ENTITIES.remove(e);
             }
@@ -82,9 +79,6 @@ public abstract class Entity {
         FACE.recoil(data.weight, data.weight / 2);
     }
 
-    public boolean toRemove() {
-        return remove;
-    }
 
     public static HashSet<Entity> getAllEntities() {
         return (HashSet<Entity>)ALL_ENTITIES.clone();

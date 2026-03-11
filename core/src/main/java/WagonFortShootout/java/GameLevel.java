@@ -4,10 +4,10 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Horse;
 import WagonFortShootout.java.entity.entities.gunEnemy;
 import WagonFortShootout.java.entity.entities.Player;
-import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.framework.Input;
 import WagonFortShootout.java.framework.gui.Gui;
 import WagonFortShootout.java.framework.ai.Ai;
+import WagonFortShootout.java.framework.gui.HealthBar;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.weapon.Gun;
@@ -81,6 +81,7 @@ public class GameLevel implements Screen {
     @Override
     public void render(float delta) {
         // Draw your screen here. "delta" is the time since last render in seconds.
+        HealthBar.tick();
         input();
         tick();
         draw();
@@ -103,11 +104,11 @@ public class GameLevel implements Screen {
         viewport.apply();
         SPRITE_BATCH.setProjectionMatrix(viewport.getCamera().combined);
         SPRITE_BATCH.begin();
+
         Sprite.drawAll(SPRITE_BATCH);
-        Gun.Instance.renderAll(SPRITE_BATCH);
         gui.render(SPRITE_BATCH);
+
         SPRITE_BATCH.end();
-        Beam.renderAll(viewport.getCamera().combined);
         mouse.set(Gdx.input.getX(), Gdx.input.getY());
         viewport.unproject(mouse);
     }

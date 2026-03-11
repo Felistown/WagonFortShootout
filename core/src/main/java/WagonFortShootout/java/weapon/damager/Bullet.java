@@ -1,9 +1,9 @@
 package WagonFortShootout.java.weapon.damager;
 
-import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Mutable;
 import WagonFortShootout.java.utils.Utils;
@@ -16,7 +16,7 @@ public class Bullet{
 
     protected static final float WIDTH = 0.25f;
     protected static final int LIFETIME = 5;
-    protected static final Color COLOUR = new Color(255, 214, 0, 1);
+    protected static final Beam BEAM = new Beam("effects/bullet", 1, 5, 0.25f);
 
     public float dist = 400;
     public final int damage;
@@ -47,7 +47,7 @@ public class Bullet{
                 }
             }
         }
-        Beam.beam(pos, direction, WIDTH, LIFETIME, COLOUR);
+        BEAM.instance(pos, direction);
     }
 
     public static Bullet readJson(JsonValue value) {

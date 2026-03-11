@@ -1,16 +1,17 @@
 package WagonFortShootout.java.framework.ai.pathfinding;
 
-import WagonFortShootout.java.effects.Beam;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import WagonFortShootout.java.framework.image.Beam;
 
 import java.util.*;
 
 public record Pathfinder(Vector2 start, Vector2 target, Hitbox hitbox)  {
 
+    private static final Beam BEAM = new Beam("missing_texture",5, 300, 0.25f);
     private static final int MAX_SEARCH_SIZE = 2000;
 
     public Path findPath() {
@@ -73,7 +74,7 @@ public record Pathfinder(Vector2 start, Vector2 target, Hitbox hitbox)  {
             Collections.reverse(path);
 
             for (int i = 0; i < path.size() - 1; i++) {
-                Beam.beam(get(i), get(i + 1), 0.25f, 300, Color.BLUE);
+                BEAM.instance(get(i), get(i + 1));
             }
 
 

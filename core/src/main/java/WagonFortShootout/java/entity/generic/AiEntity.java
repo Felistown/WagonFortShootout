@@ -18,9 +18,9 @@ public abstract class AiEntity extends Entity {
     }
 
     @Override
-    public void tick() {
+    public boolean tick() {
         AI.tick();
-        super.tick();
+        return super.tick();
     }
 
     @Override

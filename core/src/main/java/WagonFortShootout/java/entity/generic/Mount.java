@@ -34,11 +34,11 @@ public abstract class Mount extends Entity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public boolean tick() {
         if(mounter != null) {
             mounter.POS.setPos(getPos());
         }
+        return super.tick();
     }
 
     @Override

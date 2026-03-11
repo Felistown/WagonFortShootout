@@ -7,6 +7,7 @@ import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
 import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.Gdx;
@@ -15,10 +16,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ControllableAi extends Ai {
 
+    private static final Beam BEAM = new Beam("effects/aim_beam", 1, -1, 0.25f);
+
     private static final float sprint =  0.05f;
     private static final float walk = 0.01666666666f;
     private int cooldown = 0;
-    GridSearcher g = new GridSearcher(new Vector2(50,50), 10);
+    private Beam.Instance instance;
 
     public ControllableAi(Entity entity) {
         super(entity, null);
@@ -100,18 +103,17 @@ public class ControllableAi extends Ai {
                 }
             }
             float len = beamPos.dst(pos);
-           // Effect effect = new Effect(new Texture("image/effects/aim_beam.png"), len, 0.25f);
-            //Effect.addEffect(effect, 1,Mth.toVec(face, len / 2).add(pos), (float) Math.toDegrees(face),3);
-            /*
-            Effect2 e = new Effect2("effects/aim_beam", 1, 1);
-            e.rotation = (float) Math.toDegrees(face);
-            e.setSize(len, 0.25f);
-            e.setPos(Mth.toVec(face, len / 2).add(pos));
-
-             */
-            //TODO beam not working, also remove random gridseacher
+            if(instance == null) {
+                instance = BEAM.instance(pos, beamPos);
+            } else {
+                instance.point(pos, beamPos);
+            }
         } else {
             ((GunEntity)entity).gun.inaccuracy = 0.3f;
+            if(instance != null) {
+                instance.remove();
+                instance = null;
+            }
         }
     }
 
@@ -123,6 +125,14 @@ public class ControllableAi extends Ai {
         }
         if(r) {
             ((GunEntity)entity).gun.reload();
+        }
+    }
+
+    @Override
+    protected void onRemove() {
+        if(instance != null) {
+            instance.remove();
+            instance = null;
         }
     }
 }

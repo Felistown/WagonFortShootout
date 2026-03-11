@@ -30,7 +30,7 @@ public class Gun {
     public final Sound empty;
     public final Sound reload;
     public final Effect EFFECT;
-    public final Sprite SPRITE;
+    public final Effect SPRITE;
     public final Vector2 OFFSET;
     public final float knockBack;
     public final float rumble;
@@ -61,9 +61,9 @@ public class Gun {
             String reload = sound.getString("reload");
             float flash_size = flash.getFloat("size");
             Effect effect = new Effect(flash.getString("texture"), 1, 5, flash_size, flash_size);
-            float sprite_size = sprite.getFloat("size");
-            Sprite texture = new Sprite(new Texture(sprite.getString("texture")));
-            texture.setScale(sprite_size/texture.getWidth());
+            float sprite_width = sprite.getFloat("width");
+            float sprite_height = sprite.getFloat("height");
+            Effect texture = new Effect(sprite.getString("texture"), 2, -1, sprite_width, sprite_height);
             Vector2 offset = new Vector2(sprite.getFloat("xOffset"), sprite.getFloat("yOffset"));
             Gun gun = new Gun(Bullet.readJson(bullet), projectiles, maxBullets, fireRate, reloadRate, knockBack, rumble, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
             ALL_GUNS.put(current.name(), gun);
@@ -79,7 +79,7 @@ public class Gun {
         }
     }
 
-    private Gun(Bullet bullet, int projectiles, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble, float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Sprite sprite, Vector2 offset) {
+    private Gun(Bullet bullet, int projectiles, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble, float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Effect sprite, Vector2 offset) {
         this.bullet = bullet;
         this.projectiles = projectiles;
         this.maxBullets = maxBullets;
@@ -102,6 +102,7 @@ public class Gun {
 
         private static HashSet<Instance> ALL_INSTANCES = new HashSet<Instance>();
 
+        private final Effect.Instance sprite;
         public final Gun GUN;
         public final Entity ENTITY;
         private int bullets;
@@ -111,6 +112,7 @@ public class Gun {
         public float inaccuracy = 0;
 
         private Instance(Entity entity) {
+            sprite = SPRITE.instance();
             bullets = maxBullets;
             fireTimer = 0;
             reloadTimer = 0;
@@ -121,6 +123,7 @@ public class Gun {
 
         public void remove() {
             ALL_INSTANCES.remove(this);
+            sprite.remove();
         }
 
         public static void tickAll() {
@@ -137,22 +140,13 @@ public class Gun {
                 bullets++;
                 reloadTimer = 0;
             }
-        }
-
-        public static void renderAll(SpriteBatch spriteBatch) {
-            ALL_INSTANCES.forEach(e -> e.render(spriteBatch));
-        }
-
-        public void render(SpriteBatch spriteBatch) {
             Vector2 pos = ENTITY.getPos();
-            float facing = (float)ENTITY.getFacing();
-            SPRITE.setCenter(pos.x, pos.y);
-            SPRITE.setOriginCenter();
-            SPRITE.setRotation((float)Math.toDegrees(facing - Math.PI));
+            float facing = ENTITY.getFacing();
             Vector2 added = OFFSET.cpy().rotateRad(facing);
-            SPRITE.setCenter(pos.x + added.x, pos.y + added.y);
-            SPRITE.draw(spriteBatch);
+            sprite.setPos(pos.x + added.x, pos.y + added.y);
+            sprite.setRotationRad(facing - (float)Math.PI);
         }
+
 
         public void shoot() {
             if(fireTimer <= 0 && reloadTimer <= 0) {
@@ -162,7 +156,7 @@ public class Gun {
                 } else {
                     Effect.Instance flash = EFFECT.instance();
                     flash.setPos(ENTITY.getPos());
-                    flash.rotation = (float)Math.toDegrees(ENTITY.getFacing() + Math.PI);
+                    flash.setRotationRad(ENTITY.getFacing() + (float)Math.PI);
                     bullets--;
                     for(int i = 0; i < projectiles; i ++) {
                         bullet.shoot(ENTITY, ENTITY.getPos(), ENTITY.getFacing(),inaccuracy);

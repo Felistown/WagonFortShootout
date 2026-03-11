@@ -261,7 +261,7 @@ public class Mth {
     }
 
     public static Vector2 mid(Vector2 f, Vector2 t) {
-        return  new Vector2((t.x + f.x) / 2, (t.y + f.x) / 2);
+        return  new Vector2((t.x + f.x) / 2, (t.y + f.y) / 2);
     }
 
     public static float angleRad(Vector2 f, Vector2 t) {

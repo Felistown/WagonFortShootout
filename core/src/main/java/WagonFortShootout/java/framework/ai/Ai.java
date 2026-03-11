@@ -64,12 +64,8 @@ public abstract class Ai {
     public static void updateList() {
         ALL_AI.addAll(toAdd);
         toAdd.clear();
-        int prev = ALL_AI.size();
         ALL_AI.removeAll(toRemove);
-        int rem = prev - ALL_AI.size();
-        if(rem > 0) {
-            Gdx.app.log("Ai", "Removed " + rem + " Ai.");
-        }
+        toRemove.forEach(Ai::onRemove);
         toRemove.clear();
     }
 
@@ -85,6 +81,10 @@ public abstract class Ai {
                 path.next();
             }
         }
+    }
+
+    protected void onRemove() {
+        Gdx.app.log("Ai", "Ai removed");
     }
 
     public static Ai fromType(String name, Entity entity) {
