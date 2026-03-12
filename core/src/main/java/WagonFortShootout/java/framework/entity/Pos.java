@@ -45,8 +45,8 @@ public class Pos {
         for(Hitbox other: Hitbox.getAllHitboxes()) {
             //TODO fix this nested loop structure
             Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
-            if(hitbox != other && (entity.mount == null || entity.mount.HITBOX != other) && Intersector.overlapConvexPolygons(hitbox.POLYGON, other.POLYGON, mtv)) {
-                if(other.anchored) {
+            if(hitbox != other && (entity.mount == null || entity.mount.HITBOX != other) && hitbox.collide(other, mtv) ) {
+                if(other.isAnchored()) {
                     setPos(POS.cpy().add(Mth.toVec(mtv)));
                 } else {
                     if(entity instanceof Mount m) {

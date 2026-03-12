@@ -28,6 +28,10 @@ public class Face {
         return facing != goal;
     }
 
+    public void set(float facing) {
+        this.facing = facing;
+    }
+
     public void recoil(float mult, float floor) {
         float rand = (float)Math.random() - 0.5f;
         facing += rand * mult + floor * Math.signum(rand);

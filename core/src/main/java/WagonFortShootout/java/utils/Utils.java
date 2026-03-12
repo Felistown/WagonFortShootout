@@ -50,7 +50,7 @@ public class Utils {
     public static boolean los(Entity e, Entity o) {
         Hitbox[] all = Utils.closetHitBox(e);
         for(Hitbox h: all) {
-            if(h != e.HITBOX && !(o.mount != null && h == o.mount.HITBOX)) {
+            if(h != e.HITBOX && !h.isTransparent() && !(o.mount != null && h == o.mount.HITBOX)) {
                 if(h.rayIntersection(e.getPos(), e.getPos().add(Mth.toVec(e.getFacing(), 400)), null)) {
                     return h == o.HITBOX;
                 }
@@ -61,7 +61,7 @@ public class Utils {
 
     public static boolean los(Vector2 e, Entity q, Entity o, Hitbox[] all) {
         for(Hitbox h: all) {
-            if(q.HITBOX != h && h.rayIntersection(e, o.getPos(), null)) {
+            if(q.HITBOX != h && !h.isTransparent() && h.rayIntersection(e, o.getPos(), null)) {
                 return h == o.HITBOX;
             }
         }

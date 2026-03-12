@@ -3,10 +3,11 @@ package WagonFortShootout.java.framework.image;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Beam {
+
+    public static final Beam DEBUG_BEAM = new Beam("missing_texture", 10, 1, 0.25f);
 
     private TextureAtlas.AtlasRegion texture;
     private final int layer;
@@ -45,7 +46,7 @@ public class Beam {
         }
 
         public void point(Vector2 from, Vector2 to) {
-            setPos(Mth.mid(from, to));
+            setCentre(Mth.mid(from, to));
             setSize(from.dst(to), width);
             setRotationRad(Mth.angleRad(from, to));
         }

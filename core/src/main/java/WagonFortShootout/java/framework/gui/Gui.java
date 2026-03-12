@@ -4,6 +4,7 @@ import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.entity.generic.Mount;
+import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,7 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Gui {
 
+    private static final Beam beam = new Beam("green", 5, -1, 0.5f);
     private Player player;
+    private Beam.Instance reload;
 
     public Gui(Player player) {
         this.player = player;
@@ -35,12 +38,7 @@ public class Gui {
         Vector2 pos = player.getPos().add(-1.5f, -1.2f);
         float length = 3;
         float height = 0.5f;
-        //TODO fix reload bar
-        if(fire > 0) {
-            //Beam.beam(pos, new Vector2(pos.x + length * (1 - ((float) fire/ gun.fireRate())), pos.y), height, 1, Color.WHITE);
-        } else if(reload > 0) {
-            //Beam.beam(pos, new Vector2(pos.x + length * (1- ((float) reload / gun.reloadRate())), pos.y), height, 1, Color.WHITE);
-        }
+        //TODO add reload bar
 
     }
 }

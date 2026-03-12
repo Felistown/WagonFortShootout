@@ -11,7 +11,6 @@ import java.util.*;
 
 public record Pathfinder(Vector2 start, Vector2 target, Hitbox hitbox)  {
 
-    private static final Beam BEAM = new Beam("missing_texture",5, 300, 0.25f);
     private static final int MAX_SEARCH_SIZE = 2000;
 
     public Path findPath() {
@@ -29,7 +28,6 @@ public record Pathfinder(Vector2 start, Vector2 target, Hitbox hitbox)  {
         for (int i = 0; i <= MAX_SEARCH_SIZE && !open.isEmpty(); i++) {
             Node current = open.poll();
             if (current.POS.dst(target) <= 0.5f || i >= MAX_SEARCH_SIZE) {
-                System.out.println(i);
                 return new Path(current);
             }
             closed.add(current);
@@ -72,12 +70,6 @@ public record Pathfinder(Vector2 start, Vector2 target, Hitbox hitbox)  {
                 temp = temp.parent;
             }
             Collections.reverse(path);
-
-            for (int i = 0; i < path.size() - 1; i++) {
-                BEAM.instance(get(i), get(i + 1));
-            }
-
-
         }
 
         public Vector2 current() {

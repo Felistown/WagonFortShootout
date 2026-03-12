@@ -7,7 +7,6 @@ import WagonFortShootout.java.framework.entity.Pos;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
@@ -25,18 +24,19 @@ public abstract class Entity {
     protected int health;
     protected int stopping;
 
-    public Entity(Vector2 pos, Sprite sprite, Polygon polygon,int health, int size, int stopping) {
+    public Entity(Vector2 pos, Sprite sprite, Hitbox.Builder builder,int health, int size, int stopping) {
         //TODO Make it so that you can instantiate an entity from json
         //TODO change create sprite object to control sprite render states and other things
         POS = new Pos(pos, this);
         FACE = new Face(-1);
         this.sprite = sprite;
         sprite.setSize(size,size);
-        HITBOX = new Hitbox(polygon, this::onHit);
+        HITBOX = builder.build(this::onHit);
         ALL_ENTITIES.add(this);
         MAX_HEALTH = health;
         this.stopping = stopping;
         this.health = MAX_HEALTH;
+
     }
 
     public boolean tick() {
@@ -46,7 +46,7 @@ public abstract class Entity {
         POS.logic();
         FACE.tick();
         sprite.setRotationRad(getFacing());
-        sprite.setPos(getPos());
+        sprite.setCentre(getPos());
         HITBOX.setPosition(getPos());
         HITBOX.setRotation((float)Math.toDegrees(getFacing()));
         return false;

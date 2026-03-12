@@ -1,10 +1,12 @@
 package WagonFortShootout.java.framework.entity;
 
 import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
@@ -13,15 +15,16 @@ public class Hitbox {
     private static final HashSet<Hitbox> ALL_HITBOXES = new HashSet<Hitbox>();
 
     public final Polygon POLYGON;
-    public boolean anchored;
+    private boolean anchored;
+    private boolean transparent;
     private final Consumer<HitData> onHit;
 
-    public Hitbox(Polygon hitBox, Consumer<HitData> onHit) {
-        //TODO add conjoined hitbox to make more complex shapes
+    protected Hitbox(Polygon hitBox, Consumer<HitData> onHit) {
         POLYGON = hitBox;
         anchored = false;
         ALL_HITBOXES.add(this);
         this.onHit = onHit;
+        transparent = false;
     }
 
     public Vector2[] getVertices() {
@@ -39,10 +42,10 @@ public class Hitbox {
     public void display() {
         Vector2[] verticies = getVertices();
         Vector2 last = verticies[verticies.length - 1];
-        for(int i = 0; i < verticies.length; i++) {
+        for (int i = 0; i < verticies.length; i++) {
             Vector2 current = verticies[i];
-            //TODO this isnt working
-            last = current;
+            Beam.DEBUG_BEAM.instance(last, current);
+                last = current;
         }
     }
 
@@ -73,6 +76,10 @@ public class Hitbox {
 
     public void setRotation(float angleDeg) {
         POLYGON.setRotation(angleDeg);
+    }
+
+    public float getRotation() {
+        return POLYGON.getRotation();
     }
 
     public void remove() {
@@ -107,5 +114,84 @@ public class Hitbox {
             }
         }
         return true;
+    }
+
+    public boolean isAnchored() {
+        return anchored;
+    }
+
+    public void setAnchored(Boolean anchored) {
+        this.anchored = anchored;
+    }
+
+    public boolean isTransparent() {
+        return transparent;
+    }
+
+    public void setTransparent(Boolean transparent) {
+        this.transparent = transparent;
+    }
+
+    public boolean collide(Hitbox other, Intersector.MinimumTranslationVector mtv) {
+        return Intersector.overlapConvexPolygons(POLYGON, other.POLYGON, mtv);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        //TODO remove instances whereby [==] is used instead of .equals()
+        if(obj == null) {
+            return false;
+        }
+        return super.equals(obj);
+    }
+
+    public static class Builder {
+
+        private final Polygon POLYGON;
+        private final ArrayList<Polygon> sub = new ArrayList<Polygon>();
+        private final ArrayList<Vector2> offset = new ArrayList<Vector2>();
+
+        private Builder(Polygon polygon) {
+            POLYGON = polygon;
+        }
+
+        public static Builder polygon(Polygon polygon) {
+            return new Builder(polygon);
+        }
+
+        public boolean collide(Hitbox other, Intersector.MinimumTranslationVector mtv) {
+            return Intersector.overlapConvexPolygons(POLYGON, other.POLYGON, mtv);
+        }
+
+        public static Builder empty() {
+            return new Builder(new Polygon(new float[]{0,0,0,0,0,0}));
+        }
+
+        public static Builder rectangle(float width, float height) {
+            return new Builder(Mth.rectange(width, height));
+        }
+
+        public static Builder circle(float radius, int sides) {
+            return new Builder(Mth.circle(radius, sides));
+        }
+
+        public static Builder triangle(float width, float height) {
+            return new Builder(Mth.triangle(width, height));
+        }
+
+        public Builder addSub(Polygon polygon, Vector2 offset) {
+            sub.add(polygon);
+            this.offset.add(offset);
+            return this;
+        }
+
+        public Hitbox build(Consumer<HitData> onHit) {
+            if(!sub.isEmpty()) {
+                return new ConjoinedHitbox(POLYGON, sub.toArray(Polygon[]::new), offset.toArray(Vector2[]::new), onHit);
+            } else {
+                return new Hitbox(POLYGON, onHit);
+            }
+        }
+
     }
 }

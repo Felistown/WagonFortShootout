@@ -98,7 +98,8 @@ public class ControllableAi extends Ai {
             Hitbox[] all = Utils.closetHitBox(entity);
             for (Hitbox hitbox : all) {
                 Vector2 eHit = new Vector2();
-                if (hitbox != entity.HITBOX  && !(entity.mount != null && hitbox == entity.mount.HITBOX)&& hitbox.rayIntersection(pos, beamPos, eHit)) {
+                if (hitbox != entity.HITBOX  && !(entity.mount != null && hitbox.equals(entity.mount.HITBOX)) && hitbox.rayIntersection(pos, beamPos, eHit)) {
+                    //TODO URGENT, if unmounted error will be raised because mount is null! There are other issues like this in outher raycasting things
                     beamPos = eHit;
                 }
             }

@@ -91,7 +91,7 @@ public class gunEnemyAi extends Ai {
         Hitbox[] all = Utils.closetHitBox(entity);
         Hitbox stat = all[0];
         for(Hitbox h: all) {
-            if(h.anchored) {
+            if(h.isAnchored()) {
                 stat = h;
                 break;
             }

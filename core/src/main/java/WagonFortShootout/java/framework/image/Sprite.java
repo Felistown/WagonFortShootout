@@ -34,13 +34,33 @@ public class Sprite implements Comparable<Sprite>{
         sprite.setOriginCenter();
     }
 
-    public void setPos(float x, float y) {
-        sprite.setCenter(x,y);
+    public void setCentre(float x, float y) {
+        setPos(x, y);
         sprite.setOriginCenter();
+    }
+
+    public void setPos(float x, float y) {
+        sprite.setCenter(x, y);
     }
 
     public void setPos(Vector2 pos) {
         setPos(pos.x, pos.y);
+    }
+
+    public void setRotCentre(float x, float y) {
+        sprite.setOrigin(x, y);
+    }
+
+    public void setRotCentre(Vector2 pos) {
+        setRotCentre(pos.x, pos.y);
+    }
+
+    public void setRotCentre() {
+        sprite.setOriginCenter();
+    }
+
+    public void setCentre(Vector2 pos) {
+        setCentre(pos.x, pos.y);
     }
 
     public int getLayer() {

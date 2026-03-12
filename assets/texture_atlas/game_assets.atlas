@@ -6,106 +6,120 @@ filter: Nearest, Nearest
 repeat: none
 circle
   rotate: false
-  xy: 1158, 444
+  xy: 1158, 461
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: -1
 cursor
   rotate: false
-  xy: 1158, 271
+  xy: 1158, 288
   size: 20, 20
   orig: 32, 32
   offset: 6, 6
   index: -1
 cursor_moving
   rotate: false
-  xy: 2, 10
+  xy: 2, 27
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 effects/aim_beam
   rotate: false
-  xy: 1682, 943
+  xy: 1158, 285
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 effects/bullet
   rotate: false
-  xy: 1158, 268
+  xy: 1180, 307
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 effects/muzzle_flash
   rotate: false
-  xy: 2, 2
+  xy: 36, 53
   size: 10, 6
   orig: 10, 10
   offset: 0, 2
   index: -1
 grass
   rotate: false
-  xy: 1180, 290
+  xy: 1300, 447
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 green
   rotate: false
-  xy: 1300, 430
+  xy: 1332, 458
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 guns/lever_rifle
   rotate: false
-  xy: 1300, 433
+  xy: 1300, 450
   size: 30, 9
   orig: 30, 9
   offset: 0, 0
   index: -1
 horse
   rotate: false
-  xy: 2, 44
+  xy: 2, 61
   size: 1154, 900
   orig: 1155, 900
   offset: 0, 0
   index: -1
 missing_texture
   rotate: false
-  xy: 1660, 910
+  xy: 1682, 959
   size: 2, 2
   orig: 2, 2
   offset: 0, 0
   index: -1
 object/cart
   rotate: false
-  xy: 1660, 914
+  xy: 1660, 931
   size: 20, 30
   orig: 20, 30
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 1158, 293
+  xy: 1158, 310
   size: 140, 149
   orig: 150, 150
   offset: 4, 1
   index: -1
 red
   rotate: false
-  xy: 1332, 441
+  xy: 2, 2
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 tank
   rotate: false
-  xy: 36, 38
+  xy: 1660, 925
   size: 9, 4
   orig: 9, 4
+  offset: 0, 0
+  index: -1
+tank_turret
+  rotate: false
+  xy: 2, 5
+  size: 7, 20
+  orig: 7, 25
+  offset: 0, 5
+  index: -1
+white
+  rotate: false
+  xy: 11, 24
+  size: 1, 1
+  orig: 1, 1
   offset: 0, 0
   index: -1

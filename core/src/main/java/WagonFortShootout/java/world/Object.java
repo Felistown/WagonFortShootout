@@ -5,8 +5,6 @@ import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
@@ -69,12 +67,12 @@ public class Object {
 
         private Instance(Vector2 pos, float rotation) {
             this.pos = pos;
-            hitbox = new Hitbox(new Polygon(polygon.getVertices().clone()), Object.this::onHit);
+            hitbox = Hitbox.Builder.polygon(new Polygon(polygon.getVertices().clone())).build(Object.this::onHit);
             hitbox.setRotation(rotation);
-            hitbox.anchored = true;
+            hitbox.setAnchored(true);
             hitbox.setPosition(pos);
             sprite = new Sprite(texture, 0);
-            sprite.setPos(pos);
+            sprite.setCentre(pos);
             sprite.setSize(length, height);
             sprite.setRotationRad((float)Math.toRadians(rotation));
             ALL_INSTANCES.add(this);

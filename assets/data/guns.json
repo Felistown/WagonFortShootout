@@ -110,7 +110,7 @@
       "piercing": "10"
     },
     "projectiles": "1",
-    "maxBullets": "100",
+    "maxBullets": "100000000",
     "fireRate": "10",
     "reloadRate": "2",
     "knockBack": "0",
@@ -135,7 +135,7 @@
       "yOffset": "0.2"
     }
   },
-  "tank_gun": {
+  "tank_ap": {
     "bullet": {
       "type": "kinetic",
       "damage": "1000",
@@ -145,7 +145,7 @@
       "exploder": {
         "shrapnel": {
           "type": "bullet",
-          "damage": "20",
+          "damage": "75",
           "weight":"1",
           "spread": "0",
           "piercing": "1"
@@ -174,9 +174,55 @@
       "size": "3"
     },
     "gun": {
-      "texture": "guns/lever_rifle",
-      "width": "3",
-      "height": "0.9",
+      "texture": "missing_texture",
+      "width": "0",
+      "height": "0",
+      "xOffset": "-0.5",
+      "yOffset": "0.2"
+    }
+  },
+  "tank_he": {
+    "bullet": {
+      "type": "exploding",
+      "damage": "1000",
+      "weight":"10",
+      "spread": "0",
+      "piercing": "10",
+      "exploder": {
+        "shrapnel": {
+          "type": "bullet",
+          "damage": "34",
+          "weight":"1",
+          "spread": "0",
+          "piercing": "1"
+        },
+        "range": "400",
+        "spread": "6.28318530718",
+        "projectiles": "60"
+      }
+    },
+    "projectiles": "1",
+    "maxBullets": "1",
+    "fireRate": "1",
+    "reloadRate": "100",
+    "knockBack": "0",
+    "rumble": "0",
+    "recoilMult": "0",
+    "minRecoil": "0",
+    "speed": "0.00581776666",
+    "sound": {
+      "fire": "sounds/guns/lever_rifle/lever_rifle_fire.mp3",
+      "empty": "sounds/guns/lever_rifle/lever_rifle_empty.mp3",
+      "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "effects/muzzle_flash",
+      "size": "3"
+    },
+    "gun": {
+      "texture": "missing_texture",
+      "width": "0",
+      "height": "0",
       "xOffset": "-0.5",
       "yOffset": "0.2"
     }
@@ -208,9 +254,9 @@
       "size": "3"
     },
     "gun": {
-      "texture": "guns/lever_rifle",
-      "width": "3",
-      "height": "0.9",
+      "texture": "missing_texture",
+      "width": "0",
+      "height": "0",
       "xOffset": "-0.5",
       "yOffset": "0.2"
     }

@@ -25,7 +25,7 @@ public class ExplodingBullet extends Bullet {
         for (int i = 0; i < all.length; i ++) {
             Hitbox hitbox = all[i];
             Vector2 eHit = new Vector2();
-            if (hitbox != self && hitbox.rayIntersection(pos, direction, eHit)) {
+            if (hitbox != self &&!(entity.mount != null && hitbox.equals(entity.mount.HITBOX)) && hitbox.rayIntersection(pos, direction, eHit)) {
                 hitbox.onHit(new HitData(this, pierce, entity, entity.getPos()));
                 if(pierce.doubleValue() <= 0) {
                     direction = eHit;

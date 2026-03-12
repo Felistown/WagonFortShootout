@@ -23,9 +23,9 @@ public class Kinetic extends ExplodingBullet {
         for (int i = 0; i < all.length; i ++) {
             Hitbox hitbox = all[i];
             Vector2 eHit = new Vector2();
-            if (hitbox != self && hitbox.rayIntersection(pos, direction, eHit)) {
+            if (hitbox != self && !(entity.mount != null && hitbox.equals(entity.mount.HITBOX))&& hitbox.rayIntersection(pos, direction, eHit)) {
                 hitbox.onHit(new HitData(this, pierce, entity, entity.getPos()));
-                if(hitbox.anchored) {
+                if(hitbox.isAnchored()) {
                     Vector2 oHit = new Vector2();
                     hitbox.rayIntersectionFar(pos, direction, oHit);
                     int p = exploder.projectiles;

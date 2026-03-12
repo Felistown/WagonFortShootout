@@ -2,6 +2,7 @@ package WagonFortShootout.java;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Horse;
+import WagonFortShootout.java.entity.entities.Tank;
 import WagonFortShootout.java.entity.entities.gunEnemy;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.framework.Input;
@@ -41,13 +42,13 @@ public class GameLevel implements Screen {
         // Prepare your screen here.
         Gun.init();
         Object.init();
-       Horse horse = new Horse(new Vector2(95,95));
+        //Horse horse = new Horse(new Vector2(95,95));
 
 
         Sprite backround = new Sprite("grass", -1);
         backround.setSize(WIDTH, HEIGHT);
-        backround.setPos((float) WIDTH /2, (float) HEIGHT /2);
-
+        backround.setCentre((float) WIDTH /2, (float) HEIGHT /2);
+        new Tank(new Vector2(92,92));
         player = new Player(new Vector2(90,90));
         Horse hors = new Horse(new Vector2(95,95));
         Object.objectInstance("cart", new Vector2(88,88), 45);
@@ -70,7 +71,10 @@ public class GameLevel implements Screen {
         new gunEnemy(new Vector2(1,99));
 
          */
-        for(int i = 0; i < 60; i++) {
+        for(int i = 0; i < 20; i++) {
+            new gunEnemy(new Vector2(1,1));
+        }
+        for(int i = 0; i < 10; i++) {
             Vector2 pos = Mth.randomVec(new Vector2(2,2), 98);
             float angle = (float)(Math.random() * 180);
             Object.objectInstance("cart", pos, angle);

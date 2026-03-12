@@ -7,9 +7,6 @@ import WagonFortShootout.java.framework.image.Effect;
 import WagonFortShootout.java.weapon.damager.Bullet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -143,7 +140,7 @@ public class Gun {
             Vector2 pos = ENTITY.getPos();
             float facing = ENTITY.getFacing();
             Vector2 added = OFFSET.cpy().rotateRad(facing);
-            sprite.setPos(pos.x + added.x, pos.y + added.y);
+            sprite.setCentre(pos.x + added.x, pos.y + added.y);
             sprite.setRotationRad(facing - (float)Math.PI);
         }
 
@@ -155,7 +152,7 @@ public class Gun {
                     empty.play();
                 } else {
                     Effect.Instance flash = EFFECT.instance();
-                    flash.setPos(ENTITY.getPos());
+                    flash.setCentre(ENTITY.getPos());
                     flash.setRotationRad(ENTITY.getFacing() + (float)Math.PI);
                     bullets--;
                     for(int i = 0; i < projectiles; i ++) {
