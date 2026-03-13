@@ -2,6 +2,7 @@ package WagonFortShootout.java.entity;
 
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.entity.Face;
 import WagonFortShootout.java.framework.entity.Pos;
 import WagonFortShootout.java.framework.entity.Hitbox;
@@ -17,6 +18,7 @@ public abstract class Entity {
     private static final HashSet<Entity> ALL_ENTITIES = new HashSet<Entity>();
     public final Pos POS;
     public final Face FACE;
+    public final Team team;
     private Sprite sprite;
     public Mount mount;
     public Hitbox HITBOX;
@@ -24,7 +26,8 @@ public abstract class Entity {
     protected int health;
     protected int stopping;
 
-    public Entity(Vector2 pos, Sprite sprite, Hitbox.Builder builder,int health, int size, int stopping) {
+
+    public Entity(Vector2 pos, Sprite sprite, Hitbox.Builder builder,int health, int size, int stopping, Team team) {
         //TODO Make it so that you can instantiate an entity from json
         //TODO change create sprite object to control sprite render states and other things
         POS = new Pos(pos, this);
@@ -36,7 +39,8 @@ public abstract class Entity {
         MAX_HEALTH = health;
         this.stopping = stopping;
         this.health = MAX_HEALTH;
-
+        this.team = team;
+        team.putEntity(this);
     }
 
     public boolean tick() {
@@ -68,6 +72,7 @@ public abstract class Entity {
         if(mount != null) {
             mount.dismount();
         }
+        team.removeEntity(this);
         HITBOX.remove();
         sprite.remove();
     }

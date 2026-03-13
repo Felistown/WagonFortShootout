@@ -1,6 +1,7 @@
 package WagonFortShootout.java.entity.generic;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
@@ -12,8 +13,8 @@ public abstract class Mount extends Entity {
     protected Entity mounter;
     protected float turning_speed;
 
-    public Mount(Vector2 pos, Sprite sprite, Hitbox.Builder polygon, int health, int size, int stopping) {
-        super(pos, sprite,polygon, health, size, stopping);
+    public Mount(Vector2 pos, Sprite sprite, Hitbox.Builder polygon, int health, int size, int stopping, Team team) {
+        super(pos, sprite,polygon, health, size, stopping, team);
         FACE.setSpeed(Math.PI);
         turning_speed = 0.025f;
     }

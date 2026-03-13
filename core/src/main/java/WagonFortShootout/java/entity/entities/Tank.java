@@ -4,6 +4,7 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.generic.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
@@ -20,14 +21,14 @@ public class Tank extends Mount {
     private float switchCooldown;
     private boolean isHe;
 
-    public Tank(Vector2 pos) {
+    public Tank(Vector2 pos, Team team) {
         super(pos,new Sprite("tank", 0),
             Hitbox.Builder.empty()
                 .addSub(Mth.rectange(5, 1), new Vector2(-0.5f, 1))
                 .addSub(Mth.rectange(1, 2), new Vector2(2.5f, 0.5f))
                 .addSub(Mth.rectange(5, 1), new Vector2(0.5f,-1))
                 .addSub(Mth.rectange(1, 2), new Vector2(-2.5f, -0.5f)),
-            10000, 9, 1000);
+            10000, 9, 1000, team);
         getSprite().setSize(6,3);
         turret = new Sprite("tank_turret", 3);
         turret.setSize(2.5f, 8.92857142857f);

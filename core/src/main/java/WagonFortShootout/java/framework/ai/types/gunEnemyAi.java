@@ -13,9 +13,13 @@ import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.HashSet;
+import java.util.Optional;
+
 public class gunEnemyAi extends Ai {
 
     public Vector2 targetPos = new Vector2(50,50);
+    public Entity targetEntity;
 
     public gunEnemyAi(Entity entity) {
         super(entity, new StateMachine(new State[]{State.SEEK, State.RELOAD}));
@@ -27,8 +31,10 @@ public class gunEnemyAi extends Ai {
     @Override
     public void tick() {
         super.tick();
-        float goal = entity.getPos().sub((GameLevel.player.getPos().add(GameLevel.player.getVel()))).angleRad();
-        entity.FACE.setGoal(goal);
+        if(targetEntity != null) {
+            float goal = entity.getPos().sub((targetEntity.getPos().add(GameLevel.player.getVel()))).angleRad();
+            entity.FACE.setGoal(goal);
+        }
     }
 
     @Override
@@ -61,12 +67,16 @@ public class gunEnemyAi extends Ai {
         Vector2 max = new Vector2(99,99);
         Vector2 tpos = new Vector2(0,0);
         Hitbox[] all = Utils.closetHitBox(entity);
+        HashSet<Entity> enemies = entity.team.getEnemies();
         float tscore = Float.MAX_VALUE;
         boolean found = false;
         while(searcher.hasNext()) {
             Vector2 cpos = searcher.nextSquare();
-            if(Mth.within(cpos, min, max) && Utils.los(cpos, entity, GameLevel.player, all) && entity.HITBOX.traverable(cpos)) {
-                float cscore = 1000 * cpos.dst2(entity.getPos()) + cpos.dst2(GameLevel.player.getPos());
+            //TODO start here!
+            /*
+            //Optional<Entity>
+            if(Mth.within(cpos, min, max) && Utils.los(cpos, entity, enemies, target, all) && entity.HITBOX.traverable(cpos)) {
+                float cscore = 1000 * cpos.dst2(entity.getPos()) + cpos.dst2(target.getPos());
                 if(cscore < tscore) {
                     tpos = cpos;
                     tscore = cscore;
@@ -76,6 +86,7 @@ public class gunEnemyAi extends Ai {
                     found = true;
                 }
             }
+             */
         }
         goTo(tpos);
         targetPos = tpos;
