@@ -33,7 +33,7 @@ public abstract class Entity {
         POS = new Pos(pos, this, max_speed, acceleration);
         FACE = new Face(-1);
         this.sprite = sprite;
-        HITBOX = builder.build(this::onHit);
+        HITBOX = builder.build(this, this::onHit);
         ALL_ENTITIES.add(this);
         MAX_HEALTH = health;
         this.stopping = stopping;
@@ -46,7 +46,7 @@ public abstract class Entity {
         POS = new Pos(pos, this, value.getFloat("max_speed"), value.getFloat("acceleration"));
         FACE = new Face(-1);
         this.sprite = Sprite.fromJson(value.get("sprite"));
-        HITBOX = Hitbox.Builder.fromJson(value.get("hitbox")).build(this::onHit);
+        HITBOX = Hitbox.Builder.fromJson(value.get("hitbox")).build(this, this::onHit);
         ALL_ENTITIES.add(this);
         MAX_HEALTH = value.getInt("health");
         this.stopping = value.getInt("stopping");
@@ -92,7 +92,7 @@ public abstract class Entity {
     public void onHit(HitData data) {
         health -= data.damage;
         data.piercing.sub(stopping);
-        POS.addVel(data.pos.sub(POS.pos()).angleRad(), data.weight * 0.05f);
+        POS.addVel(data.direction, data.weight * 0.05f);
         FACE.recoil(data.weight, data.weight / 2);
     }
 

@@ -4,7 +4,8 @@ import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.framework.image.Effect;
-import WagonFortShootout.java.weapon.damager.Bullet;
+import WagonFortShootout.java.weapon.damager.Beam;
+import WagonFortShootout.java.weapon.damager.Projectile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
@@ -14,7 +15,6 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.logging.FileHandler;
 
 public class Gun {
 
@@ -29,7 +29,7 @@ public class Gun {
         reader.stop();
     }
 
-    public final Bullet bullet;
+    public final Projectile bullet;
     public final int projectiles;
     public final int maxBullets;
     public final int fireRate;
@@ -70,7 +70,7 @@ public class Gun {
         float sprite_height = sprite.getFloat("height");
         Effect texture = new Effect(sprite.getString("texture"), 2, -1, sprite_width, sprite_height);
         Vector2 offset = new Vector2(sprite.getFloat("xOffset"), sprite.getFloat("yOffset"));
-        Gun gun = new Gun(Bullet.readJson(bullet), projectiles, maxBullets, fireRate, reloadRate, knockBack, rumble, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
+        Gun gun = new Gun(Beam.readJson(bullet), projectiles, maxBullets, fireRate, reloadRate, knockBack, rumble, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
         ALL_GUNS.put(name, gun);
         Gdx.app.log("Guns", "Loaded gun: " + name);
     }
@@ -83,7 +83,7 @@ public class Gun {
         }
     }
 
-    private Gun(Bullet bullet, int projectiles, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble, float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Effect sprite, Vector2 offset) {
+    private Gun(Beam bullet, int projectiles, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble, float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Effect sprite, Vector2 offset) {
         this.bullet = bullet;
         this.projectiles = projectiles;
         this.maxBullets = maxBullets;

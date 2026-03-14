@@ -11,18 +11,18 @@ public class Explosion {
     private static final int LIFETIME = 5;
     private static final Color COLOUR = new Color(255, 214, 0, 1);
 
-    public final Bullet shrapnel;
+    public final Beam shrapnel;
     public float SPREAD;
     public int projectiles;
 
     public Explosion(int damage, float weight, float Spread, int projectiles,int piercing, float dist) {
         this.SPREAD = Spread;
         this.projectiles = projectiles;
-        shrapnel = new Bullet(damage, weight, 0, piercing);
+        shrapnel = new Beam(damage, weight, 0, piercing);
         shrapnel.dist = dist;
     }
 
-    public Explosion(Bullet bullet, float spread, int projectiles) {
+    public Explosion(Beam bullet, float spread, int projectiles) {
         shrapnel = bullet;
         SPREAD = spread;
         this.projectiles = projectiles;
@@ -35,7 +35,7 @@ public class Explosion {
     }
 
     public static Explosion readJson(JsonValue value) {
-        Bullet shrapnel = Bullet.readJson(value.get("shrapnel"));
+        Beam shrapnel = Beam.readJson(value.get("shrapnel"));
         shrapnel.dist = value.getFloat("range");
         return new Explosion(shrapnel, value.getFloat("spread"), value.getInt("projectiles"));
     }

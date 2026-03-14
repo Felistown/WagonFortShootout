@@ -1,5 +1,6 @@
 package WagonFortShootout.java.framework.entity;
 
+import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
@@ -15,12 +16,14 @@ public class Hitbox {
     //TODO the way that rays are cast and collisions are detected is too inefficient, implement a spacial hash
     private static final HashSet<Hitbox> ALL_HITBOXES = new HashSet<Hitbox>();
 
+    public final Entity entity;
     public final Polygon POLYGON;
     private boolean anchored;
     private boolean transparent;
     private final Consumer<HitData> onHit;
 
-    protected Hitbox(Polygon hitBox, Consumer<HitData> onHit) {
+    protected Hitbox(Entity entity, Polygon hitBox, Consumer<HitData> onHit) {
+        this.entity = entity;
         POLYGON = hitBox;
         anchored = false;
         ALL_HITBOXES.add(this);
@@ -202,11 +205,11 @@ public class Hitbox {
             return this;
         }
 
-        public Hitbox build(Consumer<HitData> onHit) {
+        public Hitbox build(Entity entity, Consumer<HitData> onHit) {
             if(!sub.isEmpty()) {
-                return new ConjoinedHitbox(POLYGON, sub.toArray(Polygon[]::new), offset.toArray(Vector2[]::new), onHit, behaviour);
+                return new ConjoinedHitbox(entity, POLYGON, sub.toArray(Polygon[]::new), offset.toArray(Vector2[]::new), onHit, behaviour);
             } else {
-                return new Hitbox(POLYGON, onHit);
+                return new Hitbox(entity, POLYGON, onHit);
             }
         }
 

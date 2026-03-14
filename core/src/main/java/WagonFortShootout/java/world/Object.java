@@ -72,7 +72,7 @@ public class Object {
 
         private Instance(Vector2 pos, float rotation) {
             this.pos = pos;
-            hitbox = Hitbox.Builder.polygon(new Polygon(polygon.getVertices().clone())).build(Object.this::onHit);
+            hitbox = Hitbox.Builder.polygon(new Polygon(polygon.getVertices().clone())).build(null, Object.this::onHit);
             hitbox.setRotation(rotation);
             hitbox.setAnchored(true);
             hitbox.setPosition(pos);

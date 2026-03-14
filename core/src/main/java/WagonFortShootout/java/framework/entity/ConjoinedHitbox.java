@@ -1,5 +1,6 @@
 package WagonFortShootout.java.framework.entity;
 
+import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.HitData;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
@@ -13,8 +14,8 @@ public class ConjoinedHitbox extends Hitbox{
 
     private final HashSet<SubHitbox> subHitboxes = new HashSet<SubHitbox>();
 
-    public ConjoinedHitbox(Polygon master, Polygon[] sub, Vector2[] offset, Consumer<HitData> onHit, ArrayList<Consumer<HitData>> onHits) {
-        super(master, onHit);
+    public ConjoinedHitbox(Entity entity, Polygon master, Polygon[] sub, Vector2[] offset, Consumer<HitData> onHit, ArrayList<Consumer<HitData>> onHits) {
+        super(entity, master, onHit);
         if(sub.length != offset.length) {
             throw new IllegalArgumentException("Subordinate length must be the same as offset length, found " + sub.length + " of expected " + offset.length + ".");
         } else if(sub.length != onHits.size()) {
@@ -104,7 +105,7 @@ public class ConjoinedHitbox extends Hitbox{
         private final Vector2 offset;
 
         public SubHitbox(Polygon hitBox, Vector2 offset,Consumer<HitData> onHit) {
-            super(hitBox, onHit);
+            super(ConjoinedHitbox.this.entity, hitBox, onHit);
             this.offset = offset;
         }
 

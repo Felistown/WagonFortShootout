@@ -39,7 +39,7 @@ public class GameLevel implements Screen {
     @Override
     public void show() {
         // Prepare your screen here.
-        EntityLoader.get("horse",new Vector2(86,94), Team.neutral() );
+        //EntityLoader.get("horse",new Vector2(86,94), Team.neutral() );
 
         Team enemy = new Team((byte)2);
         Team friend = new Team((byte)3);
@@ -48,10 +48,10 @@ public class GameLevel implements Screen {
         backround.setSize(WIDTH, HEIGHT);
         backround.setCentre((float) WIDTH /2, (float) HEIGHT /2);
         //new Tank(new Vector2(92,92), Team.neutral());
-        EntityLoader.get("maxim", new Vector2(86,94), Team.neutral());
+       // EntityLoader.get("maxim", new Vector2(86,94), Team.neutral());
 
 
-        player = EntityLoader.get("player", new Vector2(88,88), friend);
+        player = EntityLoader.get("player", new Vector2(95,95), friend);
        // new gunEnemy(new Vector2(10,10), enemy);
         //Horse hors = new Horse(new Vector2(95,95), Team.unaffiliated());
         Object.objectInstance("cart", new Vector2(88,88), 45);
@@ -74,7 +74,7 @@ public class GameLevel implements Screen {
 
          */
 
-
+/*
         for(int i = 0; i < 10; i++) {
            EntityLoader.get("canny_soldier", new Vector2(99,999), friend);
 
@@ -83,6 +83,8 @@ public class GameLevel implements Screen {
         for(int i = 0; i < 10; i++) {
             EntityLoader.get("uncanny_soldier", new Vector2(1, 1), enemy);
         }
+
+ */
 
 /*
         for(int i = 0; i < 50; i++) {

@@ -1,4 +1,4 @@
-package WagonFortShootout.java.weapon.damager;
+package WagonFortShootout.java.weapon.damager.custom;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.HitData;
@@ -6,9 +6,11 @@ import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Mutable;
 import WagonFortShootout.java.utils.Utils;
+import WagonFortShootout.java.weapon.damager.Beam;
+import WagonFortShootout.java.weapon.damager.Explosion;
 import com.badlogic.gdx.math.Vector2;
 
-public class ExplodingBullet extends Bullet {
+public class ExplodingBullet extends Beam {
 
     public final Explosion exploder;
 
@@ -26,7 +28,7 @@ public class ExplodingBullet extends Bullet {
             Hitbox hitbox = all[i];
             Vector2 eHit = new Vector2();
             if (hitbox != self &&!(entity.mount != null && hitbox.equals(entity.mount.HITBOX)) && hitbox.rayIntersection(pos, direction, eHit)) {
-                hitbox.onHit(new HitData(this, pierce, entity, entity.getPos()));
+                hitbox.onHit(new HitData(this, pierce, entity, eHit, hitbox.entity));
                 if(pierce.doubleValue() <= 0) {
                     direction = eHit;
                     float rad = Mth.angleRad(pos, eHit);

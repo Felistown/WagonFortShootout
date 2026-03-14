@@ -1,10 +1,9 @@
 package WagonFortShootout.java.framework;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Mutable;
-import WagonFortShootout.java.weapon.Gun;
-import WagonFortShootout.java.weapon.damager.Bullet;
-import WagonFortShootout.java.weapon.damager.Explosion;
+import WagonFortShootout.java.weapon.damager.Beam;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.function.Consumer;
@@ -16,22 +15,28 @@ public class HitData {
     public final Mutable piercing;
     public final int damage;
     public final float weight;
-    public final Vector2 pos;
-    public final Entity entity;
+    public final Entity shooter;
+    public final Vector2 hitPos;
+    public final Entity hit_entity;
+    public final float direction;
 
-    public HitData(int damage, Mutable piercing, float weight, Vector2 pos, Entity entity) {
+    public HitData(int damage, float weight, Mutable piercing, Entity shooter, Vector2 hitPos, Entity hit_entity) {
         this.damage = damage;
         this.piercing= piercing;
         this.weight= weight;
-        this.pos = pos;
-        this.entity= entity;
+        this.shooter = shooter;
+        this.hitPos = hitPos;
+        this.hit_entity = hit_entity;
+        direction = Mth.angleRad(shooter.getPos(), hitPos);
     }
 
-    public HitData(Bullet bullet, Mutable piercing, Entity entity, Vector2 pos) {
+    public HitData(Beam bullet, Mutable piercing, Entity shooter, Vector2 hitPos, Entity hit_entity) {
         damage =bullet.damage;
         weight= bullet.weight;
         this.piercing = piercing;
-        this.pos = pos;
-        this.entity= entity;
+        this.shooter = shooter;
+        this.hitPos = hitPos;
+        this.hit_entity = hit_entity;
+        direction = Mth.angleRad(shooter.getPos(), hitPos);
     }
 }

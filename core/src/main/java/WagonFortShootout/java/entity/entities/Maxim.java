@@ -10,7 +10,6 @@ import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.MutableConsumer;
 import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
 
 public class Maxim extends Mount {
 
@@ -66,14 +65,14 @@ public class Maxim extends Mount {
 
 
     public void hitGun(HitData data) {
-        if (data.entity != mounter) {
+        if (data.shooter != mounter) {
             health -= data.damage;
             data.piercing.sub(stopping);
         }
     }
 
     public void hitGunBack(HitData data) {
-        if (data.entity != mounter) {
+        if (data.shooter != mounter) {
             health -= data.damage * 50;
         }
     }
