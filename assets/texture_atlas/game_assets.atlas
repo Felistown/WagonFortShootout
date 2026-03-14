@@ -1,124 +1,145 @@
 
 game_assets.png
-size: 2048, 1024
+size: 2048, 2048
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+canny
+  rotate: false
+  xy: 1158, 1143
+  size: 603, 622
+  orig: 603, 622
+  offset: 0, 0
+  index: -1
 circle
   rotate: false
-  xy: 1158, 461
+  xy: 684, 363
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: -1
 cursor
   rotate: false
-  xy: 1158, 288
+  xy: 1158, 1121
   size: 20, 20
   orig: 32, 32
   offset: 6, 6
   index: -1
 cursor_moving
   rotate: false
-  xy: 2, 27
+  xy: 1763, 1733
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 effects/aim_beam
   rotate: false
-  xy: 1158, 285
+  xy: 1158, 1118
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 effects/bullet
   rotate: false
-  xy: 1180, 307
+  xy: 1180, 1140
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 effects/muzzle_flash
   rotate: false
-  xy: 36, 53
+  xy: 1797, 1759
   size: 10, 6
   orig: 10, 10
   offset: 0, 2
   index: -1
 grass
   rotate: false
-  xy: 1300, 447
+  xy: 2, 2
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 green
   rotate: false
-  xy: 1332, 458
+  xy: 34, 13
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 guns/lever_rifle
   rotate: false
-  xy: 1300, 450
+  xy: 2, 5
   size: 30, 9
   orig: 30, 9
   offset: 0, 0
   index: -1
 horse
   rotate: false
-  xy: 2, 61
+  xy: 2, 865
   size: 1154, 900
   orig: 1155, 900
   offset: 0, 0
   index: -1
+maxim
+  rotate: false
+  xy: 144, 154
+  size: 20, 11
+  orig: 20, 11
+  offset: 0, 0
+  index: -1
 missing_texture
   rotate: false
-  xy: 1682, 959
+  xy: 706, 359
   size: 2, 2
   orig: 2, 2
   offset: 0, 0
   index: -1
 object/cart
   rotate: false
-  xy: 1660, 931
+  xy: 684, 331
   size: 20, 30
   orig: 20, 30
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 1158, 310
+  xy: 2, 16
   size: 140, 149
   orig: 150, 150
   offset: 4, 1
   index: -1
 red
   rotate: false
-  xy: 2, 2
+  xy: 144, 151
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 tank
   rotate: false
-  xy: 1660, 925
+  xy: 684, 325
   size: 9, 4
   orig: 9, 4
   offset: 0, 0
   index: -1
 tank_turret
   rotate: false
-  xy: 2, 5
+  xy: 1763, 1711
   size: 7, 20
   orig: 7, 25
   offset: 0, 5
   index: -1
+uncanny
+  rotate: false
+  xy: 2, 167
+  size: 680, 696
+  orig: 680, 696
+  offset: 0, 0
+  index: -1
 white
   rotate: false
-  xy: 11, 24
+  xy: 166, 164
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

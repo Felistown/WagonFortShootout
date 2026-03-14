@@ -18,6 +18,23 @@ public class Gun {
 
     private static final HashMap<String, Gun> ALL_GUNS = new HashMap<String, Gun>();
 
+    static {
+        Gun none = new Gun(
+            new Bullet(0,0,0,0)
+            ,0,0,0,0,0,0,0,0,0
+            ,"sounds/guns/lever_rifle/lever_rifle_fire.mp3"
+            ,"sounds/guns/lever_rifle/lever_rifle_fire.mp3"
+            ,"sounds/guns/lever_rifle/lever_rifle_fire.mp3"
+            ,new Effect("missing_texture", -3, 1, 0,0)
+            ,new Effect("missing_texture", -3, -1, 0,0)
+            ,new Vector2(0,0)
+        );
+        none.fire.setVolume(0,0);
+        none.empty.setVolume(0,0);
+        none.reload.setVolume(0,0);
+        ALL_GUNS.put("none", none);
+    }
+
     public final Bullet bullet;
     public final int projectiles;
     public final int maxBullets;
@@ -93,6 +110,19 @@ public class Gun {
         this.EFFECT = effect;
         SPRITE = sprite;
         OFFSET = offset;
+    }
+
+    private void dispose() {
+        fire.dispose();
+        empty.dispose();
+        reload.dispose();
+    }
+
+    public static void disposeAll() {
+        //TODO make a sound class so that sounds can be disposed in one place!
+        for(Gun gun: ALL_GUNS.values()) {
+            gun.dispose();
+        }
     }
 
     public class Instance {
@@ -201,6 +231,14 @@ public class Gun {
 
         public float getSpeed() {
             return speed;
+        }
+
+        public void setVisible(boolean bol) {
+            if(bol) {
+                sprite.setAlpha(1);
+            } else {
+                sprite.setAlpha(0);
+            }
         }
     }
 }

@@ -70,6 +70,12 @@ public record Pathfinder(Vector2 start, Vector2 target, Hitbox hitbox)  {
                 temp = temp.parent;
             }
             Collections.reverse(path);
+            /*
+            for(int i = 0; i < path.size() - 1; i++) {
+                Beam.DEBUG_BEAM.instance(path.get(i), path.get(i + 1));
+            }
+
+             */
         }
 
         public Vector2 current() {

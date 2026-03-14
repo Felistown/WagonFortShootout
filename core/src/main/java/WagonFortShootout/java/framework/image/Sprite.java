@@ -39,6 +39,10 @@ public class Sprite implements Comparable<Sprite>{
         sprite.setOriginCenter();
     }
 
+    public void setAlpha(float alpha) {
+        sprite.setAlpha(alpha);
+    }
+
     public void setPos(float x, float y) {
         sprite.setCenter(x, y);
     }

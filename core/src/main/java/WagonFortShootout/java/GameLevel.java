@@ -1,10 +1,7 @@
 package WagonFortShootout.java;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.entities.Horse;
-import WagonFortShootout.java.entity.entities.Tank;
-import WagonFortShootout.java.entity.entities.gunEnemy;
-import WagonFortShootout.java.entity.entities.Player;
+import WagonFortShootout.java.entity.entities.*;
 import WagonFortShootout.java.framework.Input;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.gui.Gui;
@@ -45,14 +42,21 @@ public class GameLevel implements Screen {
         Object.init();
         //Horse horse = new Horse(new Vector2(95,95));
 
+        Team enemy = new Team((byte)2);
+        Team friend = new Team((byte)3);
 
         Sprite backround = new Sprite("grass", -1);
         backround.setSize(WIDTH, HEIGHT);
         backround.setCentre((float) WIDTH /2, (float) HEIGHT /2);
-        new Tank(new Vector2(92,92), Team.neutral());
-        player = new Player(new Vector2(90,90), Team.unaffiliated());
-        Horse hors = new Horse(new Vector2(95,95), Team.unaffiliated());
+        //new Tank(new Vector2(92,92), Team.neutral());
+        Maxim m = new Maxim(new Vector2(86,94), Team.neutral());
+        m.FACE.set(45);
+
+        player = new Player(new Vector2(90,90), friend);
+       // new gunEnemy(new Vector2(10,10), enemy);
+        //Horse hors = new Horse(new Vector2(95,95), Team.unaffiliated());
         Object.objectInstance("cart", new Vector2(88,88), 45);
+        Object.objectInstance("cart", new Vector2(12,12), 45);
         /*
         Object.objectInstance("cart", new Vector2(86,90), 45);
         Object.objectInstance("cart", new Vector2(84,92), 45);
@@ -62,9 +66,8 @@ public class GameLevel implements Screen {
          */
 
 
-
        // new Tank(new Vector2(87,87));
-        new gunEnemy(new Vector2(1,1), Team.unaffiliated());
+
         /*
         new gunEnemy(new Vector2(99,1));
         new gunEnemy(new Vector2(1,99));
@@ -72,14 +75,29 @@ public class GameLevel implements Screen {
         new gunEnemy(new Vector2(1,99));
 
          */
-        for(int i = 0; i < 20; i++) {
-            new gunEnemy(new Vector2(1,1), Team.unaffiliated());
+
+        for(int i = 0; i < 30; i++) {
+            new gunEnemy(new Vector2(1,1), enemy);
+
         }
+
         for(int i = 0; i < 10; i++) {
+            new gunFriend(new Vector2(98,98), friend);
+        }
+
+
+
+
+/*
+        for(int i = 0; i < 50; i++) {
             Vector2 pos = Mth.randomVec(new Vector2(2,2), 98);
             float angle = (float)(Math.random() * 180);
             Object.objectInstance("cart", pos, angle);
         }
+
+
+ */
+
         gui = new Gui(player);
     }
 
@@ -143,6 +161,7 @@ public class GameLevel implements Screen {
 
     @Override
     public void dispose() {
+        Gun.disposeAll();
         SPRITE_BATCH.dispose();
         Sprite.dispose();
         // Destroy screen's assets here.

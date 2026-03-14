@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
@@ -12,13 +13,20 @@ public class ConjoinedHitbox extends Hitbox{
 
     private final HashSet<SubHitbox> subHitboxes = new HashSet<SubHitbox>();
 
-    public ConjoinedHitbox(Polygon master, Polygon[] sub, Vector2[] offset, Consumer<HitData> onHit) {
+    public ConjoinedHitbox(Polygon master, Polygon[] sub, Vector2[] offset, Consumer<HitData> onHit, ArrayList<Consumer<HitData>> onHits) {
         super(master, onHit);
         if(sub.length != offset.length) {
             throw new IllegalArgumentException("Subordinate length must be the same as offset length, found " + sub.length + " of expected " + offset.length + ".");
+        } else if(sub.length != onHits.size()) {
+            throw new IllegalArgumentException("Subordinate length must be the same as behaviour length, found " + sub.length + " of expected " + onHits.size() + ".");
         }
         for(int i = 0; i < sub.length; i++) {
-            subHitboxes.add(new SubHitbox(sub[i], offset[i], onHit));
+            Consumer<HitData> behaviour = onHits.get(i);
+            if(behaviour == null) {
+                subHitboxes.add(new SubHitbox(sub[i], offset[i], onHit));
+            } else {
+                subHitboxes.add(new SubHitbox(sub[i], offset[i], behaviour));
+            }
         }
     }
 

@@ -7,7 +7,11 @@ import WagonFortShootout.java.weapon.damager.Bullet;
 import WagonFortShootout.java.weapon.damager.Explosion;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.function.Consumer;
+
 public class HitData {
+
+    public static final Consumer<HitData> NO_OP = x -> {};
 
     public final Mutable piercing;
     public final int damage;

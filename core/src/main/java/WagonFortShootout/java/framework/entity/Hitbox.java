@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.function.Consumer;
 
 public class Hitbox {
-
+    //TODO the way that rays are cast and collisions are detected is too inefficient, implement a spacial hash
     private static final HashSet<Hitbox> ALL_HITBOXES = new HashSet<Hitbox>();
 
     public final Polygon POLYGON;
@@ -150,6 +150,7 @@ public class Hitbox {
         private final Polygon POLYGON;
         private final ArrayList<Polygon> sub = new ArrayList<Polygon>();
         private final ArrayList<Vector2> offset = new ArrayList<Vector2>();
+        private final ArrayList<Consumer<HitData>> behaviour = new ArrayList<Consumer<HitData>>();
 
         private Builder(Polygon polygon) {
             POLYGON = polygon;
@@ -182,12 +183,27 @@ public class Hitbox {
         public Builder addSub(Polygon polygon, Vector2 offset) {
             sub.add(polygon);
             this.offset.add(offset);
+            behaviour.add(null);
+            return this;
+        }
+
+        public Builder addSub(Polygon polygon, Vector2 offset, Consumer<HitData> behaviour) {
+            sub.add(polygon);
+            this.offset.add(offset);
+            this.behaviour.add(behaviour);
+            return this;
+        }
+
+        public Builder addSubNoOp(Polygon polygon, Vector2 offset) {
+            sub.add(polygon);
+            this.offset.add(offset);
+            behaviour.add(HitData.NO_OP);
             return this;
         }
 
         public Hitbox build(Consumer<HitData> onHit) {
             if(!sub.isEmpty()) {
-                return new ConjoinedHitbox(POLYGON, sub.toArray(Polygon[]::new), offset.toArray(Vector2[]::new), onHit);
+                return new ConjoinedHitbox(POLYGON, sub.toArray(Polygon[]::new), offset.toArray(Vector2[]::new), onHit, behaviour);
             } else {
                 return new Hitbox(POLYGON, onHit);
             }

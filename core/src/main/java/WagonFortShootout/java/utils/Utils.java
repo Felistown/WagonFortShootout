@@ -68,20 +68,20 @@ public class Utils {
         return false;
     }
 
-    public static boolean los(Vector2 e, Entity q, HashSet<Entity> o, Entity t,Hitbox[] all) {
-        for(Hitbox h: all) {
-            if(q.HITBOX != h && !h.isTransparent() ){
-                for(Entity ememy: o) {
-                    if(h.rayIntersection(e, ememy.getPos(), null)) {
-                        if(h == ememy.HITBOX) {
-                            t = ememy;
-                            return true;
-                        }
+    public static Entity los(Vector2 pos, Entity self, HashSet<Entity> enemies,Hitbox[] all) {
+        Entity ret = null;
+        for(Entity entity: enemies) {
+            for(Hitbox hitbox: all) {
+                if(hitbox != self.HITBOX && !hitbox.isTransparent() && hitbox.rayIntersection(pos, entity.getPos(), null)) {
+                    if(hitbox != entity.HITBOX) {
+                        break;
+                    } else {
+                        ret = entity;
                     }
                 }
             }
         }
-        return false;
+        return ret;
     }
 
     public static float dist(Entity e, Entity o) {

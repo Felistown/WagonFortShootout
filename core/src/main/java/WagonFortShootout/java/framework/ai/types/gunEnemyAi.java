@@ -2,6 +2,7 @@ package WagonFortShootout.java.framework.ai.types;
 
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.entity.generic.GunEntity;
 import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.State;
@@ -34,6 +35,9 @@ public class gunEnemyAi extends Ai {
         if(targetEntity != null) {
             float goal = entity.getPos().sub((targetEntity.getPos().add(GameLevel.player.getVel()))).angleRad();
             entity.FACE.setGoal(goal);
+            if(Utils.los(entity, targetEntity)) {
+                ((GunEntity)entity).gun.shoot();
+            }
         }
     }
 
@@ -41,17 +45,16 @@ public class gunEnemyAi extends Ai {
     public void update() {
         Gun.Instance gun = ((GunEntity)entity).gun;
         if(STATE.is(State.SEEK)) {
-            if(hasEnded() || (moveable() && !Utils.los(targetPos, entity, GameLevel.player, Utils.closetHitBox(targetPos)))) {
+            if(targetEntity == null) {
                 hunt();
-            }
-            if(Utils.los(entity, GameLevel.player)) {
-                gun.shoot();
+            } else if(hasEnded() || (moveable() && !Utils.los(targetPos, entity, targetEntity, Utils.closetHitBox(targetPos)))) {
+                hunt();
             }
             if(gun.bullets() <= 0) {
                 STATE.setState(State.RELOAD);
             }
         } else {
-            if(hasEnded() || (moveable() && Utils.los(targetPos, entity, GameLevel.player, Utils.closetHitBox(targetPos)))) {
+            if(hasEnded() || (moveable() && Utils.los(targetPos, entity, targetEntity, Utils.closetHitBox(targetPos)))) {
                 hide();
             }
             gun.reload();
@@ -72,21 +75,21 @@ public class gunEnemyAi extends Ai {
         boolean found = false;
         while(searcher.hasNext()) {
             Vector2 cpos = searcher.nextSquare();
-            //TODO start here!
-            /*
-            //Optional<Entity>
-            if(Mth.within(cpos, min, max) && Utils.los(cpos, entity, enemies, target, all) && entity.HITBOX.traverable(cpos)) {
-                float cscore = 1000 * cpos.dst2(entity.getPos()) + cpos.dst2(target.getPos());
-                if(cscore < tscore) {
-                    tpos = cpos;
-                    tscore = cscore;
-                }
-                if(!found) {
-                    searcher = searcher.resize(searcher.getLayer() + 1);
-                    found = true;
+            if(Mth.within(cpos, min, max)) {
+                Entity target = Utils.los(cpos, entity, enemies, all);
+                if(target != null && entity.HITBOX.traverable(cpos)) {
+                    float cscore = 1000 * cpos.dst2(entity.getPos()) + cpos.dst2(target.getPos());
+                    if (cscore < tscore) {
+                        tpos = cpos;
+                        tscore = cscore;
+                        this.targetEntity = target;
+                    }
+                    if (!found) {
+                        searcher = searcher.resize(searcher.getLayer() + 1);
+                        found = true;
+                    }
                 }
             }
-             */
         }
         goTo(tpos);
         targetPos = tpos;

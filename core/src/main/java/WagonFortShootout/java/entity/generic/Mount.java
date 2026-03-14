@@ -1,6 +1,7 @@
 package WagonFortShootout.java.entity.generic;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
@@ -12,11 +13,13 @@ public abstract class Mount extends Entity {
 
     protected Entity mounter;
     protected float turning_speed;
+    protected Vector2 mounter_offset;
 
     public Mount(Vector2 pos, Sprite sprite, Hitbox.Builder polygon, int health, int size, int stopping, Team team) {
         super(pos, sprite,polygon, health, size, stopping, team);
         FACE.setSpeed(Math.PI);
         turning_speed = 0.025f;
+        mounter_offset = new Vector2(0,0);
     }
 
     public void mount(Entity mounter) {
@@ -38,9 +41,18 @@ public abstract class Mount extends Entity {
     }
 
     @Override
+    public void onHit(HitData data) {
+        super.onHit(data);
+    }
+
+    @Override
     public boolean tick() {
         if(mounter != null) {
-            mounter.POS.setPos(getPos());
+            if(mounter_offset.len() <= 0) {
+                mounter.POS.setPos(getPos());
+            } else {
+                mounter.POS.setPos(getPos().add(mounter_offset.cpy().setAngleRad(getFacing())));
+            }
         }
         return super.tick();
     }
