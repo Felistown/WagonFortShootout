@@ -1,7 +1,8 @@
 package WagonFortShootout.java.world;
 
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.entity.HitboxHolder;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.Gdx;
@@ -57,12 +58,12 @@ public class Object {
         }
     }
 
-    public void onHit(HitData data) {
+    public void onHit(HitResult data) {
         data.piercing.sub(resistance);
     }
 
 
-    public class Instance {
+    public class Instance implements HitboxHolder{
 
         private static HashSet<Instance> ALL_INSTANCES = new HashSet<Instance>();
 
@@ -72,7 +73,7 @@ public class Object {
 
         private Instance(Vector2 pos, float rotation) {
             this.pos = pos;
-            hitbox = Hitbox.Builder.polygon(new Polygon(polygon.getVertices().clone())).build(null, Object.this::onHit);
+            hitbox = Hitbox.Builder.polygon(new Polygon(polygon.getVertices().clone())).build(this, Object.this::onHit);
             hitbox.setRotation(rotation);
             hitbox.setAnchored(true);
             hitbox.setPosition(pos);

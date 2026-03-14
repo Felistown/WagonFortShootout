@@ -80,11 +80,13 @@ public class GameLevel implements Screen {
 
         }
 
+
+ */
         for(int i = 0; i < 10; i++) {
             EntityLoader.get("uncanny_soldier", new Vector2(1, 1), enemy);
         }
 
- */
+
 
 /*
         for(int i = 0; i < 50; i++) {

@@ -2,7 +2,7 @@ package WagonFortShootout.java.entity.entities;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.generic.Mount;
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
@@ -89,7 +89,7 @@ public class Tank extends Mount {
     }
 
     @Override
-    public void onHit(HitData data) {
+    public void onHit(HitResult data) {
         if(data.shooter != mounter) {
             health -= data.damage;
             data.piercing.sub(stopping);

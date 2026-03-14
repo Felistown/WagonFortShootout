@@ -2,17 +2,15 @@ package WagonFortShootout.java.entity.entities;
 
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
-import WagonFortShootout.java.framework.entity.Hitbox;
-import WagonFortShootout.java.framework.image.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class Player extends GunEntity {
 
     @Override
-    public void onHit(HitData data) {
+    public void onHit(HitResult data) {
         super.onHit(data);
         GameLevel.SCREEN_SHAKER.rumble(data.weight * 2.5f, 5);
     }

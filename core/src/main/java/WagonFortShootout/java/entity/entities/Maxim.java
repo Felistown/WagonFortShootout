@@ -2,7 +2,7 @@ package WagonFortShootout.java.entity.entities;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.generic.Mount;
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
@@ -60,18 +60,18 @@ public class Maxim extends Mount {
     }
 
     @Override
-    public void onHit(HitData data) {
+    public void onHit(HitResult data) {
     }
 
 
-    public void hitGun(HitData data) {
+    public void hitGun(HitResult data) {
         if (data.shooter != mounter) {
             health -= data.damage;
             data.piercing.sub(stopping);
         }
     }
 
-    public void hitGunBack(HitData data) {
+    public void hitGunBack(HitResult data) {
         if (data.shooter != mounter) {
             health -= data.damage * 50;
         }

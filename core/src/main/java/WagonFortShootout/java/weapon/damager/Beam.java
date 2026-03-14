@@ -1,13 +1,14 @@
 package WagonFortShootout.java.weapon.damager;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Mutable;
 import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.weapon.damager.custom.ExplodingBullet;
 import WagonFortShootout.java.weapon.damager.custom.Kinetic;
+import WagonFortShootout.java.world.Object;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -31,6 +32,7 @@ public class Beam implements Projectile {
     }
 
     public void shoot(Entity entity, Vector2 pos, float face, float addedSpread) {
+        //TODO clean up this class
         Hitbox self = entity.HITBOX;
         Mutable pierce = new Mutable(piercing);
         Vector2 direction = (Mth.addSpread(Mth.toVec(face, dist), SPREAD + addedSpread)).add(pos);
@@ -39,53 +41,40 @@ public class Beam implements Projectile {
             Hitbox hitbox = all[i];
             Vector2 eHit = new Vector2();
             if (hitbox != self && hitbox.rayIntersection(pos, direction, eHit)) {
+                //TODO things sometimes explode inside
                 if(hitbox.isAnchored()) {
                     float rad = Mth.angleRad(pos, eHit);
-                    onEnter(Mth.toVec(rad, pos.dst(eHit) - 0.01f).add(pos));
+                    onEnter(new HitResult(this, pierce, entity, Mth.toVec(rad, pos.dst(eHit) - 0.01f).add(pos), hitbox.holder));
                 }
-                onHit(entity);
-                hitbox.onHit(new HitData(this, pierce, entity, eHit, hitbox.entity));
+                onHit(new HitResult(this, pierce, entity, eHit, hitbox.holder));
+                hitbox.onHit(new HitResult(this, pierce, entity, eHit, hitbox.holder));
                 if(entity.getHealth() < 0) {
-                    onKill(entity);
+                    onKill(new HitResult(this, pierce, entity, eHit, entity));
                 }
                 if (pierce.doubleValue() <= 0) {
                     direction = eHit;
                     float rad = Mth.angleRad(pos, eHit);
-                    onStop(Mth.toVec(rad, pos.dst(direction) - 0.01f).add(pos));
+                    onStop(new HitResult(this, pierce, entity, Mth.toVec(rad, pos.dst(direction) - 0.01f).add(pos), hitbox.holder));
                     break;
                 } else if(hitbox.isAnchored()){
                     Vector2 oHit = new Vector2();
                     hitbox.rayIntersectionFar(pos, direction, oHit);
                     float rad = Mth.angleRad(pos, oHit);
-                    onExit(Mth.toVec(rad, pos.dst(oHit) + 0.01f).add(pos));
+                    onExit(new HitResult(this, pierce, entity, Mth.toVec(rad, pos.dst(oHit) + 0.01f).add(pos), hitbox.holder));
                 }
             }
         }
         BEAM.instance(pos, direction);
     }
 
-    //When entity is hit
-    public void onHit(Entity entity) {
-
+    @Override
+    public int getDamage() {
+        return damage;
     }
 
-    //When entity is killed
-    public void onKill(Entity entity) {
-
-    }
-
-    public void onStop(Vector2 pos) {
-
-    }
-
-    //When exiting anchored object
-    public void onExit(Vector2 pos) {
-
-    }
-
-    //When hitting anchored object
-    public void onEnter(Vector2 pos) {
-
+    @Override
+    public float getWeight() {
+        return weight;
     }
 
     public static Beam readJson(JsonValue value) {

@@ -1,7 +1,7 @@
 package WagonFortShootout.java.framework.entity;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.PolygonMaker;
@@ -16,14 +16,14 @@ public class Hitbox {
     //TODO the way that rays are cast and collisions are detected is too inefficient, implement a spacial hash
     private static final HashSet<Hitbox> ALL_HITBOXES = new HashSet<Hitbox>();
 
-    public final Entity entity;
+    public final HitboxHolder holder;
     public final Polygon POLYGON;
     private boolean anchored;
     private boolean transparent;
-    private final Consumer<HitData> onHit;
+    private final Consumer<HitResult> onHit;
 
-    protected Hitbox(Entity entity, Polygon hitBox, Consumer<HitData> onHit) {
-        this.entity = entity;
+    protected Hitbox(HitboxHolder holder, Polygon hitBox, Consumer<HitResult> onHit) {
+        this.holder = holder;
         POLYGON = hitBox;
         anchored = false;
         ALL_HITBOXES.add(this);
@@ -94,7 +94,7 @@ public class Hitbox {
         return ALL_HITBOXES.toArray(Hitbox[]::new);
     }
 
-    public void onHit(HitData data) {
+    public void onHit(HitResult data) {
         if(onHit != null) {
             onHit.accept(data);
         }
@@ -154,7 +154,7 @@ public class Hitbox {
         private final Polygon POLYGON;
         private final ArrayList<Polygon> sub = new ArrayList<Polygon>();
         private final ArrayList<Vector2> offset = new ArrayList<Vector2>();
-        private final ArrayList<Consumer<HitData>> behaviour = new ArrayList<Consumer<HitData>>();
+        private final ArrayList<Consumer<HitResult>> behaviour = new ArrayList<Consumer<HitResult>>();
 
         private Builder(Polygon polygon) {
             POLYGON = polygon;
@@ -191,7 +191,7 @@ public class Hitbox {
             return this;
         }
 
-        public Builder addSub(Polygon polygon, Vector2 offset, Consumer<HitData> behaviour) {
+        public Builder addSub(Polygon polygon, Vector2 offset, Consumer<HitResult> behaviour) {
             sub.add(polygon);
             this.offset.add(offset);
             this.behaviour.add(behaviour);
@@ -201,15 +201,15 @@ public class Hitbox {
         public Builder addSubNoOp(Polygon polygon, Vector2 offset) {
             sub.add(polygon);
             this.offset.add(offset);
-            behaviour.add(HitData.NO_OP);
+            behaviour.add(HitResult.NO_OP);
             return this;
         }
 
-        public Hitbox build(Entity entity, Consumer<HitData> onHit) {
+        public Hitbox build(HitboxHolder holder, Consumer<HitResult> onHit) {
             if(!sub.isEmpty()) {
-                return new ConjoinedHitbox(entity, POLYGON, sub.toArray(Polygon[]::new), offset.toArray(Vector2[]::new), onHit, behaviour);
+                return new ConjoinedHitbox(holder, POLYGON, sub.toArray(Polygon[]::new), offset.toArray(Vector2[]::new), onHit, behaviour);
             } else {
-                return new Hitbox(entity, POLYGON, onHit);
+                return new Hitbox(holder, POLYGON, onHit);
             }
         }
 

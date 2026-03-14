@@ -1,20 +1,20 @@
 package WagonFortShootout.java.entity;
 
 import WagonFortShootout.java.entity.generic.Mount;
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.entity.Face;
+import WagonFortShootout.java.framework.entity.HitboxHolder;
 import WagonFortShootout.java.framework.entity.Pos;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.HashSet;
 
-public abstract class Entity {
+public abstract class Entity implements HitboxHolder {
 
     private static final HashSet<Entity> ALL_ENTITIES = new HashSet<Entity>();
     public final Pos POS;
@@ -89,7 +89,7 @@ public abstract class Entity {
         sprite.remove();
     }
 
-    public void onHit(HitData data) {
+    public void onHit(HitResult data) {
         health -= data.damage;
         data.piercing.sub(stopping);
         POS.addVel(data.direction, data.weight * 0.05f);

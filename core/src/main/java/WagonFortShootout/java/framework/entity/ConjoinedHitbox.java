@@ -1,7 +1,7 @@
 package WagonFortShootout.java.framework.entity;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.framework.HitData;
+import WagonFortShootout.java.framework.data.HitResult;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -14,15 +14,15 @@ public class ConjoinedHitbox extends Hitbox{
 
     private final HashSet<SubHitbox> subHitboxes = new HashSet<SubHitbox>();
 
-    public ConjoinedHitbox(Entity entity, Polygon master, Polygon[] sub, Vector2[] offset, Consumer<HitData> onHit, ArrayList<Consumer<HitData>> onHits) {
-        super(entity, master, onHit);
+    public ConjoinedHitbox(HitboxHolder holder, Polygon master, Polygon[] sub, Vector2[] offset, Consumer<HitResult> onHit, ArrayList<Consumer<HitResult>> onHits) {
+        super(holder, master, onHit);
         if(sub.length != offset.length) {
             throw new IllegalArgumentException("Subordinate length must be the same as offset length, found " + sub.length + " of expected " + offset.length + ".");
         } else if(sub.length != onHits.size()) {
             throw new IllegalArgumentException("Subordinate length must be the same as behaviour length, found " + sub.length + " of expected " + onHits.size() + ".");
         }
         for(int i = 0; i < sub.length; i++) {
-            Consumer<HitData> behaviour = onHits.get(i);
+            Consumer<HitResult> behaviour = onHits.get(i);
             if(behaviour == null) {
                 subHitboxes.add(new SubHitbox(sub[i], offset[i], onHit));
             } else {
@@ -104,8 +104,8 @@ public class ConjoinedHitbox extends Hitbox{
 
         private final Vector2 offset;
 
-        public SubHitbox(Polygon hitBox, Vector2 offset,Consumer<HitData> onHit) {
-            super(ConjoinedHitbox.this.entity, hitBox, onHit);
+        public SubHitbox(Polygon hitBox, Vector2 offset,Consumer<HitResult> onHit) {
+            super(ConjoinedHitbox.this.holder, hitBox, onHit);
             this.offset = offset;
         }
 
