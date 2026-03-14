@@ -1,5 +1,4 @@
 {
-  "cart": {
     "texture": "object/cart",
     "resistance": "20",
     "polygon": {
@@ -7,5 +6,4 @@
       "height": "15",
       "length": "2"
     }
-  }
 }

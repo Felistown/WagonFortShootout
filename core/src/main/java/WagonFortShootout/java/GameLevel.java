@@ -38,8 +38,6 @@ public class GameLevel implements Screen {
     @Override
     public void show() {
         // Prepare your screen here.
-        Gun.init();
-        Object.init();
         //Horse horse = new Horse(new Vector2(95,95));
 
         Team enemy = new Team((byte)2);
@@ -76,7 +74,7 @@ public class GameLevel implements Screen {
 
          */
 
-        for(int i = 0; i < 30; i++) {
+        for(int i = 0; i < 10; i++) {
             new gunEnemy(new Vector2(1,1), enemy);
 
         }
@@ -84,6 +82,7 @@ public class GameLevel implements Screen {
         for(int i = 0; i < 10; i++) {
             new gunFriend(new Vector2(98,98), friend);
         }
+
 
 
 

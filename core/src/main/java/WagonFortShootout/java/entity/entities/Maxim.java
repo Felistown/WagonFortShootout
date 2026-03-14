@@ -26,7 +26,7 @@ public class Maxim extends Mount {
             Hitbox.Builder.rectangle(2.5f, 1.375f)
                 .addSub(Mth.rectange(0.2f, 1.375f), new Vector2(0, 0), MutableConsumer.putKey(1))
                 .addSub(Mth.rectange(1.25f, 1.125f), new Vector2(1, 0), MutableConsumer.putKey(2)),
-            100000, 1, 0, team);
+            10000, 1, 0, team);
         MutableConsumer.set(1, this::hitGun);
         MutableConsumer.set(2, this::hitGunBack);
         getSprite().setSize(2.5f, 1.375f);
@@ -80,7 +80,7 @@ public class Maxim extends Mount {
 
     public void hitGunBack(HitData data) {
         if (data.entity != mounter) {
-            health -= data.damage * 500;
+            health -= data.damage * 50;
         }
     }
 }

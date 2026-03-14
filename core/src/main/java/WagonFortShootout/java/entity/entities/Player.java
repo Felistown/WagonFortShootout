@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Player extends GunEntity {
 
     public Player(Vector2 pos, Team team) {
-        super(pos, new Sprite("player", 1), Hitbox.Builder.circle((float) 1/ 2, 8),300,1,5, "controllable","semi_rifle", team);
+        super(pos, new Sprite("player", 1), Hitbox.Builder.circle((float) 1/ 2, 8),300,1,5, "controllable","smg", team);
 
     }
 

@@ -1,0 +1,34 @@
+{
+    "bullet": {
+      "type": "bullet",
+      "damage": "34",
+      "weight":"1",
+      "spread": "0",
+      "piercing": "10"
+    },
+    "projectiles": "1",
+    "maxBullets": "100",
+    "fireRate": "10",
+    "reloadRate": "2",
+    "knockBack": "0",
+    "rumble": "1.25",
+    "recoilMult": "0",
+    "minRecoil": "0",
+    "speed": "0.00145444166",
+    "sound": {
+      "fire": "sounds/guns/lever_rifle/lever_rifle_fire.mp3",
+      "empty": "sounds/guns/lever_rifle/lever_rifle_empty.mp3",
+      "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
+    },
+    "effect": {
+      "texture": "effects/muzzle_flash",
+      "size": "3"
+    },
+    "gun": {
+      "texture": "missing_texture",
+      "width": "0",
+      "height": "0",
+      "xOffset": "0",
+      "yOffset": "0"
+    }
+}

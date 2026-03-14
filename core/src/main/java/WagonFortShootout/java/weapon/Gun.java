@@ -7,32 +7,25 @@ import WagonFortShootout.java.framework.image.Effect;
 import WagonFortShootout.java.weapon.damager.Bullet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.FileHandler;
 
 public class Gun {
 
     private static final HashMap<String, Gun> ALL_GUNS = new HashMap<String, Gun>();
 
     static {
-        Gun none = new Gun(
-            new Bullet(0,0,0,0)
-            ,0,0,0,0,0,0,0,0,0
-            ,"sounds/guns/lever_rifle/lever_rifle_fire.mp3"
-            ,"sounds/guns/lever_rifle/lever_rifle_fire.mp3"
-            ,"sounds/guns/lever_rifle/lever_rifle_fire.mp3"
-            ,new Effect("missing_texture", -3, 1, 0,0)
-            ,new Effect("missing_texture", -3, -1, 0,0)
-            ,new Vector2(0,0)
-        );
-        none.fire.setVolume(0,0);
-        none.empty.setVolume(0,0);
-        none.reload.setVolume(0,0);
-        ALL_GUNS.put("none", none);
+        JsonReader reader = new JsonReader();
+        FileHandle dir = Gdx.files.internal("data/guns/");
+        for(FileHandle file: dir.list(".json")) {
+            initGun(reader.parse(file), file.nameWithoutExtension());
+        }
     }
 
     public final Bullet bullet;
@@ -52,37 +45,32 @@ public class Gun {
     public final float minRecoil;
     public final float speed;
 
-    public static void init() {
-        JsonReader reader = new JsonReader();
-        JsonValue file = reader.parse(Gdx.files.internal("data/guns.json"));
-        JsonValue current = file.child();
-        do {
-            JsonValue sound = current.get("sound");
-            JsonValue flash = current.get("effect");
-            JsonValue sprite = current.get("gun");
-            JsonValue bullet = current.get("bullet");
-            int maxBullets = current.getInt("maxBullets");
-            int projectiles = current.getInt("projectiles");
-            int fireRate = current.getInt("fireRate");
-            int reloadRate = current.getInt("reloadRate");
-            float knockBack = current.getFloat("knockBack");
-            float rumble = current.getFloat("rumble");
-            float recoilMult = current.getFloat("recoilMult");
-            float minRecoil = current.getFloat("minRecoil");
-            float speed = current.getFloat("speed");
-            String fire = sound.getString("fire");
-            String empty = sound.getString("empty");
-            String reload = sound.getString("reload");
-            float flash_size = flash.getFloat("size");
-            Effect effect = new Effect(flash.getString("texture"), 1, 5, flash_size, flash_size);
-            float sprite_width = sprite.getFloat("width");
-            float sprite_height = sprite.getFloat("height");
-            Effect texture = new Effect(sprite.getString("texture"), 2, -1, sprite_width, sprite_height);
-            Vector2 offset = new Vector2(sprite.getFloat("xOffset"), sprite.getFloat("yOffset"));
-            Gun gun = new Gun(Bullet.readJson(bullet), projectiles, maxBullets, fireRate, reloadRate, knockBack, rumble, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
-            ALL_GUNS.put(current.name(), gun);
-            current = current.next;
-        } while (current != null);
+    private static void initGun(JsonValue current, String name) {
+        JsonValue sound = current.get("sound");
+        JsonValue flash = current.get("effect");
+        JsonValue sprite = current.get("gun");
+        JsonValue bullet = current.get("bullet");
+        int maxBullets = current.getInt("maxBullets");
+        int projectiles = current.getInt("projectiles");
+        int fireRate = current.getInt("fireRate");
+        int reloadRate = current.getInt("reloadRate");
+        float knockBack = current.getFloat("knockBack");
+        float rumble = current.getFloat("rumble");
+        float recoilMult = current.getFloat("recoilMult");
+        float minRecoil = current.getFloat("minRecoil");
+        float speed = current.getFloat("speed");
+        String fire = sound.getString("fire");
+        String empty = sound.getString("empty");
+        String reload = sound.getString("reload");
+        float flash_size = flash.getFloat("size");
+        Effect effect = new Effect(flash.getString("texture"), 1, 5, flash_size, flash_size);
+        float sprite_width = sprite.getFloat("width");
+        float sprite_height = sprite.getFloat("height");
+        Effect texture = new Effect(sprite.getString("texture"), 2, -1, sprite_width, sprite_height);
+        Vector2 offset = new Vector2(sprite.getFloat("xOffset"), sprite.getFloat("yOffset"));
+        Gun gun = new Gun(Bullet.readJson(bullet), projectiles, maxBullets, fireRate, reloadRate, knockBack, rumble, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
+        ALL_GUNS.put(name, gun);
+        Gdx.app.log("Guns", "Loaded gun: " + name);
     }
 
     public static Gun.Instance getGun(String name, Entity entity) {

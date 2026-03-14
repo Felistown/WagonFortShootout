@@ -5,6 +5,7 @@ import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
@@ -23,6 +24,14 @@ public class Object {
     private final float length;
     private final float height;
 
+    static {
+        JsonReader reader = new JsonReader();
+        FileHandle dir = Gdx.files.internal("data/objects/");
+        for(FileHandle file: dir.list(".json")) {
+            initObject(reader.parse(file), file.nameWithoutExtension());
+        }
+    }
+
     public Object(String texture, Polygon polygon, int resistance, float length, float height) {
         this.texture = texture;
         this.polygon = polygon;
@@ -31,17 +40,12 @@ public class Object {
         this.height = height;
     }
 
-    public static void init() {
-        JsonReader reader = new JsonReader();
-        JsonValue file = reader.parse(Gdx.files.internal("data/object.json"));
-        JsonValue current = file.child();
-        do {
-            JsonValue polygon = current.get("polygon");
-            float height = polygon.getFloat("height");
-            float length = polygon.getFloat("length");
-            ALL_OBJECTS.put(current.name, new Object(current.getString("texture"),Mth.rectange(length, height), current.getInt("resistance"), length, height));
-            current = current.next;
-        } while (current != null);
+    public static void initObject(JsonValue current, String name) {
+        JsonValue polygon = current.get("polygon");
+        float height = polygon.getFloat("height");
+        float length = polygon.getFloat("length");
+        ALL_OBJECTS.put(name, new Object(current.getString("texture"),Mth.rectange(length, height), current.getInt("resistance"), length, height));
+        Gdx.app.log("Objects", "Loaded object: " + name);
     }
 
     public static Instance objectInstance(String name, Vector2 pos, float rotation) {
