@@ -73,7 +73,7 @@ public class GameLevel implements Screen {
         new gunEnemy(new Vector2(1,99));
 
          */
-        /*
+
 
         for(int i = 0; i < 10; i++) {
            EntityLoader.get("canny_soldier", new Vector2(99,999), friend);
@@ -81,16 +81,8 @@ public class GameLevel implements Screen {
         }
 
         for(int i = 0; i < 10; i++) {
-           EntityLoader.get("uncanny_soldier", new Vector2(1,1), enemy);
+            EntityLoader.get("uncanny_soldier", new Vector2(1, 1), enemy);
         }
-
-         */
-
-
-
-
-
-
 
 /*
         for(int i = 0; i < 50; i++) {

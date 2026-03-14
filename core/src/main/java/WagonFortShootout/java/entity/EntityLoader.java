@@ -23,6 +23,7 @@ public class EntityLoader {
             String type = entity.getString("type");
             for(Loadable et: Loadable.values()) {
                 if(et.name().toLowerCase().equals(type)) {
+                    Gdx.app.log("EntityLoader", "Creating entity \"" + name + "\", of type " + type + ".");
                     return et.factory.apply(pos, entity, team);
                 }
             }
@@ -30,6 +31,7 @@ public class EntityLoader {
         } else {
             for(Unloadable et: Unloadable.values()) {
                 if(et.name().toLowerCase().equals(name)) {
+                    Gdx.app.log("EntityLoader", "Creating entity \"" + name + "\".");
                     return et.factory.apply(pos, team);
                 }
             }

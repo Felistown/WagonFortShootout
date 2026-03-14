@@ -50,6 +50,27 @@ public class Bullet{
         BEAM.instance(pos, direction);
     }
 
+    //TODO implement these methods
+    //When entity is hit
+    public void onHit(Entity entity) {
+
+    }
+
+    //When entity is killed
+    public void onKill(Entity entity) {
+
+    }
+
+    //When exiting anchored object
+    public void onExit(Entity entity) {
+
+    }
+
+    //When hitting anchored object
+    public void onEnter(Entity entity) {
+
+    }
+
     public static Bullet readJson(JsonValue value) {
         switch (value.getString("type")) {
             case "bullet" -> {return new Bullet(value.getInt("damage"), value.getFloat("weight"), value.getFloat("spread"), value.getInt("piercing"));}
