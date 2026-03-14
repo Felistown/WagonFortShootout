@@ -4,6 +4,7 @@ import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class Beam {
 
@@ -21,8 +22,12 @@ public class Beam {
         this.width = width;
     }
 
+    public static Beam fromJson(JsonValue value) {
+        return new Beam(value.getString("texture"), value.getInt("layer"),value.getInt("lifetime"), value.getFloat("width"));
+    }
+
     public Instance instance(Vector2 from, Vector2 to) {
-        Instance instance = new Instance(texture, layer, lifetime);
+        Instance instance = new Instance();
         instance.point(from, to);
         return instance;
     }
@@ -31,8 +36,8 @@ public class Beam {
 
         private int lifeTime;
 
-        public Instance(TextureAtlas.AtlasRegion texture, int layer, int lifetime) {
-            super(texture, layer,0,0);
+        public Instance() {
+            super(texture, Beam.this.layer,0,0);
             this.lifeTime = lifetime;
         }
 

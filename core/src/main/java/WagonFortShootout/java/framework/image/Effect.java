@@ -3,6 +3,7 @@ package WagonFortShootout.java.framework.image;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class Effect {
 
@@ -21,16 +22,20 @@ public class Effect {
     }
 
     public Instance instance() {
-        return new Instance(texture, layer, lifetime);
+        return new Instance();
+    }
+
+    public static Effect fromJson(JsonValue value) {
+        return new Effect(value.getString("texture"), value.getInt("layer"),value.getInt("lifetime"), value.getFloat("length"), value.getFloat("height"));
     }
 
     public class Instance extends Sprite {
 
         private int lifeTime;
 
-        public Instance(TextureAtlas.AtlasRegion texture, int layer, int lifeTime) {
-            super(texture, layer,width, height);
-            this.lifeTime = lifeTime;
+        public Instance() {
+            super(texture, Effect.this.layer ,width, height);
+            this.lifeTime = Effect.this.lifetime;
         }
 
         @Override
