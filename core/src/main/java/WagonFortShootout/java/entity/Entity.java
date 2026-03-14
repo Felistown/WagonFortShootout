@@ -10,6 +10,7 @@ import WagonFortShootout.java.framework.image.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.HashSet;
 
@@ -27,17 +28,28 @@ public abstract class Entity {
     protected int stopping;
 
 
-    public Entity(Vector2 pos, Sprite sprite, Hitbox.Builder builder,int health, int size, int stopping, Team team) {
-        //TODO Make it so that you can instantiate an entity from json
+    public Entity(Vector2 pos, Sprite sprite, Hitbox.Builder builder,int health, int stopping, float max_speed, float acceleration, Team team) {
         //TODO change create sprite object to control sprite render states and other things
-        POS = new Pos(pos, this);
+        POS = new Pos(pos, this, max_speed, acceleration);
         FACE = new Face(-1);
         this.sprite = sprite;
-        sprite.setSize(size,size);
         HITBOX = builder.build(this::onHit);
         ALL_ENTITIES.add(this);
         MAX_HEALTH = health;
         this.stopping = stopping;
+        this.health = MAX_HEALTH;
+        this.team = team;
+        team.putEntity(this);
+    }
+
+    public Entity(Vector2 pos, JsonValue value, Team team) {
+        POS = new Pos(pos, this, value.getFloat("max_speed"), value.getFloat("acceleration"));
+        FACE = new Face(-1);
+        this.sprite = Sprite.fromJson(value.get("sprite"));
+        HITBOX = Hitbox.Builder.fromJson(value.get("hitbox")).build(this::onHit);
+        ALL_ENTITIES.add(this);
+        MAX_HEALTH = value.getInt("health");
+        this.stopping = value.getInt("stopping");
         this.health = MAX_HEALTH;
         this.team = team;
         team.putEntity(this);

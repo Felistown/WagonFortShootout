@@ -3,6 +3,7 @@ package WagonFortShootout.java.utils;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class Mth {
     //TODO clean up this class
@@ -280,4 +281,8 @@ public class Mth {
         return Math.max(Math.abs(x.x - y.x), Math.abs(x.y - y.y));
     }
 
+    public static Vector2 jsonToVec(JsonValue value) {
+        float[] array = value.asFloatArray();
+        return new Vector2(array[0], array[1]);
+    }
 }

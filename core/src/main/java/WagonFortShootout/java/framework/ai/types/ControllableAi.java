@@ -2,10 +2,9 @@ package WagonFortShootout.java.framework.ai.types;
 
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.generic.GunEntity;
+import WagonFortShootout.java.entity.entities.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.ai.Ai;
-import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
@@ -18,8 +17,6 @@ public class ControllableAi extends Ai {
 
     private static final Beam BEAM = new Beam("effects/aim_beam", 1, -1, 0.25f);
 
-    private static final float sprint =  0.05f;
-    private static final float walk = 0.01666666666f;
     private int cooldown = 0;
     private Beam.Instance instance;
 
@@ -47,7 +44,6 @@ public class ControllableAi extends Ai {
         boolean s = Gdx.input.isKeyPressed(Input.Keys.S);
         boolean d = Gdx.input.isKeyPressed(Input.Keys.D);
         boolean m = Gdx.input.isKeyJustPressed(Input.Keys.M);
-        boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
         Vector2 added = new Vector2(0,0);
         if(m && cooldown <= 0) {
             if (entity.mount != null) {
@@ -76,11 +72,6 @@ public class ControllableAi extends Ai {
             } else if(d){
                 added.x = 1;
             }
-        }
-        if(shift) {
-            entity.POS.max_speed = 0.05f;
-        } else {
-            entity.POS.max_speed = 0.01666666666f;
         }
         entity.move(added);
         Vector2 mouse = new Vector2(GameLevel.mouse.x, GameLevel.mouse.y);

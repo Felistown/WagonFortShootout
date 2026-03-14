@@ -26,8 +26,8 @@
     },
     "gun": {
       "texture": "missing_texture",
-      "width": "0",
-      "height": "0",
+      "width": "1",
+      "height": "1",
       "xOffset": "-0.5",
       "yOffset": "0.2"
     }

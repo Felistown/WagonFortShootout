@@ -32,7 +32,7 @@ public class Beam {
         private int lifeTime;
 
         public Instance(TextureAtlas.AtlasRegion texture, int layer, int lifetime) {
-            super(texture, layer);
+            super(texture, layer,0,0);
             this.lifeTime = lifetime;
         }
 

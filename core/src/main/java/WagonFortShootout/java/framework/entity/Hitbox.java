@@ -3,8 +3,9 @@ package WagonFortShootout.java.framework.entity;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
-import com.badlogic.gdx.graphics.Color;
+import WagonFortShootout.java.utils.PolygonMaker;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -207,6 +208,15 @@ public class Hitbox {
             } else {
                 return new Hitbox(POLYGON, onHit);
             }
+        }
+
+        public static Hitbox.Builder fromJson(JsonValue value) {
+            JsonValue first = value.child;
+            Builder builder = new Builder(PolygonMaker.fromJson(first));
+            for(JsonValue entry = first.next; entry != null; entry = entry.next) {
+                builder.addSub(PolygonMaker.fromJson(entry.get("polygon")), Mth.jsonToVec(entry.get("offset")));
+            }
+            return builder;
         }
 
     }

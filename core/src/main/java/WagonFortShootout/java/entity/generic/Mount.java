@@ -8,6 +8,7 @@ import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 public abstract class Mount extends Entity {
 
@@ -15,8 +16,15 @@ public abstract class Mount extends Entity {
     protected float turning_speed;
     protected Vector2 mounter_offset;
 
-    public Mount(Vector2 pos, Sprite sprite, Hitbox.Builder polygon, int health, int size, int stopping, Team team) {
-        super(pos, sprite,polygon, health, size, stopping, team);
+    public Mount(Vector2 pos, Sprite sprite, Hitbox.Builder polygon, int health, int stopping, float max_speed, float acceleration, Team team) {
+        super(pos, sprite,polygon, health, stopping,max_speed, acceleration, team);
+        FACE.setSpeed(Math.PI);
+        turning_speed = 0.025f;
+        mounter_offset = new Vector2(0,0);
+    }
+
+    public Mount(Vector2 pos, JsonValue value, Team team) {
+        super(pos, value, team);
         FACE.setSpeed(Math.PI);
         turning_speed = 0.025f;
         mounter_offset = new Vector2(0,0);

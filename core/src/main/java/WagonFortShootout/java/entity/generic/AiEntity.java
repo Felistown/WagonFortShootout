@@ -9,14 +9,20 @@ import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 public abstract class AiEntity extends Entity {
 
     private final Ai AI;
 
-    public AiEntity(Vector2 pos, Sprite sprite, Hitbox.Builder hitbox, int health, int size, int stopping, String ai, Team team) {
-        super(pos, sprite, hitbox,health, size, stopping, team);
+    public AiEntity(Vector2 pos, Sprite sprite, Hitbox.Builder hitbox, int health, int stopping, String ai, float max_speed, float acceleration, Team team) {
+        super(pos, sprite, hitbox,health, stopping,max_speed,acceleration, team);
         this.AI = Ai.fromType(ai, this);
+    }
+
+    public AiEntity(Vector2 pos, JsonValue value, Team team) {
+        super(pos, value, team);
+        this.AI = Ai.fromType(value.getString("ai"), this);
     }
 
     @Override

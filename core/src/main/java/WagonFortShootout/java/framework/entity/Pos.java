@@ -16,13 +16,13 @@ public class Pos {
     public float max_speed;
     private final Entity entity;
 
-    public Pos(Vector2 pos, Entity entity) {
+    public Pos(Vector2 pos, Entity entity, float max_speed, float acceleration) {
         POS = pos;
         VEL = new Vector2(0,0);
         this.entity = entity;
         moving = false;
-        acceleration = 0.00166666666f;
-        max_speed = 0.01666666666f;
+        this.acceleration = acceleration;
+        this.max_speed = max_speed;
     }
 
     public void logic() {

@@ -30,6 +30,7 @@ public class Object {
         for(FileHandle file: dir.list(".json")) {
             initObject(reader.parse(file), file.nameWithoutExtension());
         }
+        reader.stop();
     }
 
     public Object(String texture, Polygon polygon, int resistance, float length, float height) {
@@ -40,7 +41,7 @@ public class Object {
         this.height = height;
     }
 
-    public static void initObject(JsonValue current, String name) {
+    private static void initObject(JsonValue current, String name) {
         JsonValue polygon = current.get("polygon");
         float height = polygon.getFloat("height");
         float length = polygon.getFloat("length");
@@ -75,9 +76,8 @@ public class Object {
             hitbox.setRotation(rotation);
             hitbox.setAnchored(true);
             hitbox.setPosition(pos);
-            sprite = new Sprite(texture, 0);
+            sprite = new Sprite(texture, 0, length, height);
             sprite.setCentre(pos);
-            sprite.setSize(length, height);
             sprite.setRotationRad((float)Math.toRadians(rotation));
             ALL_INSTANCES.add(this);
             float[] v = hitbox.POLYGON.getTransformedVertices();

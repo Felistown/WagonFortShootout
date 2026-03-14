@@ -2,6 +2,7 @@ package WagonFortShootout.java.framework.gui;
 
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.entity.entities.GunEntity;
 import WagonFortShootout.java.entity.entities.Player;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.image.Beam;
@@ -14,10 +15,10 @@ import com.badlogic.gdx.math.Vector2;
 public class Gui {
 
     private static final Beam beam = new Beam("green", 5, -1, 0.5f);
-    private Player player;
+    private Entity player;
     private Beam.Instance reload;
 
-    public Gui(Player player) {
+    public Gui(Entity player) {
         this.player = player;
     }
 
@@ -29,7 +30,7 @@ public class Gui {
         BitmapFont text = new BitmapFont();
         text.getData().setScale(0.5f);
         text.setColor(Color.WHITE);
-        Gun.Instance gun = player.gun;
+        Gun.Instance gun = ((GunEntity)player).gun;
         String str = gun.bullets() + "/" + gun.maxBullets();
         text.draw(spriteBatch,str, 5,85);
 

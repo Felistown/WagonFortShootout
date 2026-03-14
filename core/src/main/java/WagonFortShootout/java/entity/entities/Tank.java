@@ -1,7 +1,6 @@
 package WagonFortShootout.java.entity.entities;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.generic.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.HitData;
 import WagonFortShootout.java.framework.ai.Team;
@@ -12,8 +11,13 @@ import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class Tank extends Mount {
+
+    private final String main;
+    private final String secondary;
+    private final String tertiary;
 
     private Sprite turret;
     private Gun.Instance mg;
@@ -21,20 +25,13 @@ public class Tank extends Mount {
     private float switchCooldown;
     private boolean isHe;
 
-    public Tank(Vector2 pos, Team team) {
-        super(pos,new Sprite("tank", 0),
-            Hitbox.Builder.empty()
-                .addSub(Mth.rectange(5, 1), new Vector2(-0.5f, 1))
-                .addSub(Mth.rectange(1, 2), new Vector2(2.5f, 0.5f))
-                .addSub(Mth.rectange(5, 1), new Vector2(0.5f,-1))
-                .addSub(Mth.rectange(1, 2), new Vector2(-2.5f, -0.5f)),
-            10000, 9, 1000, team);
-        getSprite().setSize(6,3);
-        turret = new Sprite("tank_turret", 3);
-        turret.setSize(2.5f, 8.92857142857f);
-        turning_speed = 0.005f;
-        POS.max_speed = 0.1f;
-        POS.acceleration = 0.001f;
+    public Tank(Vector2 pos, JsonValue value, Team team) {
+        super(pos, value, team);
+        turret = Sprite.fromJson(value.get("turret"));
+        turning_speed = value.getFloat("turning_speed");
+        main = value.getString("main");
+        secondary = value.getString("secondary");
+        tertiary = value.getString("tertiary");
         HITBOX.setTransparent(true);
         HITBOX.setAnchored(true);
         switchCooldown = 0;
@@ -44,9 +41,9 @@ public class Tank extends Mount {
     @Override
     public void mount(Entity mounter) {
         super.mount(mounter);
-        mg = Gun.getGun("tank_mg", mounter);
+        mg = Gun.getGun(tertiary, mounter);
         mounter_gun = ((GunEntity)mounter).gun;
-        ((GunEntity)mounter).gun = Gun.getGun("tank_ap", mounter);
+        ((GunEntity)mounter).gun = Gun.getGun(main, mounter);
         mounter.FACE.setSpeed(((GunEntity) mounter).gun.getSpeed());
     }
 
@@ -83,10 +80,10 @@ public class Tank extends Mount {
             switchCooldown = 200;
             if(isHe) {
                 isHe = false;
-                g.gun = Gun.getGun("tank_ap", mounter);
+                g.gun = Gun.getGun(main, mounter);
             } else {
                 isHe = true;
-                g.gun = Gun.getGun("tank_he", mounter);
+                g.gun = Gun.getGun(secondary, mounter);
             }
         }
         return super.tick();

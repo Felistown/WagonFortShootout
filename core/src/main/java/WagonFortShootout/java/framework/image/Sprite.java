@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class Sprite implements Comparable<Sprite>{
 
@@ -16,13 +17,14 @@ public class Sprite implements Comparable<Sprite>{
     protected int layer;
     protected TextureAtlas.AtlasSprite sprite;
 
-    public Sprite(String texture, int layer) {
-        this(TEXTURE_ATLAS.findRegion(texture), layer);
+    public Sprite(String texture, int layer, float length, float height) {
+        this(TEXTURE_ATLAS.findRegion(texture), layer, length, height);
     }
 
-    public Sprite(TextureAtlas.AtlasRegion texture, int layer) {
+    public Sprite(TextureAtlas.AtlasRegion texture, int layer, float length, float height) {
         this.sprite = new TextureAtlas.AtlasSprite(texture);
         this.layer = layer;
+        setSize(length, height);
         TO_ADD.add(this);
     }
 
@@ -111,5 +113,9 @@ public class Sprite implements Comparable<Sprite>{
     @Override
     public int compareTo(Sprite o) {
         return Integer.compare(layer, o.layer);
+    }
+
+    public static Sprite fromJson(JsonValue value) {
+        return new Sprite(value.getString("texture"), value.getInt("layer"),value.getFloat("length"), value.getFloat("height"));
     }
 }

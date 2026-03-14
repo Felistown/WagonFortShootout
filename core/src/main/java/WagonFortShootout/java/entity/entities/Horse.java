@@ -10,13 +10,13 @@ import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class Horse extends Mount {
-    public Horse(Vector2 pos, Team team) {
-        super(pos, new Sprite("horse", 0), Hitbox.Builder.rectangle(3.85f, 2), 200, 4, 5, team);
+
+    public Horse(Vector2 pos, JsonValue value, Team team) {
+        super(pos, value, team);
         HITBOX.setTransparent(true);
-        POS.max_speed = 0.1f;
-        POS.acceleration = 0.003f;
     }
 
     @Override

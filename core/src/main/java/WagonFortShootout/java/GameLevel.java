@@ -1,6 +1,7 @@
 package WagonFortShootout.java;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.entity.EntityLoader;
 import WagonFortShootout.java.entity.entities.*;
 import WagonFortShootout.java.framework.Input;
 import WagonFortShootout.java.framework.ai.Team;
@@ -33,24 +34,24 @@ public class GameLevel implements Screen {
     private Texture BACKROUND;
     public Gui gui;
 
-    public static Player player;
+    public static Entity player;
 
     @Override
     public void show() {
         // Prepare your screen here.
-        //Horse horse = new Horse(new Vector2(95,95));
+        EntityLoader.get("horse",new Vector2(86,94), Team.neutral() );
 
         Team enemy = new Team((byte)2);
         Team friend = new Team((byte)3);
 
-        Sprite backround = new Sprite("grass", -1);
+        Sprite backround = new Sprite("grass", -1, 100,100);
         backround.setSize(WIDTH, HEIGHT);
         backround.setCentre((float) WIDTH /2, (float) HEIGHT /2);
         //new Tank(new Vector2(92,92), Team.neutral());
-        Maxim m = new Maxim(new Vector2(86,94), Team.neutral());
-        m.FACE.set(45);
+        EntityLoader.get("maxim", new Vector2(86,94), Team.neutral());
 
-        player = new Player(new Vector2(90,90), friend);
+
+        player = EntityLoader.get("player", new Vector2(88,88), friend);
        // new gunEnemy(new Vector2(10,10), enemy);
         //Horse hors = new Horse(new Vector2(95,95), Team.unaffiliated());
         Object.objectInstance("cart", new Vector2(88,88), 45);
@@ -63,8 +64,7 @@ public class GameLevel implements Screen {
 
          */
 
-
-       // new Tank(new Vector2(87,87));
+        EntityLoader.get("tank", new Vector2(80,80), Team.neutral());
 
         /*
         new gunEnemy(new Vector2(99,1));
@@ -73,15 +73,20 @@ public class GameLevel implements Screen {
         new gunEnemy(new Vector2(1,99));
 
          */
+        /*
 
         for(int i = 0; i < 10; i++) {
-            new gunEnemy(new Vector2(1,1), enemy);
+           EntityLoader.get("canny_soldier", new Vector2(99,999), friend);
 
         }
 
         for(int i = 0; i < 10; i++) {
-            new gunFriend(new Vector2(98,98), friend);
+           EntityLoader.get("uncanny_soldier", new Vector2(1,1), enemy);
         }
+
+         */
+
+
 
 
 

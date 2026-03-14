@@ -1,8 +1,6 @@
 package WagonFortShootout.java.utils;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.generic.GunEntity;
-import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.entity.Hitbox;
 import com.badlogic.gdx.math.Vector2;
 

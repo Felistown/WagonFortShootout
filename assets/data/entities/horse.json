@@ -1,0 +1,20 @@
+{
+  "type": "horse",
+  "sprite": {
+    "texture": "horse",
+    "layer": "0",
+    "length": "4",
+    "height": "4"
+  },
+  "hitbox": [
+    {
+      "shape": "rectangle",
+      "length": "3.85",
+      "height": "2"
+    }
+  ],
+  "health": "200",
+  "stopping": "5",
+  "max_speed": "0.1",
+  "acceleration": "0.003"
+}

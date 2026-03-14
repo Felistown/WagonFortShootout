@@ -2,8 +2,7 @@ package WagonFortShootout.java.framework.ai.types;
 
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.entities.Player;
-import WagonFortShootout.java.entity.generic.GunEntity;
+import WagonFortShootout.java.entity.entities.GunEntity;
 import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.State;
 import WagonFortShootout.java.framework.ai.StateMachine;
@@ -15,7 +14,6 @@ import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashSet;
-import java.util.Optional;
 
 public class gunEnemyAi extends Ai {
 

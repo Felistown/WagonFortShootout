@@ -18,14 +18,15 @@ import java.util.logging.FileHandler;
 
 public class Gun {
 
+    private static final FileHandle DIRECTORY = Gdx.files.internal("data/guns/");
     private static final HashMap<String, Gun> ALL_GUNS = new HashMap<String, Gun>();
 
     static {
         JsonReader reader = new JsonReader();
-        FileHandle dir = Gdx.files.internal("data/guns/");
-        for(FileHandle file: dir.list(".json")) {
+        for(FileHandle file: DIRECTORY.list(".json")) {
             initGun(reader.parse(file), file.nameWithoutExtension());
         }
+        reader.stop();
     }
 
     public final Bullet bullet;
@@ -64,6 +65,7 @@ public class Gun {
         String reload = sound.getString("reload");
         float flash_size = flash.getFloat("size");
         Effect effect = new Effect(flash.getString("texture"), 1, 5, flash_size, flash_size);
+        //TODO texture not rendering
         float sprite_width = sprite.getFloat("width");
         float sprite_height = sprite.getFloat("height");
         Effect texture = new Effect(sprite.getString("texture"), 2, -1, sprite_width, sprite_height);

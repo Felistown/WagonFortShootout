@@ -43,6 +43,8 @@ public class Team {
     }
 
     public HashSet<Entity> getEnemies() {
+        //TODO make a team hive-mind so that instead of every ai entity calling hunt and seaching every square individually,
+        // it is called once and each entity finds the one that is best for them
         if(ID == 0) {
             return new HashSet<Entity>();
         } else if(ID == 1) {

@@ -1,0 +1,22 @@
+{
+  "type": "gun_entity",
+  "sprite": {
+    "texture": "canny",
+    "layer": "1",
+    "length": "1",
+    "height": "1"
+  },
+  "hitbox": [
+    {
+      "shape": "circle",
+      "radius": "0.5",
+      "sides": "8"
+    }
+  ],
+  "health": "100",
+  "stopping": "5",
+  "max_speed": "0.05",
+  "acceleration": "0.0016666666",
+  "gun": "semi_rifle",
+  "ai":"gun_enemy"
+}

@@ -21,9 +21,7 @@ public class Effect {
     }
 
     public Instance instance() {
-        Instance i = new Instance(texture, layer, lifetime);
-        i.setSize(width, height);
-        return i;
+        return new Instance(texture, layer, lifetime);
     }
 
     public class Instance extends Sprite {
@@ -31,7 +29,7 @@ public class Effect {
         private int lifeTime;
 
         public Instance(TextureAtlas.AtlasRegion texture, int layer, int lifeTime) {
-            super(texture, layer);
+            super(texture, layer,width, height);
             this.lifeTime = lifeTime;
         }
 
