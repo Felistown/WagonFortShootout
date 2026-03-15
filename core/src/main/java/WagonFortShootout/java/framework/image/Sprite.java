@@ -110,6 +110,10 @@ public class Sprite implements Comparable<Sprite>{
         TEXTURE_ATLAS.dispose();
     }
 
+    public static TextureAtlas.AtlasRegion findRegion(String texture) {
+        return TEXTURE_ATLAS.findRegion(texture);
+    }
+
     @Override
     public int compareTo(Sprite o) {
         return Integer.compare(layer, o.layer);

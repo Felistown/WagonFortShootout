@@ -24,7 +24,7 @@ public abstract class Entity implements HitboxHolder {
     public Mount mount;
     public Hitbox HITBOX;
     public final int MAX_HEALTH;
-    protected int health;
+    public int health;
     protected int stopping;
 
 
@@ -79,7 +79,7 @@ public abstract class Entity implements HitboxHolder {
         }
     }
 
-    public void onRemove() {
+    protected void onRemove() {
         Gdx.app.log("Entity", "Entity removed");
         if(mount != null) {
             mount.dismount();

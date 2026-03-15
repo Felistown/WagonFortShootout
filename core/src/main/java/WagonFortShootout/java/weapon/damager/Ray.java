@@ -3,32 +3,36 @@ package WagonFortShootout.java.weapon.damager;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Mutable;
 import WagonFortShootout.java.utils.Utils;
-import WagonFortShootout.java.weapon.damager.custom.ExplodingBullet;
-import WagonFortShootout.java.weapon.damager.custom.Kinetic;
-import WagonFortShootout.java.world.Object;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class Beam implements Projectile {
+public class Ray implements Projectile {
 
-    protected static final float WIDTH = 0.25f;
-    protected static final int LIFETIME = 5;
-    protected static final WagonFortShootout.java.framework.image.Beam BEAM = new WagonFortShootout.java.framework.image.Beam("effects/bullet", 1, 5, 0.25f);
+    protected static final Beam BEAM = new WagonFortShootout.java.framework.image.Beam("effects/bullet", 1, 5, 0.25f);
 
-    public float dist = 400;
+    public final float dist;
     public final int damage;
     public final float weight;
     public final float SPREAD;
     public final int piercing;
+    public final Beam beam;
 
-    public Beam(int damage, float weight, float Spread, int piercing) {
-        this.damage = damage;
-        this.weight =weight;
-        this.SPREAD = Spread;
-        this.piercing = piercing;
+    public Ray(JsonValue value) {
+        damage = value.getInt("damage") ;
+        weight = value.getFloat("weight") ;
+        SPREAD = value.getFloat("spread");
+        piercing = value.getInt("piercing");
+        dist = value.getFloat("dist");
+        JsonValue texture = value.get("texture");
+        if(texture.type() ==  JsonValue.ValueType.stringValue && texture.asString().equals("default")) {
+            beam = BEAM;
+        } else {
+            beam = Beam.fromJson(texture);
+        }
     }
 
     public void shoot(Entity entity, Vector2 pos, float face, float addedSpread) {
@@ -48,8 +52,8 @@ public class Beam implements Projectile {
                 }
                 onHit(new HitResult(this, pierce, entity, eHit, hitbox.holder));
                 hitbox.onHit(new HitResult(this, pierce, entity, eHit, hitbox.holder));
-                if(entity.getHealth() < 0) {
-                    onKill(new HitResult(this, pierce, entity, eHit, entity));
+                if(hitbox.holder instanceof Entity e && e.getHealth() < 0) {
+                    onKill(new HitResult(this, pierce, entity, eHit, hitbox.holder));
                 }
                 if (pierce.doubleValue() <= 0) {
                     direction = eHit;
@@ -64,7 +68,7 @@ public class Beam implements Projectile {
                 }
             }
         }
-        BEAM.instance(pos, direction);
+        beam.instance(pos, direction);
     }
 
     @Override
@@ -75,14 +79,5 @@ public class Beam implements Projectile {
     @Override
     public float getWeight() {
         return weight;
-    }
-
-    public static Beam readJson(JsonValue value) {
-        switch (value.getString("type")) {
-            case "bullet" -> {return new Beam(value.getInt("damage"), value.getFloat("weight"), value.getFloat("spread"), value.getInt("piercing"));}
-            case "kinetic" -> {return new Kinetic(value.getInt("damage"), value.getFloat("weight"), value.getFloat("spread"), value.getInt("piercing"), Explosion.readJson(value.get("exploder")));}
-            case "exploding" -> {return new ExplodingBullet(value.getInt("damage"), value.getFloat("weight"), value.getFloat("spread"), value.getInt("piercing"),Explosion.readJson(value.get("exploder")));}
-            default -> {throw new RuntimeException("No such projectile " + value.getString("type") + ".");}
-        }
     }
 }

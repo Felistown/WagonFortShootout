@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public interface Projectile {
 
-    public void shoot(Entity entity, Vector2 pos, float face, float addedSpread) ;
+    public void shoot(Entity entity, Vector2 pos, float face, float addedSpread);
 
     //When thing is hit
     public default void onHit(HitResult data) {

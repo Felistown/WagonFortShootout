@@ -68,7 +68,7 @@ public class Object {
         private static HashSet<Instance> ALL_INSTANCES = new HashSet<Instance>();
 
         private final Sprite sprite;
-        private final Hitbox hitbox;
+        public final Hitbox hitbox;
         private final Vector2 pos;
 
         private Instance(Vector2 pos, float rotation) {
@@ -91,7 +91,7 @@ public class Object {
             }
         }
 
-        private void remove() {
+        public void remove() {
             hitbox.remove();
             sprite.remove();
             ALL_INSTANCES.remove(this);
@@ -99,10 +99,6 @@ public class Object {
 
         public static Object.Instance[] getAll() {
             return ALL_INSTANCES.toArray(new Instance[0]);
-        }
-
-        public Polygon hitbox() {
-            return hitbox.POLYGON;
         }
     }
 

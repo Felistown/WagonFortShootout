@@ -4,7 +4,6 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.entity.HitboxHolder;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Mutable;
-import WagonFortShootout.java.weapon.damager.Beam;
 import WagonFortShootout.java.weapon.damager.Projectile;
 import com.badlogic.gdx.math.Vector2;
 

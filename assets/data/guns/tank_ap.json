@@ -5,13 +5,17 @@
       "weight":"10",
       "spread": "0",
       "piercing": "1000",
+      "dist": "400",
+      "texture": "default",
       "exploder": {
         "shrapnel": {
           "type": "bullet",
           "damage": "75",
           "weight":"1",
           "spread": "0",
-          "piercing": "1"
+          "piercing": "1",
+          "dist": "400",
+          "texture": "default"
         },
         "range": "400",
         "spread": "0.78539816339",
@@ -28,9 +32,9 @@
     "minRecoil": "0",
     "speed": "0.00581776666",
     "sound": {
-      "fire": "sounds/guns/lever_rifle/lever_rifle_fire.mp3",
-      "empty": "sounds/guns/lever_rifle/lever_rifle_empty.mp3",
-      "reload": "sounds/guns/lever_rifle/lever_rifle_reload.mp3"
+      "fire": "guns/lever_rifle/lever_rifle_fire.mp3",
+      "empty": "guns/lever_rifle/lever_rifle_empty.mp3",
+      "reload": "guns/lever_rifle/lever_rifle_reload.mp3"
     },
     "effect": {
       "texture": "effects/muzzle_flash",

@@ -1,6 +1,7 @@
 package WagonFortShootout.java.weapon.damager;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.weapon.damager.custom.ProjectileTypes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
@@ -11,21 +12,14 @@ public class Explosion {
     private static final int LIFETIME = 5;
     private static final Color COLOUR = new Color(255, 214, 0, 1);
 
-    public final Beam shrapnel;
+    public final Projectile shrapnel;
     public float SPREAD;
     public int projectiles;
 
-    public Explosion(int damage, float weight, float Spread, int projectiles,int piercing, float dist) {
-        this.SPREAD = Spread;
-        this.projectiles = projectiles;
-        shrapnel = new Beam(damage, weight, 0, piercing);
-        shrapnel.dist = dist;
-    }
-
-    public Explosion(Beam bullet, float spread, int projectiles) {
-        shrapnel = bullet;
-        SPREAD = spread;
-        this.projectiles = projectiles;
+    public Explosion(JsonValue value) {
+        shrapnel = ProjectileTypes.get(value.get("shrapnel"));
+        SPREAD = value.getFloat("spread");
+        projectiles = value.getInt("projectiles");
     }
 
     public void explode(Entity entity, Vector2 pos, float face) {
@@ -34,9 +28,4 @@ public class Explosion {
         }
     }
 
-    public static Explosion readJson(JsonValue value) {
-        Beam shrapnel = Beam.readJson(value.get("shrapnel"));
-        shrapnel.dist = value.getFloat("range");
-        return new Explosion(shrapnel, value.getFloat("spread"), value.getInt("projectiles"));
-    }
 }

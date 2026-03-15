@@ -3,9 +3,10 @@ package WagonFortShootout.java.weapon;
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.Player;
+import WagonFortShootout.java.framework.Sounds;
 import WagonFortShootout.java.framework.image.Effect;
-import WagonFortShootout.java.weapon.damager.Beam;
 import WagonFortShootout.java.weapon.damager.Projectile;
+import WagonFortShootout.java.weapon.damager.custom.ProjectileTypes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
@@ -70,7 +71,7 @@ public class Gun {
         float sprite_height = sprite.getFloat("height");
         Effect texture = new Effect(sprite.getString("texture"), 2, -1, sprite_width, sprite_height);
         Vector2 offset = new Vector2(sprite.getFloat("xOffset"), sprite.getFloat("yOffset"));
-        Gun gun = new Gun(Beam.readJson(bullet), projectiles, maxBullets, fireRate, reloadRate, knockBack, rumble, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
+        Gun gun = new Gun(ProjectileTypes.get(bullet), projectiles, maxBullets, fireRate, reloadRate, knockBack, rumble, recoilMult, minRecoil, speed, fire, empty, reload, effect, texture, offset);
         ALL_GUNS.put(name, gun);
         Gdx.app.log("Guns", "Loaded gun: " + name);
     }
@@ -83,7 +84,7 @@ public class Gun {
         }
     }
 
-    private Gun(Beam bullet, int projectiles, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble, float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Effect sprite, Vector2 offset) {
+    private Gun(Projectile bullet, int projectiles, int maxBullets, int fireRate, int reloadRate, float knockBack, float rumble, float recoilMult, float minRecoil, float speed, String fire, String empty, String reload, Effect effect, Effect sprite, Vector2 offset) {
         this.bullet = bullet;
         this.projectiles = projectiles;
         this.maxBullets = maxBullets;
@@ -94,25 +95,12 @@ public class Gun {
         this.recoilMult = recoilMult;
         this.minRecoil = minRecoil;
         this.speed = speed;
-        this.fire = Gdx.audio.newSound(Gdx.files.internal(fire));
-        this.empty = Gdx.audio.newSound(Gdx.files.internal(empty));
-        this.reload = Gdx.audio.newSound(Gdx.files.internal(reload));
+        this.fire = Sounds.getSound(fire);
+        this.empty = Sounds.getSound(empty);
+        this.reload = Sounds.getSound(reload);
         this.EFFECT = effect;
         SPRITE = sprite;
         OFFSET = offset;
-    }
-
-    private void dispose() {
-        fire.dispose();
-        empty.dispose();
-        reload.dispose();
-    }
-
-    public static void disposeAll() {
-        //TODO make a sound class so that sounds can be disposed in one place!
-        for(Gun gun: ALL_GUNS.values()) {
-            gun.dispose();
-        }
     }
 
     public class Instance {

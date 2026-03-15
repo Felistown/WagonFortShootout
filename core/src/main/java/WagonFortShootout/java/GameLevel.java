@@ -4,6 +4,7 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.EntityLoader;
 import WagonFortShootout.java.entity.entities.*;
 import WagonFortShootout.java.framework.Input;
+import WagonFortShootout.java.framework.Sounds;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.gui.Gui;
 import WagonFortShootout.java.framework.ai.Ai;
@@ -47,13 +48,12 @@ public class GameLevel implements Screen {
         Sprite backround = new Sprite("grass", -1, 100,100);
         backround.setSize(WIDTH, HEIGHT);
         backround.setCentre((float) WIDTH /2, (float) HEIGHT /2);
-        //new Tank(new Vector2(92,92), Team.neutral());
-       // EntityLoader.get("maxim", new Vector2(86,94), Team.neutral());
+        //EntityLoader.get("maxim", new Vector2(86,94), Team.neutral());
 
 
         player = EntityLoader.get("player", new Vector2(95,95), friend);
        // new gunEnemy(new Vector2(10,10), enemy);
-        //Horse hors = new Horse(new Vector2(95,95), Team.unaffiliated());
+        //EntityLoader.get("horse", new Vector2(95,95), Team.neutral());
         Object.objectInstance("cart", new Vector2(88,88), 45);
         Object.objectInstance("cart", new Vector2(12,12), 45);
         /*
@@ -85,6 +85,7 @@ public class GameLevel implements Screen {
         for(int i = 0; i < 10; i++) {
             EntityLoader.get("uncanny_soldier", new Vector2(1, 1), enemy);
         }
+
 
 
 
@@ -161,8 +162,8 @@ public class GameLevel implements Screen {
 
     @Override
     public void dispose() {
-        Gun.disposeAll();
         SPRITE_BATCH.dispose();
+        Sounds.dispose();
         Sprite.dispose();
         // Destroy screen's assets here.
     }

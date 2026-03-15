@@ -55,6 +55,10 @@ public class ConjoinedHitbox extends Hitbox{
         subHitboxes.forEach(SubHitbox::innerDisplay);
     }
 
+    public Hitbox[] getSubs() {
+        return subHitboxes.toArray(new Hitbox[]{});
+    }
+
     @Override
     public boolean collide(Hitbox other, Intersector.MinimumTranslationVector mtv) {
         if(other instanceof SubHitbox s && subHitboxes.contains(s)) {

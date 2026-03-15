@@ -37,7 +37,6 @@ public class Hitbox {
         int index = 0;
         for(int i = 0; i + 1 < v.length; i += 2) {
             vertices[index] = new Vector2(v[i], v[i + 1]);
-            //Effect.addEffect(new Effect(new Texture("image/missing_texture.png"),0.2f,0.2f), 1000, vertices[index], 0,4);
             index++;
         }
         return vertices;
@@ -49,7 +48,7 @@ public class Hitbox {
         for (int i = 0; i < verticies.length; i++) {
             Vector2 current = verticies[i];
             Beam.DEBUG_BEAM.instance(last, current);
-                last = current;
+            last = current;
         }
     }
 
