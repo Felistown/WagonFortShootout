@@ -66,7 +66,7 @@ public class GameLevel implements Screen {
 
          */
 
-        //EntityLoader.get("tank", new Vector2(80,80), Team.neutral());
+        EntityLoader.get("tank", new Vector2(80,80), Team.neutral());
 
         /*
         new gunEnemy(new Vector2(99,1));

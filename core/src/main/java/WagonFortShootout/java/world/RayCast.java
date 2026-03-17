@@ -2,14 +2,10 @@ package WagonFortShootout.java.world;
 
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.framework.entity.Hitbox;
-import WagonFortShootout.java.framework.image.Effect;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.function.BiFunction;
@@ -27,14 +23,14 @@ public class RayCast {
         aaw = new AmanatidesAndWoo(this.from, this.to);
     }
 
-    //TODO first chunk found containing intersecting hitbox may not be closest actual intersecting hitbox
     public void enter(Function<Intersection, Boolean> function) {
         while(aaw.hasNext) {
-            HashSet<Hitbox> hitboxes = aaw.next();
+            GridPoint2 point = new GridPoint2();
+            HashSet<Hitbox> hitboxes = aaw.next(point);
             ArrayList<Intersection> hit = new ArrayList<Intersection>();
             for(Hitbox hitbox: hitboxes) {
                 Vector2 pos = new Vector2();
-                if(hitbox.rayIntersection(from, to, pos)) {
+                if(hitbox.rayIntersection(from, to, pos) && point.equals(GameLevel.spacialHash.getIndex(pos))) {
                     hit.add(new Intersection(hitbox, pos, Mth.angleRad(from, pos)));
                 }
             }
@@ -49,11 +45,12 @@ public class RayCast {
 
     public void enterAndExit(BiFunction<Intersection, Intersection, Boolean> function) {
         while(aaw.hasNext) {
-            HashSet<Hitbox> hitboxes = aaw.next();
+            GridPoint2 point = new GridPoint2();
+            HashSet<Hitbox> hitboxes = aaw.next(point);
             ArrayList<Intersection[]> hit = new ArrayList<Intersection[]>();
             for(Hitbox hitbox: hitboxes) {
                 Vector2 enpos = new Vector2();
-                if(hitbox.rayIntersection(from, to, enpos)) {
+                if(hitbox.rayIntersection(from, to, enpos) && point.equals(GameLevel.spacialHash.getIndex(enpos))) {
                     Vector2 expos = new Vector2();
                     if(hitbox.rayIntersectionFar(from, to, expos)) {
                         float anglerad = Mth.angleRad(from, enpos);
@@ -117,8 +114,15 @@ public class RayCast {
         }
 
         public HashSet<Hitbox> next() {
+            return next(null);
+        }
+
+        public HashSet<Hitbox> next(GridPoint2 point) {
             if(hasNext) {
                 HashSet<Hitbox> hitboxes = GameLevel.spacialHash.query(pos);
+                if(point != null) {
+                    point.set(pos.x, pos.y);
+                }
                 if (tMaxX < tMaxY) {
                     if (tMaxX > 1) {
                         hasNext = false;
