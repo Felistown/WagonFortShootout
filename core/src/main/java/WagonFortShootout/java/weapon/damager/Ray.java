@@ -7,6 +7,7 @@ import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Mutable;
 import WagonFortShootout.java.utils.Utils;
+import WagonFortShootout.java.world.RayCast;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -37,6 +38,33 @@ public class Ray implements Projectile {
 
     public void shoot(Entity entity, Vector2 pos, float face, float addedSpread) {
         //TODO clean up this class
+        Mutable pierce = new Mutable(piercing);
+        Vector2 direction = (Mth.addSpread(Mth.toVec(face, dist), SPREAD + addedSpread)).add(pos);
+        RayCast rayCast = new RayCast(pos, direction);
+        rayCast.enterAndExit((enter, exit) -> {
+            Hitbox hitbox = enter.hitbox();
+            float angle = enter.angleRad();
+            if (!(enter.hitbox().holder instanceof Entity e) || e != entity) {
+                if (hitbox.isAnchored()) {
+                    onEnter(new HitResult(this, pierce, entity, Mth.toVec(angle, pos.dst(enter.pos()) - 0.01f).add(pos), hitbox.holder));
+                }
+                onHit(new HitResult(this, pierce, entity, enter.pos(), hitbox.holder));
+                hitbox.onHit(new HitResult(this, pierce, entity, enter.pos(), hitbox.holder));
+                if (hitbox.holder instanceof Entity e && e.getHealth() < 0) {
+                    onKill(new HitResult(this, pierce, entity, enter.pos(), hitbox.holder));
+                }
+                if (pierce.doubleValue() <= 0) {
+                    onStop(new HitResult(this, pierce, entity, Mth.toVec(angle, pos.dst(enter.pos()) - 0.01f).add(pos), hitbox.holder));
+                    direction.set(enter.pos());
+                    return false;
+                } else if (hitbox.isAnchored()) {
+                    onExit(new HitResult(this, pierce, entity, Mth.toVec(angle, pos.dst(exit.pos()) + 0.01f).add(pos), hitbox.holder));
+                }
+            }
+            return true;
+        });
+        beam.instance(pos, direction);
+        /*
         Hitbox self = entity.HITBOX;
         Mutable pierce = new Mutable(piercing);
         Vector2 direction = (Mth.addSpread(Mth.toVec(face, dist), SPREAD + addedSpread)).add(pos);
@@ -69,6 +97,8 @@ public class Ray implements Projectile {
             }
         }
         beam.instance(pos, direction);
+
+         */
     }
 
     @Override

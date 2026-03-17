@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 public class Beam {
 
-    public static final Beam DEBUG_BEAM = new Beam("missing_texture", 10, 1, 0.25f);
+    public static final Beam DEBUG_BEAM = new Beam("missing_texture", 10, 100, 0.25f);
 
     private TextureAtlas.AtlasRegion texture;
     private final int layer;

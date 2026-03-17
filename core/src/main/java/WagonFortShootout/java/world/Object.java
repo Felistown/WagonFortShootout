@@ -74,12 +74,11 @@ public class Object {
         private Instance(Vector2 pos, float rotation) {
             this.pos = pos;
             hitbox = Hitbox.Builder.polygon(new Polygon(polygon.getVertices().clone())).build(this, Object.this::onHit);
-            hitbox.setRotation(rotation);
             hitbox.setAnchored(true);
-            hitbox.setPosition(pos);
+            hitbox.setPosAndRot(pos, rotation);
             sprite = new Sprite(texture, 0, length, height);
             sprite.setCentre(pos);
-            sprite.setRotationRad((float)Math.toRadians(rotation));
+            sprite.setRotationDeg(rotation);
             ALL_INSTANCES.add(this);
             float[] v = hitbox.POLYGON.getTransformedVertices();
             Vector2[] vertices = new Vector2[v.length / 2];

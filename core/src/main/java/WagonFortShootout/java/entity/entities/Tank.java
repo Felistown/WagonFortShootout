@@ -57,7 +57,7 @@ public class Tank extends Mount {
         for(float i = 0; i < Math.PI * 2; i += 0.1f) {
             Vector2 pos = getPos().add(Mth.toVec(i, 3));
             if(mounter.HITBOX.traverable(pos)) {
-                mounter.POS.setPos(pos);
+                mounter.setPosAndRot(pos, (float)Math.toDegrees(mounter.getFacing()));
             }
         }
         super.dismount();

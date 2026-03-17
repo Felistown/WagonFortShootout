@@ -26,7 +26,7 @@ public class Pos {
     }
 
     public void logic() {
-        setPos(POS.add(VEL));
+        POS.add(VEL);
         collision();
         if(!moving || VEL.len() > max_speed) {
             if(VEL.len() < acceleration) {
@@ -42,6 +42,8 @@ public class Pos {
     public void collision() {
         Hitbox hitbox = entity.HITBOX;
         //TODO do proxy check rather than all hitboxes
+        POS.set(POS.cpy().add(hitbox.checkCollision()));
+        /*
         for(Hitbox other: Hitbox.getAllHitboxes()) {
             //TODO fix this nested loop structure
             Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
@@ -60,6 +62,8 @@ public class Pos {
                 }
             }
         }
+
+         */
     }
 
     public void move(Vector2 vector) {
@@ -83,10 +87,5 @@ public class Pos {
 
     public Vector2 vel() {
         return VEL.cpy();
-    }
-
-    public void setPos(Vector2 pos) {
-        POS.set(Mth.clamp(pos, new Vector2(1,1), new Vector2(99,99)));
-        entity.HITBOX.setPosition(POS);
     }
 }

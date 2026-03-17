@@ -17,5 +17,5 @@
   "stopping": "5",
   "max_speed": "0.05",
   "acceleration": "0.0016666666",
-  "gun": "blue_hyperlaser"
+  "gun": "lever_rifle"
 }

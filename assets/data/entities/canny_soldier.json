@@ -17,6 +17,6 @@
   "stopping": "5",
   "max_speed": "0.05",
   "acceleration": "0.0016666666",
-  "gun": "semi_rifle",
+  "gun": "blue_hyperlaser",
   "ai":"gun_enemy"
 }

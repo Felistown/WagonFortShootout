@@ -56,9 +56,9 @@ public abstract class Mount extends Entity {
     public boolean tick() {
         if(mounter != null) {
             if(mounter_offset.len() <= 0) {
-                mounter.POS.setPos(getPos());
+                mounter.setPosAndRot(getPos(), (float)Math.toDegrees(mounter.getFacing()));
             } else {
-                mounter.POS.setPos(getPos().add(mounter_offset.cpy().setAngleRad(getFacing())));
+                mounter.setPosAndRot(getPos().add(mounter_offset.cpy().setAngleRad(getFacing())), (float)Math.toDegrees(mounter.getFacing()));
             }
         }
         return super.tick();

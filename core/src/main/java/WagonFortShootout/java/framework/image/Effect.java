@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.JsonValue;
 
 public class Effect {
 
+    public static final Effect DEBUG_EFFECT = new Effect("missing_texture", 10, 100, 1f,1);
+
     private TextureAtlas.AtlasRegion texture;
     private final int layer;
     private final int lifetime;

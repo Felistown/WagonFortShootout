@@ -1,13 +1,17 @@
 package WagonFortShootout.java.framework.entity;
 
+import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.image.Beam;
+import WagonFortShootout.java.utils.GridBounds;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.PolygonMaker;
+import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.JsonValue;
 
+import javax.sql.rowset.RowSetProvider;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.Consumer;
@@ -21,6 +25,7 @@ public class Hitbox {
     private boolean anchored;
     private boolean transparent;
     private final Consumer<HitResult> onHit;
+    public GridBounds gridBounds;
 
     protected Hitbox(HitboxHolder holder, Polygon hitBox, Consumer<HitResult> onHit) {
         this.holder = holder;
@@ -29,6 +34,8 @@ public class Hitbox {
         ALL_HITBOXES.add(this);
         this.onHit = onHit;
         transparent = false;
+        gridBounds = new GridBounds();
+        GameLevel.spacialHash.add(this);
     }
 
     public Vector2[] getVertices() {
@@ -52,6 +59,10 @@ public class Hitbox {
         }
     }
 
+    public Rectangle getBoundingBox() {
+        return POLYGON.getBoundingRectangle();
+    }
+
     public boolean rayIntersection(Vector2 from, Vector2 to, Vector2 pos) {
         return Mth.intersectSegmentPolygon(from, to, POLYGON, pos);
     }
@@ -69,16 +80,16 @@ public class Hitbox {
         return intersect;
     }
 
-    public void setPosition(Vector2 pos) {
-        POLYGON.setPosition(pos.x, pos.y);
+    public void setPosAndRot(Vector2 pos, float deg) {
+        if(!getPosition().equals(pos) || getRotation() != deg) {
+            POLYGON.setPosition(pos.x, pos.y);
+            POLYGON.setRotation(deg);
+            GameLevel.spacialHash.update(this);
+        }
     }
 
     public Vector2 getPosition() {
-        return POLYGON.getCentroid(new Vector2());
-    }
-
-    public void setRotation(float angleDeg) {
-        POLYGON.setRotation(angleDeg);
+        return new Vector2(POLYGON.getX(), POLYGON.getY());
     }
 
     public float getRotation() {
@@ -87,6 +98,7 @@ public class Hitbox {
 
     public void remove() {
         ALL_HITBOXES.remove(this);
+        GameLevel.spacialHash.remove(this);
     }
 
     public static Hitbox[] getAllHitboxes() {
@@ -97,6 +109,20 @@ public class Hitbox {
         if(onHit != null) {
             onHit.accept(data);
         }
+    }
+
+    public Vector2 checkCollision() {
+        Vector2 mtv = new Vector2(0,0);
+        HashSet<Hitbox> hitboxes = GameLevel.spacialHash.query(this);
+        for(Hitbox hitbox: hitboxes) {
+            if(hitbox != this) {
+                Vector2 col = collide(hitbox);
+                if(col != null) {
+                    mtv.add(col);
+                }
+            }
+        }
+        return mtv;
     }
 
     public boolean pointIntersects(Hitbox hitbox, Vector2 pos) {
@@ -135,8 +161,13 @@ public class Hitbox {
         this.transparent = transparent;
     }
 
-    public boolean collide(Hitbox other, Intersector.MinimumTranslationVector mtv) {
-        return Intersector.overlapConvexPolygons(POLYGON, other.POLYGON, mtv);
+    public Vector2 collide(Hitbox other) {
+        Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
+        if(other == this || !Intersector.overlapConvexPolygons(POLYGON, other.POLYGON, mtv)) {
+            return null;
+        } else {
+            return Mth.toVec(mtv);
+        }
     }
 
     @Override

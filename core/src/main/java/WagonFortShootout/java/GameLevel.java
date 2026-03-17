@@ -14,6 +14,7 @@ import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.weapon.Gun;
 import WagonFortShootout.java.world.Object;
 import WagonFortShootout.java.framework.gui.ScreenShaker;
+import WagonFortShootout.java.world.SpacialHash;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -32,6 +33,7 @@ public class GameLevel implements Screen {
     public static Vector2 mouse = new Vector2();
     private static final SpriteBatch SPRITE_BATCH = new SpriteBatch();
     public static final ScreenShaker SCREEN_SHAKER = new ScreenShaker(viewport.getCamera(),HEIGHT,WIDTH);
+    public static final SpacialHash spacialHash = new SpacialHash(new Vector2(0,0), new Vector2(WIDTH,HEIGHT), 10, 10);
     private Texture BACKROUND;
     public Gui gui;
 
@@ -64,7 +66,7 @@ public class GameLevel implements Screen {
 
          */
 
-        EntityLoader.get("tank", new Vector2(80,80), Team.neutral());
+        //EntityLoader.get("tank", new Vector2(80,80), Team.neutral());
 
         /*
         new gunEnemy(new Vector2(99,1));
@@ -74,30 +76,32 @@ public class GameLevel implements Screen {
 
          */
 
-/*
+
+        /*
         for(int i = 0; i < 10; i++) {
            EntityLoader.get("canny_soldier", new Vector2(99,999), friend);
 
         }
 
 
- */
+
         for(int i = 0; i < 10; i++) {
             EntityLoader.get("uncanny_soldier", new Vector2(1, 1), enemy);
         }
+         */
 
 
 
 
-/*
-        for(int i = 0; i < 50; i++) {
+
+        for(int i = 0; i < 40; i++) {
             Vector2 pos = Mth.randomVec(new Vector2(2,2), 98);
             float angle = (float)(Math.random() * 180);
             Object.objectInstance("cart", pos, angle);
         }
 
 
- */
+
 
         gui = new Gui(player);
     }

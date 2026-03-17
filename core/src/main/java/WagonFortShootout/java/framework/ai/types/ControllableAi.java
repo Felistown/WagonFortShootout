@@ -9,6 +9,7 @@ import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
+import WagonFortShootout.java.world.RayCast;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
@@ -83,18 +84,16 @@ public class ControllableAi extends Ai {
         boolean aim = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
         if(aim) {
             ((GunEntity)entity).gun.inaccuracy = 0;
-            float face = entity.getFacing();
             Vector2 pos = entity.getPos();
-            Vector2 beamPos = Mth.toVec(face, 200).add(pos);
-            Hitbox[] all = Utils.closetHitBox(entity);
-            for (Hitbox hitbox : all) {
-                Vector2 eHit = new Vector2();
-                if (hitbox != entity.HITBOX  && !(entity.mount != null && hitbox.equals(entity.mount.HITBOX)) && hitbox.rayIntersection(pos, beamPos, eHit)) {
-                    //TODO URGENT, if unmounted error will be raised because mount is null! There are other issues like this in outher raycasting things
-                    beamPos = eHit;
+            Vector2 beamPos = Mth.toVec(entity.getFacing(), 200).add(pos);
+            RayCast rayCast = new RayCast(pos, beamPos);
+            rayCast.enter(enter -> {
+                if (enter.hitbox() != entity.HITBOX  && !(entity.mount != null && enter.hitbox().equals(entity.mount.HITBOX))) {
+                    beamPos.set(enter.pos());
+                    return false;
                 }
-            }
-            float len = beamPos.dst(pos);
+                return true;
+            });
             if(instance == null) {
                 instance = BEAM.instance(pos, beamPos);
             } else {

@@ -47,6 +47,7 @@ public abstract class Entity implements HitboxHolder {
         FACE = new Face(-1);
         this.sprite = Sprite.fromJson(value.get("sprite"));
         HITBOX = Hitbox.Builder.fromJson(value.get("hitbox")).build(this, this::onHit);
+        HITBOX.setPosAndRot(getPos(), (float)Math.toDegrees(getFacing()));
         ALL_ENTITIES.add(this);
         MAX_HEALTH = value.getInt("health");
         this.stopping = value.getInt("stopping");
@@ -61,11 +62,14 @@ public abstract class Entity implements HitboxHolder {
         }
         POS.logic();
         FACE.tick();
-        sprite.setRotationRad(getFacing());
-        sprite.setCentre(getPos());
-        HITBOX.setPosition(getPos());
-        HITBOX.setRotation((float)Math.toDegrees(getFacing()));
+        setPosAndRot(POS.pos(), (float)Math.toDegrees(getFacing()));
         return false;
+    }
+
+    public void setPosAndRot(Vector2 pos, float deg) {
+        sprite.setCentre(pos);
+        sprite.setRotationDeg(deg);
+        HITBOX.setPosAndRot(pos, deg);
     }
 
     public static void tickAll() {

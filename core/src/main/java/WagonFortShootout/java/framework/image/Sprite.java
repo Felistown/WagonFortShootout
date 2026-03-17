@@ -87,6 +87,10 @@ public class Sprite implements Comparable<Sprite>{
         sprite.setRotation((float)Math.toDegrees(rotation));
     }
 
+    public void setRotationDeg(float rotation) {
+        sprite.setRotation(rotation);
+    }
+
     public static void drawAll(SpriteBatch spriteBatch) {
         if(TO_REMOVE.size > 0 || TO_ADD.size > 0) {
             ALL_SPRITES.removeAll(TO_REMOVE, true);

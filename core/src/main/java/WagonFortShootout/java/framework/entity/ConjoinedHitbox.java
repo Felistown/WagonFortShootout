@@ -32,15 +32,9 @@ public class ConjoinedHitbox extends Hitbox{
     }
 
     @Override
-    public void setPosition(Vector2 pos) {
-        super.setPosition(pos);
-        subHitboxes.forEach(e -> e.innerSetPosition(pos));
-    }
-
-    @Override
-    public void setRotation(float angleDeg) {
-        super.setRotation(angleDeg);
-        subHitboxes.forEach(e -> e.innerSetRotation(angleDeg));
+    public void setPosAndRot(Vector2 pos, float deg) {
+        super.setPosAndRot(pos, deg);
+        subHitboxes.forEach(e -> e.innerSetPosAndRot(pos, deg));
     }
 
     @Override
@@ -60,20 +54,22 @@ public class ConjoinedHitbox extends Hitbox{
     }
 
     @Override
-    public boolean collide(Hitbox other, Intersector.MinimumTranslationVector mtv) {
-        if(other instanceof SubHitbox s && subHitboxes.contains(s)) {
-            return false;
+    public Vector2 collide(Hitbox other) {
+        if(other == this || (other instanceof SubHitbox s && subHitboxes.contains(s))) {
+            return null;
         }
-        if(super.collide(other, mtv)) {
-            return true;
+        Vector2 collision = super.collide(other);
+        if(collision != null) {
+            return collision;
         } else {
             for(SubHitbox sh : subHitboxes) {
-                if(sh.collide(other, mtv)) {
-                    return true;
+                Vector2 subCollision = super.collide(other);
+                if(subCollision != null) {
+                    return subCollision;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     @Override
@@ -121,12 +117,8 @@ public class ConjoinedHitbox extends Hitbox{
             super.setAnchored(t);
         }
 
-        private void innerSetPosition(Vector2 pos) {
-            super.setPosition(pos.cpy().add(offset.cpy().rotateDeg(ConjoinedHitbox.this.getRotation())));
-        }
-
-        private void innerSetRotation(float angleDeg) {
-            super.setRotation(angleDeg);
+        private void innerSetPosAndRot(Vector2 pos, float deg) {
+            super.setPosAndRot(pos.cpy().add(offset.cpy().rotateDeg(deg)), deg);
         }
 
         private void innerRemove() {
@@ -138,13 +130,8 @@ public class ConjoinedHitbox extends Hitbox{
         }
 
         @Override
-        public void setPosition(Vector2 pos) {
-            ConjoinedHitbox.this.setPosition(pos);
-        }
-
-        @Override
-        public void setRotation(float angleDeg) {
-            ConjoinedHitbox.this.setRotation(angleDeg);
+        public void setPosAndRot(Vector2 pos, float deg) {
+            ConjoinedHitbox.this.setPosAndRot(pos, deg);
         }
 
         @Override
