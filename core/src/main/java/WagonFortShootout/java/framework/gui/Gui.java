@@ -3,8 +3,6 @@ package WagonFortShootout.java.framework.gui;
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.GunEntity;
-import WagonFortShootout.java.entity.entities.Player;
-import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.weapon.Gun;
 import com.badlogic.gdx.graphics.Color;

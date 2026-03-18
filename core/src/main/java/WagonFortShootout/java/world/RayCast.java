@@ -5,9 +5,10 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.framework.entity.hitbox.HitboxHolder;
 import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.utils.Mutable;
+import WagonFortShootout.java.utils.mutable.Mutable;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;

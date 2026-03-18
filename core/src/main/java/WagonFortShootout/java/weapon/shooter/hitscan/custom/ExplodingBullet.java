@@ -1,8 +1,8 @@
 package WagonFortShootout.java.weapon.shooter.hitscan.custom;
 
 import WagonFortShootout.java.framework.data.HitResult;
-import WagonFortShootout.java.weapon.shooter.hitscan.Hitscan;
 import WagonFortShootout.java.weapon.shooter.hitscan.Explosion;
+import WagonFortShootout.java.weapon.shooter.hitscan.Hitscan;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class ExplodingBullet extends Hitscan {

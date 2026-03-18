@@ -10,7 +10,7 @@ public class Main extends Game {
     @Override
 
     public void create() {
-        Gdx.input.setInputProcessor(Input.input);
+        Gdx.input.setInputProcessor(Input.adapter);
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         setScreen(new GameLevel());
     }

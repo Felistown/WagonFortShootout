@@ -1,12 +1,12 @@
 package WagonFortShootout.java.entity;
 
 import WagonFortShootout.java.entity.generic.Mount;
-import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
+import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.entity.Face;
-import WagonFortShootout.java.framework.entity.hitbox.HitboxHolder;
 import WagonFortShootout.java.framework.entity.Pos;
 import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
+import WagonFortShootout.java.framework.entity.hitbox.HitboxHolder;
 import WagonFortShootout.java.framework.image.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;

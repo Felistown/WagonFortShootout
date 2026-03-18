@@ -9,6 +9,7 @@ import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.world.RayCast;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
@@ -74,6 +75,7 @@ public class ControllableAi extends Ai {
             }
         }
         entity.move(added);
+        GameLevel.cam.setPos(entity.getPos());
         Vector2 mouse = new Vector2(GameLevel.mouse.x, GameLevel.mouse.y);
         Vector2 dif = entity.getPos().sub(mouse);
         entity.setGoal(dif.angleRad());
@@ -99,7 +101,6 @@ public class ControllableAi extends Ai {
                 instance.point(pos, beamPos);
             }
         } else {
-            ((GunEntity)entity).gun.inaccuracy = 0.3f;
             if(instance != null) {
                 instance.remove();
                 instance = null;

@@ -3,7 +3,7 @@ package WagonFortShootout.java.framework.data;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.entity.hitbox.HitboxHolder;
 import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.utils.MutableNumber;
+import WagonFortShootout.java.utils.mutable.MutableNumber;
 import WagonFortShootout.java.weapon.shooter.Shootable;
 import com.badlogic.gdx.math.Vector2;
 

@@ -2,8 +2,8 @@ package WagonFortShootout.java.entity.entities;
 
 import WagonFortShootout.java.GameLevel;
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
+import WagonFortShootout.java.framework.data.HitResult;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -12,7 +12,7 @@ public class Player extends GunEntity {
     @Override
     public void onHit(HitResult data) {
         super.onHit(data);
-        GameLevel.SCREEN_SHAKER.rumble(data.weight * 2.5f, 5);
+        GameLevel.cam.rumble(data.weight * 2.5f, 5);
     }
 
     private Player(Vector2 pos, JsonValue value, Team team) {

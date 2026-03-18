@@ -9,17 +9,28 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.HashMap;
 import java.util.function.BiFunction;
 
 public class EntityLoader {
 
     private static final FileHandle DIRECTORY = Gdx.files.internal("data/entities/");
+    private static final HashMap<String, JsonValue> entities = new HashMap<String, JsonValue>();
+
+    static {
+        JsonReader reader = new JsonReader();
+        for(FileHandle file: DIRECTORY.list(".json")) {
+            String name = file.nameWithoutExtension();
+            Gdx.app.log("EntityLoader", "Loaded entity \"" + name + "\".");
+            entities.put(name, reader.parse(file));
+        }
+        reader.stop();
+    }
+
 
     public static Entity get(String name, Vector2 pos, Team team) {
-        FileHandle file = DIRECTORY.child(name + ".json");
-        if(file.exists()) {
-            JsonReader reader = new JsonReader();
-            JsonValue entity = reader.parse(file);
+        if(entities.containsKey(name)) {
+            JsonValue entity = entities.get(name);
             String type = entity.getString("type");
             for(Loadable et: Loadable.values()) {
                 if(et.name().toLowerCase().equals(type)) {
@@ -27,7 +38,6 @@ public class EntityLoader {
                     return et.factory.apply(pos, entity, team);
                 }
             }
-            reader.stop();
         } else {
             for(Unloadable et: Unloadable.values()) {
                 if(et.name().toLowerCase().equals(name)) {

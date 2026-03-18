@@ -3,16 +3,12 @@ package WagonFortShootout.java.weapon.shooter.projectile;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.ProjectileEntity;
 import WagonFortShootout.java.framework.ai.Team;
-import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.entity.hitbox.ContactHitbox;
 import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.weapon.shooter.Shootable;
-import WagonFortShootout.java.weapon.shooter.ShootableTypes;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
-
-import java.util.jar.JarEntry;
 
 public class Projectile implements Shootable {
 

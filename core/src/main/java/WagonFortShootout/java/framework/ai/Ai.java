@@ -6,7 +6,6 @@ import WagonFortShootout.java.framework.ai.types.ControllableAi;
 import WagonFortShootout.java.framework.ai.types.gunEnemyAi;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;

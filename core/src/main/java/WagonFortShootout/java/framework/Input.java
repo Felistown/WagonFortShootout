@@ -9,21 +9,23 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class Input {
+public class Input extends InputAdapter{
+
+    public static InputAdapter adapter = new Input();
 
     public static int last_key_down;
     public static Cursor moving = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("image/cursor_moving.png")),15,15);
     public static Cursor set = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("image/cursor.png")),15,15);
     public static Vector2 offset = new Vector2(15,15);
 
-
-    public static final InputAdapter input = new InputAdapter() {
-        @Override
-        public boolean keyDown(int keycode) {
-          //TODO do player inputs like this
-            return super.keyDown(keycode);
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        GameLevel.cam.zoom += amountY * 0.1f;
+        if(GameLevel.cam.zoom < 0.1) {
+            GameLevel.cam.zoom = 0.1f;
         }
-    };
+        return super.scrolled(amountX, amountY);
+    }
 
     public static void init() {
         JsonReader reader = new JsonReader();

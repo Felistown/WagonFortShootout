@@ -1,7 +1,6 @@
 package WagonFortShootout.java.utils;
 
 import com.badlogic.gdx.math.GridPoint2;
-import com.badlogic.gdx.math.Vector2;
 
 public class GridBounds {
 

@@ -17,6 +17,6 @@
   "stopping": "5",
   "max_speed": "0.05",
   "acceleration": "0.0016666666",
-  "gun": "grenade_launcher",
+  "gun": "lever_rifle",
   "ai":"gun_enemy"
 }

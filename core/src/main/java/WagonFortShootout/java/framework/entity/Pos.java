@@ -1,6 +1,7 @@
 package WagonFortShootout.java.framework.entity;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.framework.annotations.KillOnWorldBounds;
 import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.math.Vector2;
@@ -39,30 +40,10 @@ public class Pos {
 
     public void collision() {
         Hitbox hitbox = entity.HITBOX;
-        //TODO do proxy check rather than all hitboxes
         POS.set(POS.cpy().add(hitbox.checkCollision()));
-        Mth.clamp(POS, new Vector2(1,1), new Vector2(99,99));
-        /*
-        for(Hitbox other: Hitbox.getAllHitboxes()) {
-            //TODO fix this nested loop structure
-            Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
-            if(hitbox != other && (entity.mount == null || entity.mount.HITBOX != other) && hitbox.collide(other, mtv) ) {
-                if(other.isAnchored()) {
-                    setPos(POS.cpy().add(Mth.toVec(mtv)));
-                } else {
-                    if(entity instanceof Mount m) {
-                        if(m.getMounter() != null && m.getMounter().HITBOX == other) {
-                        } else {
-                            setPos(POS.cpy().add(Mth.toVec(mtv).scl(0.5f)));
-                        }
-                    } else {
-                        setPos(POS.cpy().add(Mth.toVec(mtv).scl(0.5f)));
-                    }
-                }
-            }
+        if(Mth.clamp(POS) && entity.getClass().isAnnotationPresent(KillOnWorldBounds.class)) {
+            entity.health = 0;
         }
-
-         */
     }
 
     public void move(Vector2 vector) {

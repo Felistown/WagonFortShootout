@@ -1,4 +1,4 @@
-package WagonFortShootout.java.utils;
+package WagonFortShootout.java.utils.mutable;
 
 public class Mutable <T>{
 

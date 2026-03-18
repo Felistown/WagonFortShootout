@@ -1,6 +1,5 @@
 package WagonFortShootout.java.weapon.shooter.projectile.custom;
 
-import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.weapon.shooter.hitscan.Explosion;
 import WagonFortShootout.java.weapon.shooter.projectile.Projectile;

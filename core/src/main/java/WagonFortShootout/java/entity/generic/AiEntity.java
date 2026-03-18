@@ -5,7 +5,6 @@ import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 

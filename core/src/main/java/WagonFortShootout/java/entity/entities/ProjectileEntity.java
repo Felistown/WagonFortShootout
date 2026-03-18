@@ -2,17 +2,17 @@ package WagonFortShootout.java.entity.entities;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.ai.Team;
+import WagonFortShootout.java.framework.annotations.KillOnWorldBounds;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.entity.hitbox.ContactHitbox;
 import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
-import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.utils.MutableNumber;
+import WagonFortShootout.java.utils.mutable.MutableNumber;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.function.Consumer;
 
+@KillOnWorldBounds
 public class ProjectileEntity extends Entity {
 
     private final Consumer<HitResult> onFuse;

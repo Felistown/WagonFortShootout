@@ -6,7 +6,10 @@ import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.GridBounds;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.PolygonMaker;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.ArrayList;
@@ -128,7 +131,7 @@ public class Hitbox {
     }
 
     public boolean traverable(Vector2 pos) {
-        if(!Mth.within(pos, new Vector2(1,1), new Vector2(99,99))) {
+        if(!Mth.within(pos, new Vector2(0,0), new Vector2(GameLevel.WIDTH,GameLevel.HEIGHT))) {
             return false;
         }
         Polygon copy = new Polygon(POLYGON.getVertices());

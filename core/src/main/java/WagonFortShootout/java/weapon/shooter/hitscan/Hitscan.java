@@ -5,7 +5,7 @@ import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
-import WagonFortShootout.java.utils.MutableNumber;
+import WagonFortShootout.java.utils.mutable.MutableNumber;
 import WagonFortShootout.java.weapon.shooter.Shootable;
 import WagonFortShootout.java.world.RayCast;
 import com.badlogic.gdx.math.Vector2;

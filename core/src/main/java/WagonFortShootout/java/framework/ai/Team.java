@@ -1,10 +1,7 @@
 package WagonFortShootout.java.framework.ai;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.utils.Utils;
-import com.badlogic.gdx.utils.Array;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 public class Team {

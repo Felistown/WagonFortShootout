@@ -2,18 +2,17 @@ package WagonFortShootout.java;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.EntityLoader;
-import WagonFortShootout.java.entity.entities.*;
+import WagonFortShootout.java.framework.Cam;
 import WagonFortShootout.java.framework.Input;
 import WagonFortShootout.java.framework.Sounds;
+import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.gui.Gui;
-import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.gui.HealthBar;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.weapon.Gun;
 import WagonFortShootout.java.world.Object;
-import WagonFortShootout.java.framework.gui.ScreenShaker;
 import WagonFortShootout.java.world.SpacialHash;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -27,12 +26,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 /** First screen of the application. Displayed after the application is created. */
 public class GameLevel implements Screen {
-    public static final int WIDTH = 100;
-    public static final int HEIGHT =100;
-    public static Viewport viewport = new FitViewport(WIDTH, HEIGHT);
+    public static final int WIDTH = 200;
+    public static final int HEIGHT =200;
+    public static Cam cam = new Cam(new Vector2(0,0));
+    public static Viewport viewport = new FitViewport(WIDTH, HEIGHT, cam);
     public static Vector2 mouse = new Vector2();
     private static final SpriteBatch SPRITE_BATCH = new SpriteBatch();
-    public static final ScreenShaker SCREEN_SHAKER = new ScreenShaker(viewport.getCamera(),HEIGHT,WIDTH);
     public static final SpacialHash spacialHash = new SpacialHash(new Vector2(0,0), new Vector2(WIDTH,HEIGHT), 10, 10);
     private Texture BACKROUND;
     public Gui gui;
@@ -56,8 +55,8 @@ public class GameLevel implements Screen {
         player = EntityLoader.get("player", new Vector2(95,95), friend);
         //new gunEnemy(new Vector2(10,10), enemy);
         //EntityLoader.get("horse", new Vector2(95,95), Team.neutral());
-        Object.objectInstance("cart", new Vector2(88,88), 45);
-        Object.objectInstance("cart", new Vector2(12,12), 45);
+        //Object.objectInstance("cart", new Vector2(88,88), 45);
+        //Object.objectInstance("cart", new Vector2(12,12), 45);
         /*
         Object.objectInstance("cart", new Vector2(86,90), 45);
         Object.objectInstance("cart", new Vector2(84,92), 45);
@@ -75,9 +74,7 @@ public class GameLevel implements Screen {
         new gunEnemy(new Vector2(1,99));
 
          */
-
-
-
+/*
         for(int i = 0; i < 10; i++) {
            EntityLoader.get("canny_soldier", new Vector2(90,90), friend);
 
@@ -86,17 +83,11 @@ public class GameLevel implements Screen {
 
 
 
-
-
-
         for(int i = 0; i < 10; i++) {
             EntityLoader.get("uncanny_soldier", new Vector2(1, 1), enemy);
         }
 
-
-
-
-
+ */
 
 
 
@@ -105,9 +96,6 @@ public class GameLevel implements Screen {
             float angle = (float)(Math.random() * 180);
             Object.objectInstance("cart", pos, angle);
         }
-
-
-
 
         gui = new Gui(player);
     }
@@ -127,7 +115,7 @@ public class GameLevel implements Screen {
 
     public void tick() {
         Input.tick();
-        SCREEN_SHAKER.tick();
+        cam.tick();
         Ai.tickAll();
         Entity.tickAll();
         Gun.Instance.tickAll();

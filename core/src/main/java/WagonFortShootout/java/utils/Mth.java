@@ -1,5 +1,7 @@
 package WagonFortShootout.java.utils;
 
+import WagonFortShootout.java.GameLevel;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -259,6 +261,25 @@ public class Mth {
             vec.x = min.x;
         }
         return vec;
+    }
+
+    public static boolean clamp(Vector2 vec) {
+        boolean changed = false;
+        if(vec.y > GameLevel.HEIGHT) {
+            vec.y = GameLevel.HEIGHT;
+            changed = true;
+        } else if(vec.y < 0) {
+            vec.y = 0;
+            changed = true;
+        }
+        if(vec.x > GameLevel.WIDTH) {
+            vec.x = GameLevel.WIDTH;
+            changed = true;
+        } else if(vec.x < 0) {
+            vec.x = 0;
+            changed = true;
+        }
+        return changed;
     }
 
     public static Vector2 mid(Vector2 f, Vector2 t) {

@@ -3,8 +3,8 @@ package WagonFortShootout.java.weapon.shooter.hitscan.custom;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.data.HitResult;
-import WagonFortShootout.java.weapon.shooter.hitscan.Hitscan;
 import WagonFortShootout.java.weapon.shooter.hitscan.Explosion;
+import WagonFortShootout.java.weapon.shooter.hitscan.Hitscan;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class Kinetic extends Hitscan {

@@ -170,7 +170,7 @@ public class Gun {
                     ENTITY.POS.addVel((float) (ENTITY.getFacing() + Math.PI), knockBack);
                     ENTITY.FACE.recoil(recoilMult, minRecoil);
                     if(ENTITY instanceof Player) {
-                        GameLevel.SCREEN_SHAKER.rumble(rumble,5);
+                        GameLevel.cam.rumble(rumble,5);
                     }
                 }
             }
