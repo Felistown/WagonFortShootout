@@ -110,6 +110,10 @@ public class Sprite implements Comparable<Sprite>{
         TO_REMOVE.add(this);
     }
 
+    public Sprite copy() {
+       return new Sprite(sprite.getAtlasRegion(), layer, sprite.getWidth(), sprite. getHeight());
+    }
+
     public static void dispose() {
         TEXTURE_ATLAS.dispose();
     }

@@ -17,7 +17,6 @@
           "dist": "50",
           "texture": "default"
         },
-        "range": "50",
         "spread": "6.28318530718",
         "projectiles": "60"
       }

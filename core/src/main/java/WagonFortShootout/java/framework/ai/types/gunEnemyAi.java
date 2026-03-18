@@ -7,10 +7,11 @@ import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.State;
 import WagonFortShootout.java.framework.ai.StateMachine;
 import WagonFortShootout.java.framework.ai.pathfinding.GridSearcher;
-import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.weapon.Gun;
+import WagonFortShootout.java.world.RayCast;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashSet;
@@ -33,7 +34,7 @@ public class gunEnemyAi extends Ai {
         if(targetEntity != null) {
             float goal = entity.getPos().sub((targetEntity.getPos().add(GameLevel.player.getVel()))).angleRad();
             entity.FACE.setGoal(goal);
-            if(Utils.los(entity, targetEntity)) {
+            if(RayCast.los(entity, targetEntity)) {
                 ((GunEntity)entity).gun.shoot();
             }
         }
@@ -45,14 +46,14 @@ public class gunEnemyAi extends Ai {
         if(STATE.is(State.SEEK)) {
             if(targetEntity == null) {
                 hunt();
-            } else if(hasEnded() || (moveable() && !Utils.los(targetPos, entity, targetEntity, Utils.closetHitBox(targetPos)))) {
+            } else if(hasEnded() || (moveable() && !RayCast.los(targetPos, targetEntity))) {
                 hunt();
             }
             if(gun.bullets() <= 0) {
                 STATE.setState(State.RELOAD);
             }
         } else {
-            if(hasEnded() || (moveable() && Utils.los(targetPos, entity, targetEntity, Utils.closetHitBox(targetPos)))) {
+            if(hasEnded() || (moveable() && RayCast.los(targetPos, targetEntity))) {
                 hide();
             }
             gun.reload();

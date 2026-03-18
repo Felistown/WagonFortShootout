@@ -1,10 +1,6 @@
 package WagonFortShootout.java.utils;
 
-import WagonFortShootout.java.framework.entity.Hitbox;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class PolygonMaker {

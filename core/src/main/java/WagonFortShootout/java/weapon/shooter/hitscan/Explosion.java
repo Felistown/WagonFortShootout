@@ -1,7 +1,8 @@
-package WagonFortShootout.java.weapon.damager;
+package WagonFortShootout.java.weapon.shooter.hitscan;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.weapon.damager.custom.ProjectileTypes;
+import WagonFortShootout.java.weapon.shooter.Shootable;
+import WagonFortShootout.java.weapon.shooter.ShootableTypes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
@@ -12,12 +13,12 @@ public class Explosion {
     private static final int LIFETIME = 5;
     private static final Color COLOUR = new Color(255, 214, 0, 1);
 
-    public final Projectile shrapnel;
+    public final Shootable shrapnel;
     public float SPREAD;
     public int projectiles;
 
     public Explosion(JsonValue value) {
-        shrapnel = ProjectileTypes.get(value.get("shrapnel"));
+        shrapnel = ShootableTypes.get(value.get("shrapnel"));
         SPREAD = value.getFloat("spread");
         projectiles = value.getInt("projectiles");
     }

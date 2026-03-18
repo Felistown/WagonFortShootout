@@ -1,10 +1,10 @@
-package WagonFortShootout.java.weapon.damager;
+package WagonFortShootout.java.weapon.shooter;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.data.HitResult;
 import com.badlogic.gdx.math.Vector2;
 
-public interface Projectile {
+public interface Shootable {
 
     public void shoot(Entity entity, Vector2 pos, float face, float addedSpread);
 
@@ -18,7 +18,7 @@ public interface Projectile {
 
     }
 
-    //When stopped by entity/object
+    //When stopped by entity/object or fuse ended
     public default void onStop(HitResult data) {
 
     }

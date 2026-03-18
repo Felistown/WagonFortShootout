@@ -1,4 +1,4 @@
-package WagonFortShootout.java.framework.entity;
+package WagonFortShootout.java.framework.entity.hitbox;
 
 public interface HitboxHolder {
 

@@ -4,7 +4,7 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
-import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.MutableConsumer;

@@ -1,11 +1,9 @@
 package WagonFortShootout.java.framework.ai.pathfinding;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.utils.Mth;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import WagonFortShootout.java.framework.image.Beam;
 
 import java.util.*;
 

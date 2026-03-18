@@ -1,0 +1,67 @@
+{
+  "bullet": {
+    "type": "grenade",
+    "sprite": {
+      "texture": "missing_texture",
+      "layer": "1",
+      "length": "1",
+      "height": "1"
+    },
+    "hitbox": {
+      "polygon": {
+        "shape": "rectangle",
+        "length": "1",
+        "height": "1"
+      },
+      "damage": "50",
+      "knockback": "2",
+      "bounciness": "0.8"
+    },
+    "exploder": {
+      "shrapnel": {
+        "type": "bullet",
+        "damage": "34",
+        "weight":"1",
+        "spread": "0",
+        "piercing": "0",
+        "dist": "50",
+        "texture": "default"
+      },
+      "spread": "6.28318530718",
+      "projectiles": "60"
+    },
+    "health": "1",
+    "drag": "0.01",
+    "stopping": "1",
+    "fuse": "100",
+    "speed": "1",
+    "spread": "0"
+  },
+  "projectiles": "1",
+  "maxBullets": "6",
+  "fireRate": "25",
+  "reloadRate": "50",
+  "knockBack": "0.1",
+  "rumble": "2.5",
+  "recoilMult": "0.5",
+  "minRecoil": "0.2",
+  "speed": "0.00872665",
+  "sound": {
+    "fire": "guns/lever_rifle/lever_rifle_fire.mp3",
+    "empty": "guns/lever_rifle/lever_rifle_empty.mp3",
+    "reload": "guns/lever_rifle/lever_rifle_reload.mp3"
+  },
+  "effect": {
+    "texture": "effects/muzzle_flash",
+    "size": "3"
+  },
+  "gun": {
+    "texture": "guns/lever_rifle",
+    "width": "3",
+    "height": "0.9",
+    "xOffset": "-0.5",
+    "yOffset": "0.2"
+  }
+
+}
+

@@ -54,7 +54,7 @@ public class GameLevel implements Screen {
 
 
         player = EntityLoader.get("player", new Vector2(95,95), friend);
-       // new gunEnemy(new Vector2(10,10), enemy);
+        //new gunEnemy(new Vector2(10,10), enemy);
         //EntityLoader.get("horse", new Vector2(95,95), Team.neutral());
         Object.objectInstance("cart", new Vector2(88,88), 45);
         Object.objectInstance("cart", new Vector2(12,12), 45);
@@ -77,24 +77,30 @@ public class GameLevel implements Screen {
          */
 
 
-        /*
+
         for(int i = 0; i < 10; i++) {
-           EntityLoader.get("canny_soldier", new Vector2(99,999), friend);
+           EntityLoader.get("canny_soldier", new Vector2(90,90), friend);
 
         }
+
+
+
+
 
 
 
         for(int i = 0; i < 10; i++) {
             EntityLoader.get("uncanny_soldier", new Vector2(1, 1), enemy);
         }
-         */
 
 
 
 
 
-        for(int i = 0; i < 40; i++) {
+
+
+
+        for(int i = 0; i < 0; i++) {
             Vector2 pos = Mth.randomVec(new Vector2(2,2), 98);
             float angle = (float)(Math.random() * 180);
             Object.objectInstance("cart", pos, angle);

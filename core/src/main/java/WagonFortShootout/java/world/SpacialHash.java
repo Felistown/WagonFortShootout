@@ -1,7 +1,6 @@
 package WagonFortShootout.java.world;
 
-import WagonFortShootout.java.framework.entity.Hitbox;
-import WagonFortShootout.java.framework.image.Effect;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -89,8 +88,8 @@ public class SpacialHash {
         float halfHeight = height / 2;
         GridPoint2 upperBounds = getIndex(new Vector2(pos.x + halfWidth, pos.y + halfHeight));
         GridPoint2 lowerBounds = getIndex(new Vector2(pos.x - halfWidth, pos.y - halfHeight));
-        for(int x = lowerBounds.x; x < upperBounds.x; x++) {
-            for(int y = lowerBounds.y; y < upperBounds.y; y++) {
+        for(int x = lowerBounds.x; x <= upperBounds.x; x++) {
+            for(int y = lowerBounds.y; y <= upperBounds.y; y++) {
                 hitboxes.addAll(cells.get(new GridPoint2(x, y)).query());
             }
         }

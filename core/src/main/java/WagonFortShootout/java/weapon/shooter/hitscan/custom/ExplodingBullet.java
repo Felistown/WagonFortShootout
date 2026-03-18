@@ -1,11 +1,11 @@
-package WagonFortShootout.java.weapon.damager.custom;
+package WagonFortShootout.java.weapon.shooter.hitscan.custom;
 
 import WagonFortShootout.java.framework.data.HitResult;
-import WagonFortShootout.java.weapon.damager.Ray;
-import WagonFortShootout.java.weapon.damager.Explosion;
+import WagonFortShootout.java.weapon.shooter.hitscan.Hitscan;
+import WagonFortShootout.java.weapon.shooter.hitscan.Explosion;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class ExplodingBullet extends Ray {
+public class ExplodingBullet extends Hitscan {
 
     public final Explosion exploder;
 

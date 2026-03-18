@@ -1,15 +1,15 @@
-package WagonFortShootout.java.weapon.damager.custom;
+package WagonFortShootout.java.weapon.shooter.hitscan.custom;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.data.HitResult;
-import WagonFortShootout.java.framework.entity.ConjoinedHitbox;
-import WagonFortShootout.java.framework.entity.Hitbox;
-import WagonFortShootout.java.weapon.damager.Ray;
+import WagonFortShootout.java.framework.entity.hitbox.ConjoinedHitbox;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
+import WagonFortShootout.java.weapon.shooter.hitscan.Hitscan;
 import WagonFortShootout.java.world.Object;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
-public class BlueHyperlaser extends Ray {
+public class BlueHyperlaser extends Hitscan {
 
     private static final WagonFortShootout.java.framework.image.Beam outine = new WagonFortShootout.java.framework.image.Beam("effects/blue_hyperlaser", 3, 80, 0.25f);
 

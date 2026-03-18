@@ -5,7 +5,6 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.ai.Ai;
-import WagonFortShootout.java.framework.entity.Hitbox;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;

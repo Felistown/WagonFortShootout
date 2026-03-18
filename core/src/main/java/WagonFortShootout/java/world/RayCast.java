@@ -1,8 +1,11 @@
 package WagonFortShootout.java.world;
 
 import WagonFortShootout.java.GameLevel;
-import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
+import WagonFortShootout.java.framework.entity.hitbox.HitboxHolder;
 import WagonFortShootout.java.utils.Mth;
+import WagonFortShootout.java.utils.Mutable;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
@@ -66,6 +69,35 @@ public class RayCast {
                 }
             }
         }
+    }
+
+    public static boolean los(Entity entity, Entity target) {
+        Mutable<Boolean> los = new Mutable<Boolean>(false);
+        new RayCast(entity.getPos(), target.getPos()).enter(intersection -> {
+            Hitbox hitbox = intersection.hitbox;
+            HitboxHolder holder = hitbox.holder;
+            if(holder != entity && !hitbox.isTransparent()) {
+                los.set(holder == target);
+                return false;
+            } else {
+                return true;
+            }
+        });
+        return los.get();
+    }
+
+    public static boolean los(Vector2 pos, Entity target) {
+        Mutable<Boolean> los = new Mutable<Boolean>(false);
+        new RayCast(pos, target.getPos()).enter(intersection -> {
+            Hitbox hitbox = intersection.hitbox;
+            if(!hitbox.isTransparent()) {
+                los.set(hitbox.holder == target);
+                return false;
+            } else {
+                return true;
+            }
+        });
+        return los.get();
     }
 
     public record Intersection(Hitbox hitbox, Vector2 pos, float angleRad) {

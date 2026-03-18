@@ -1,8 +1,6 @@
-package WagonFortShootout.java.framework.entity;
+package WagonFortShootout.java.framework.entity.hitbox;
 
-import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.data.HitResult;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
-public class ConjoinedHitbox extends Hitbox{
+public class ConjoinedHitbox extends Hitbox {
 
     private final HashSet<SubHitbox> subHitboxes = new HashSet<SubHitbox>();
 
@@ -29,6 +27,15 @@ public class ConjoinedHitbox extends Hitbox{
                 subHitboxes.add(new SubHitbox(sub[i], offset[i], behaviour));
             }
         }
+    }
+
+    @Override
+    public Vector2 checkCollision() {
+        Vector2 col = super.checkCollision();
+        for(SubHitbox s: subHitboxes) {
+            col.add(s.checkCollision());
+        }
+        return col;
     }
 
     @Override

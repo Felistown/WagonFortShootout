@@ -3,7 +3,7 @@ package WagonFortShootout.java.entity.generic;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
-import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import WagonFortShootout.java.utils.Mth;
 import com.badlogic.gdx.math.Vector2;
@@ -30,11 +30,13 @@ public abstract class Mount extends Entity {
     }
 
     public void mount(Entity mounter) {
+        mounter.HITBOX.setCollidable(false);
         this.mounter = mounter;
         mounter.mount = this;
     }
 
     public void dismount() {
+        mounter.HITBOX.setCollidable(true);
         mounter.mount = null;
         this.mounter = null;
     }

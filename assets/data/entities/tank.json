@@ -56,7 +56,7 @@
     }
   ],
   "health": "10000",
-  "stopping": "1000",
+  "stopping": "800",
   "max_speed": "0.1",
   "acceleration": "0.001",
   "turret": {

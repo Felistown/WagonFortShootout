@@ -1,17 +1,14 @@
-package WagonFortShootout.java.framework.entity;
+package WagonFortShootout.java.framework.entity.hitbox;
 
 import WagonFortShootout.java.GameLevel;
-import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.GridBounds;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.PolygonMaker;
-import WagonFortShootout.java.utils.Utils;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.JsonValue;
 
-import javax.sql.rowset.RowSetProvider;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.function.Consumer;
@@ -24,6 +21,7 @@ public class Hitbox {
     public final Polygon POLYGON;
     private boolean anchored;
     private boolean transparent;
+    private boolean collidable;
     private final Consumer<HitResult> onHit;
     public GridBounds gridBounds;
 
@@ -34,6 +32,7 @@ public class Hitbox {
         ALL_HITBOXES.add(this);
         this.onHit = onHit;
         transparent = false;
+        collidable = true;
         gridBounds = new GridBounds();
         GameLevel.spacialHash.add(this);
     }
@@ -71,15 +70,6 @@ public class Hitbox {
         return Mth.intersectSegmentPolygonFar(from, to, POLYGON, pos);
     }
 
-    public boolean hitBoxIntersection(Hitbox other, Vector2 pos) {
-        Polygon overlap = new Polygon();
-        boolean intersect = Intersector.intersectPolygons(other.POLYGON, POLYGON, overlap);
-        if(intersect) {
-            overlap.getCentroid(pos);
-        }
-        return intersect;
-    }
-
     public void setPosAndRot(Vector2 pos, float deg) {
         if(!getPosition().equals(pos) || getRotation() != deg) {
             POLYGON.setPosition(pos.x, pos.y);
@@ -112,6 +102,9 @@ public class Hitbox {
     }
 
     public Vector2 checkCollision() {
+        if(!isCollidable()) {
+            return new Vector2();
+        }
         Vector2 mtv = new Vector2(0,0);
         HashSet<Hitbox> hitboxes = GameLevel.spacialHash.query(this);
         for(Hitbox hitbox: hitboxes) {
@@ -126,6 +119,9 @@ public class Hitbox {
     }
 
     public boolean pointIntersects(Hitbox hitbox, Vector2 pos) {
+        if(!hitbox.isCollidable()) {
+            return true;
+        }
         Polygon copy = new Polygon(hitbox.POLYGON.getVertices());
         copy.setPosition(pos.x, pos.y);
         return Intersector.intersectPolygons(copy, POLYGON, null);
@@ -137,8 +133,9 @@ public class Hitbox {
         }
         Polygon copy = new Polygon(POLYGON.getVertices());
         copy.setPosition(pos.x , pos.y);
-        for(Hitbox h: Hitbox.getAllHitboxes()) {
-            if(h != this && Intersector.intersectPolygons(copy, h.POLYGON,null)) {
+        Rectangle bounds = copy.getBoundingRectangle();
+        for(Hitbox h: GameLevel.spacialHash.query(pos, bounds.getWidth(), bounds.getHeight())) {
+            if(h != this && h.isCollidable() && Intersector.intersectPolygons(copy, h.POLYGON,null)) {
                 return false;
             }
         }
@@ -161,11 +158,25 @@ public class Hitbox {
         this.transparent = transparent;
     }
 
-    public Vector2 collide(Hitbox other) {
+    public boolean isCollidable() {
+        return collidable;
+    }
+
+    public void setCollidable(Boolean collidable) {
+        this.collidable = collidable;
+    }
+
+    protected Vector2 collide(Hitbox other) {
+        if(!other.isCollidable()) {
+            return new Vector2();
+        }
         Intersector.MinimumTranslationVector mtv = new Intersector.MinimumTranslationVector();
         if(other == this || !Intersector.overlapConvexPolygons(POLYGON, other.POLYGON, mtv)) {
             return null;
         } else {
+            if(!other.isAnchored()) {
+                mtv.depth /= 2;
+            }
             return Mth.toVec(mtv);
         }
     }
@@ -186,7 +197,7 @@ public class Hitbox {
         private final ArrayList<Vector2> offset = new ArrayList<Vector2>();
         private final ArrayList<Consumer<HitResult>> behaviour = new ArrayList<Consumer<HitResult>>();
 
-        private Builder(Polygon polygon) {
+        protected Builder(Polygon polygon) {
             POLYGON = polygon;
         }
 

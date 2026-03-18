@@ -1,10 +1,8 @@
 package WagonFortShootout.java.framework.entity;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.entities.Player;
-import WagonFortShootout.java.entity.generic.Mount;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.utils.Mth;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 
 public class Pos {
@@ -43,6 +41,7 @@ public class Pos {
         Hitbox hitbox = entity.HITBOX;
         //TODO do proxy check rather than all hitboxes
         POS.set(POS.cpy().add(hitbox.checkCollision()));
+        Mth.clamp(POS, new Vector2(1,1), new Vector2(99,99));
         /*
         for(Hitbox other: Hitbox.getAllHitboxes()) {
             //TODO fix this nested loop structure
@@ -81,8 +80,16 @@ public class Pos {
         VEL.add(new Vector2((float)-Math.cos(direction) * magnitude, (float)-Math.sin(direction) * magnitude));
     }
 
+    public void setVel(Vector2 vel) {
+        VEL.set(vel);
+    }
+
     public Vector2 pos() {
         return POS.cpy();
+    }
+
+    public void setPos(Vector2 pos) {
+        POS.set(pos);
     }
 
     public Vector2 vel() {

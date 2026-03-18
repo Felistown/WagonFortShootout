@@ -1,7 +1,9 @@
 package WagonFortShootout.java.framework.gui;
 
 import WagonFortShootout.java.entity.Entity;
+import WagonFortShootout.java.entity.entities.ProjectileEntity;
 import WagonFortShootout.java.framework.image.Beam;
+import WagonFortShootout.java.weapon.shooter.projectile.Projectile;
 import com.badlogic.gdx.utils.Array;
 
 public class HealthBar {
@@ -26,15 +28,17 @@ public class HealthBar {
             }
         }
         for(Entity e: Entity.getAllEntities()) {
-            boolean contains = false;
-            for(FillAndEmpty fae: Beam_instances) {
-                if(fae.entity == e) {
-                    contains = true;
-                    break;
+            if(!(e instanceof ProjectileEntity)) {
+                boolean contains = false;
+                for (FillAndEmpty fae : Beam_instances) {
+                    if (fae.entity == e) {
+                        contains = true;
+                        break;
+                    }
                 }
-            }
-            if(!contains) {
-                new FillAndEmpty(e);
+                if (!contains) {
+                    new FillAndEmpty(e);
+                }
             }
         }
     }

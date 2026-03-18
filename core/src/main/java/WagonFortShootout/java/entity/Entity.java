@@ -4,9 +4,9 @@ import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.ai.Team;
 import WagonFortShootout.java.framework.entity.Face;
-import WagonFortShootout.java.framework.entity.HitboxHolder;
+import WagonFortShootout.java.framework.entity.hitbox.HitboxHolder;
 import WagonFortShootout.java.framework.entity.Pos;
-import WagonFortShootout.java.framework.entity.Hitbox;
+import WagonFortShootout.java.framework.entity.hitbox.Hitbox;
 import WagonFortShootout.java.framework.image.Sprite;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -20,9 +20,9 @@ public abstract class Entity implements HitboxHolder {
     public final Pos POS;
     public final Face FACE;
     public final Team team;
-    private Sprite sprite;
+    private final Sprite sprite;
     public Mount mount;
-    public Hitbox HITBOX;
+    public final Hitbox HITBOX;
     public final int MAX_HEALTH;
     public int health;
     protected int stopping;
@@ -67,6 +67,7 @@ public abstract class Entity implements HitboxHolder {
     }
 
     public void setPosAndRot(Vector2 pos, float deg) {
+        POS.setPos(pos);
         sprite.setCentre(pos);
         sprite.setRotationDeg(deg);
         HITBOX.setPosAndRot(pos, deg);
