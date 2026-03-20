@@ -1,6 +1,6 @@
 package WagonFortShootout.java;
 
-import WagonFortShootout.java.framework.Input;
+import WagonFortShootout.java.framework.input.Input;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

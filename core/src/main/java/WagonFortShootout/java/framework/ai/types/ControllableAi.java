@@ -5,15 +5,16 @@ import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.entities.GunEntity;
 import WagonFortShootout.java.entity.generic.Mount;
 import WagonFortShootout.java.framework.ai.Ai;
+import WagonFortShootout.java.framework.input.annotations.InputEventSubscriber;
 import WagonFortShootout.java.framework.image.Beam;
 import WagonFortShootout.java.utils.Mth;
 import WagonFortShootout.java.utils.Utils;
 import WagonFortShootout.java.world.RayCast;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
+@InputEventSubscriber(range = "game")
 public class ControllableAi extends Ai {
 
     private static final Beam BEAM = new Beam("effects/aim_beam", 1, -1, 0.25f);
@@ -34,6 +35,8 @@ public class ControllableAi extends Ai {
         }
         cooldown = Math.max(0, cooldown - 1);
     }
+
+
 
     @Override
     public void update() {

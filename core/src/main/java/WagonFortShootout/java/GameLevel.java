@@ -3,7 +3,7 @@ package WagonFortShootout.java;
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.entity.EntityLoader;
 import WagonFortShootout.java.framework.Cam;
-import WagonFortShootout.java.framework.Input;
+import WagonFortShootout.java.framework.input.Input;
 import WagonFortShootout.java.framework.Sounds;
 import WagonFortShootout.java.framework.ai.Ai;
 import WagonFortShootout.java.framework.ai.Team;
@@ -40,6 +40,7 @@ public class GameLevel implements Screen {
 
     @Override
     public void show() {
+        Input.setRange(Input.Range.GAME);
         // Prepare your screen here.
         //EntityLoader.get("horse",new Vector2(86,94), Team.neutral() );
 

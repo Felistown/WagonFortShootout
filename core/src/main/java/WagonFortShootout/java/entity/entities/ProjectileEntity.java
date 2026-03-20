@@ -2,6 +2,7 @@ package WagonFortShootout.java.entity.entities;
 
 import WagonFortShootout.java.entity.Entity;
 import WagonFortShootout.java.framework.ai.Team;
+import WagonFortShootout.java.framework.annotations.HideHealth;
 import WagonFortShootout.java.framework.annotations.KillOnWorldBounds;
 import WagonFortShootout.java.framework.data.HitResult;
 import WagonFortShootout.java.framework.entity.hitbox.ContactHitbox;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.function.Consumer;
 
 @KillOnWorldBounds
+@HideHealth
 public class ProjectileEntity extends Entity {
 
     private final Consumer<HitResult> onFuse;

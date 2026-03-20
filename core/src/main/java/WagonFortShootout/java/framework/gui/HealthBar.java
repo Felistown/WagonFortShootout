@@ -1,7 +1,7 @@
 package WagonFortShootout.java.framework.gui;
 
 import WagonFortShootout.java.entity.Entity;
-import WagonFortShootout.java.entity.entities.ProjectileEntity;
+import WagonFortShootout.java.framework.annotations.HideHealth;
 import WagonFortShootout.java.framework.image.Beam;
 import com.badlogic.gdx.utils.Array;
 
@@ -27,7 +27,7 @@ public class HealthBar {
             }
         }
         for(Entity e: Entity.getAllEntities()) {
-            if(!(e instanceof ProjectileEntity)) {
+            if(!e.getClass().isAnnotationPresent(HideHealth.class)) {
                 boolean contains = false;
                 for (FillAndEmpty fae : Beam_instances) {
                     if (fae.entity == e) {
